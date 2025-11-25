@@ -1,0 +1,35 @@
+/* Icon Component Styles */
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: currentColor;
+  flex-shrink: 0;
+  vertical-align: middle;
+  transition: all 0.2s ease;
+}
+
+/* Ensure icons inherit text color unless specified otherwise */
+.icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Icon in buttons should not inherit hover states automatically */
+button .icon {
+  pointer-events: none;
+}
+
+/* Hover states for icon buttons */
+.icon-btn:hover .icon,
+.action-btn:hover .icon,
+.refresh-btn:hover .icon {
+  transform: scale(1.1);
+}
+
+/* Specific styling for bookmark icon when active */
+.bookmark-btn.bookmarked .icon,
+.bookmark-indicator .icon {
+  fill: currentColor;
+}

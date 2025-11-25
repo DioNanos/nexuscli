@@ -1,0 +1,15 @@
+{
+  "welcome": {
+    "title": "🇪🇸 Tu interfaz para tu CLI de IAs",
+    "subtitle": ""
+  },
+  "newChat": "Nueva Chat",
+  "workspace": "Espacio de trabajo",
+  "send": "Enviar",
+  "chat": {
+    "inputPlaceholder": "Escribe un mensaje..."
+  },
+  "sidebar": {
+    "searchPlaceholder": "Buscar chats..."
+  }
+}

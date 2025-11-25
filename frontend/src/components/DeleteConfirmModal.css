@@ -1,0 +1,131 @@
+/* Delete Confirmation Modal */
+
+.delete-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.delete-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+  width: 90%;
+  max-width: 420px;
+  background: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+  animation: scaleIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.delete-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.delete-modal-icon {
+  color: #ef4444;
+  flex-shrink: 0;
+}
+
+.delete-modal-title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #e0e0e0;
+}
+
+.delete-modal-message {
+  margin: 0 0 1.5rem 0;
+  color: #999;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.delete-modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+.delete-modal-btn {
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cancel-btn {
+  background: #3a3a3a;
+  color: #e0e0e0;
+}
+
+.cancel-btn:hover {
+  background: #4a4a4a;
+}
+
+.confirm-btn {
+  background: #ef4444;
+  color: #fff;
+}
+
+.confirm-btn:hover {
+  background: #dc2626;
+}
+
+.confirm-btn:active {
+  transform: scale(0.98);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .delete-modal {
+    width: 85%;
+    padding: 1.25rem;
+  }
+
+  .delete-modal-title {
+    font-size: 1rem;
+  }
+
+  .delete-modal-message {
+    font-size: 0.85rem;
+  }
+
+  .delete-modal-btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    min-height: 44px; /* Touch-friendly */
+  }
+}

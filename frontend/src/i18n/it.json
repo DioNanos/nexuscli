@@ -1,0 +1,33 @@
+{
+  "welcome": {
+    "title": "Benvenuto su NexusCLI",
+    "subtitle": "La tua piattaforma AI avanzata per CLI wrapper"
+  },
+  "chat": {
+    "inputPlaceholder": "Message NexusCLI...",
+    "newChat": "Nuova Chat",
+    "chatList": "Lista chat"
+  },
+  "sidebar": {
+    "searchPlaceholder": "Cerca messaggi",
+    "pinned": "Fissati",
+    "today": "Oggi",
+    "yesterday": "Ieri",
+    "last7days": "Ultimi 7 giorni",
+    "last30days": "Ultimi 30 giorni",
+    "older": "Più vecchi",
+    "noConversations": "Nessuna conversazione trovata"
+  },
+  "conversationActions": {
+    "rename": "Rinomina",
+    "pin": "Fissa",
+    "unpin": "Rimuovi fissaggio",
+    "delete": "Elimina",
+    "deleteConfirm": "Eliminare la conversazione?"
+  },
+  "status": {
+    "processing": "Elaborazione richiesta...",
+    "ready": "Pronto",
+    "selectWorkspace": "Seleziona workspace"
+  }
+}

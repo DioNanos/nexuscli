@@ -1,0 +1,15 @@
+{
+  "welcome": {
+    "title": "🇨🇳 你的 AI CLI 界面",
+    "subtitle": ""
+  },
+  "newChat": "新对话",
+  "workspace": "工作区",
+  "send": "发送",
+  "chat": {
+    "inputPlaceholder": "输入消息..."
+  },
+  "sidebar": {
+    "searchPlaceholder": "搜索对话..."
+  }
+}

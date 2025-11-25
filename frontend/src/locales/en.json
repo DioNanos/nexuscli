@@ -1,0 +1,15 @@
+{
+  "welcome": {
+    "title": "🇬🇧 Your interface for your AIs CLI",
+    "subtitle": ""
+  },
+  "newChat": "New Chat",
+  "workspace": "Workspace",
+  "send": "Send",
+  "chat": {
+    "inputPlaceholder": "Type a message..."
+  },
+  "sidebar": {
+    "searchPlaceholder": "Search chats..."
+  }
+}

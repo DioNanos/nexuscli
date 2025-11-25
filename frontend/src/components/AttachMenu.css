@@ -1,0 +1,46 @@
+.attach-menu-container {
+  position: relative;
+}
+
+.attach-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+}
+
+.attach-dropdown {
+  position: absolute;
+  bottom: calc(100% + 0.5rem);
+  left: 0;
+  min-width: 180px;
+  background: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.attach-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #333;
+  color: #e0e0e0;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.attach-option:last-child {
+  border-bottom: none;
+}
+
+.attach-option:hover {
+  background: #333;
+}

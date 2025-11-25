@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Build output (frontend build included in dist/)
+# frontend/dist/
+
+# Environment
+.env
+.env.local
+*.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Runtime data
+pids/
+*.pid
+
+# Config data (user-specific)
+config.json

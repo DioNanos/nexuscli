@@ -1,0 +1,82 @@
+{
+  "name": "@mmmbuto/nexuscli",
+  "version": "0.5.0",
+  "private": false,
+  "description": "Mobile-first AI Control Plane - Web UI for Claude/Codex/Gemini CLI",
+  "main": "lib/server/server.js",
+  "bin": {
+    "nexuscli": "./bin/nexuscli.js"
+  },
+  "scripts": {
+    "start": "node lib/server/server.js",
+    "dev": "node lib/server/server.js",
+    "postinstall": "node lib/setup/postinstall.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "build:frontend": "cd frontend && npm run build"
+  },
+  "keywords": [
+    "nexuscli",
+    "termux",
+    "cli",
+    "ai",
+    "claude",
+    "codex",
+    "gemini",
+    "control-plane",
+    "mobile-first",
+    "android"
+  ],
+  "author": "DioNanos",
+  "license": "MIT",
+  "homepage": "https://github.com/DioNanos/nexuscli",
+  "bugs": {
+    "url": "https://github.com/DioNanos/nexuscli/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DioNanos/nexuscli.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "frontend/dist/",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "os": [
+    "linux",
+    "android"
+  ],
+  "cpu": [
+    "arm64",
+    "x64"
+  ],
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "chalk": "^4.1.2",
+    "commander": "^12.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-rate-limit": "^8.2.1",
+    "inquirer": "^8.2.6",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.2",
+    "node-cache": "^5.1.2",
+    "ora": "^5.4.1",
+    "sql.js": "^1.13.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0"
+  }
+}

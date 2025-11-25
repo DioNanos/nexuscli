@@ -1,0 +1,15 @@
+{
+  "welcome": {
+    "title": "🇮🇹 La tua interfaccia per i tuoi CLI di IA.\n🇬🇧 Your interface for your AIs CLI.\n🇪🇸 Tu interfaz para tu CLI de IAs.\n🇨🇳 你的 AI CLI 界面。\n🇯🇵 あなたの AI CLI インターフェース。\n🇷🇺 Твой интерфейс для CLI ИИ.",
+    "subtitle": ""
+  },
+  "newChat": "Nuova Chat",
+  "workspace": "Workspace",
+  "send": "Invia",
+  "chat": {
+    "inputPlaceholder": "Scrivi un messaggio..."
+  },
+  "sidebar": {
+    "searchPlaceholder": "Cerca chat..."
+  }
+}
