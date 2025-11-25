@@ -1,0 +1,172 @@
+# NexusCLI — AI Terminal Cockpit
+
+<p align="center">
+  <img src=".github/header/header.png" width="900" />
+</p>
+
+---
+
+## Overview
+
+NexusCLI is an experimental, ultra-light terminal cockpit designed for
+AI-assisted development workflows on Termux (Android).
+
+**v0.5.0** - Mobile-First AI Control Plane
+
+Web UI wrapper for Claude Code, Codex CLI, and Gemini CLI.
+
+---
+
+## Screenshots
+
+<p align="center">
+  <img src="docs/assets/screenshots/nexuscli-multilang-preview.png" width="45%" />
+  <img src="docs/assets/screenshots/nexuscli-mobile-terminal.png" width="45%" />
+</p>
+
+---
+
+## Features
+
+- Multi-engine support (Claude, Codex, Gemini)
+- Mobile-first responsive UI
+- SSE streaming responses
+- Workspace management
+- Conversation history
+- Model selector with think mode toggle
+
+## Supported Engines
+
+| Engine | Models | Provider |
+|--------|--------|----------|
+| **Claude** | Opus 4.5, Sonnet 4.5, Haiku 4.5 | Anthropic |
+| **Codex** | GPT-5.1, GPT-5.1 Codex (Mini/Max) | OpenAI |
+| **Gemini** | Gemini 3 Pro Preview | Google |
+
+---
+
+## Install
+
+```bash
+# From npm
+npm install -g @mmmbuto/nexuscli
+
+# From GitHub
+npm install -g github:DioNanos/nexuscli
+```
+
+## Setup
+
+```bash
+nexuscli init
+```
+
+## Start
+
+```bash
+nexuscli start
+```
+
+Open browser: `http://localhost:41800`
+
+---
+
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `nexuscli init` | Setup wizard |
+| `nexuscli start` | Start server |
+| `nexuscli stop` | Stop server |
+| `nexuscli status` | Show status |
+| `nexuscli engines` | Manage AI engines |
+| `nexuscli workspaces` | Manage workspaces |
+| `nexuscli config` | Configuration |
+| `nexuscli api` | Manage API keys |
+| `nexuscli users` | User management |
+
+---
+
+## API Keys
+
+Configure API keys for additional providers:
+
+```bash
+nexuscli api list                     # List configured keys
+nexuscli api set deepseek <key>       # DeepSeek models
+nexuscli api set openai <key>         # Future: STT/TTS (Whisper)
+nexuscli api set openrouter <key>     # Future: Multi-provider gateway
+nexuscli api delete <provider>        # Remove key
+```
+
+> **Note**: Claude/Codex/Gemini keys are managed by their respective CLIs.
+> These keys are for additional features (DeepSeek models, future STT/TTS).
+
+---
+
+## Requirements
+
+- Node.js 18+
+- At least one CLI installed:
+  - Claude Code CLI (`claude`)
+  - Codex CLI (`codex`)
+  - Gemini CLI (`gemini`)
+
+---
+
+## Termux-First Architecture
+
+NexusCLI is designed primarily for **Termux** on Android devices.
+
+### Stack
+
+- **Termux** - primary runtime environment
+- **tmux** - session management
+- **Node.js + SSE** - lightweight backend
+- **React** - minimal UI
+
+### Purpose
+
+This project exists to study:
+
+- terminal-driven AI orchestration
+- ultra-light architectures for constrained devices
+- mobile development workflows
+
+It is a **research and learning tool**.
+
+---
+
+## API Endpoints
+
+| Endpoint | Engine | Description |
+|----------|--------|-------------|
+| `POST /api/v1/chat` | Claude | SSE streaming chat |
+| `POST /api/v1/codex` | Codex | SSE streaming chat |
+| `POST /api/v1/gemini` | Gemini | SSE streaming chat |
+| `GET /api/v1/models` | All | List available models |
+| `GET /health` | - | Health check |
+
+---
+
+## Development
+
+```bash
+# Clone
+git clone https://github.com/DioNanos/nexuscli.git
+cd nexuscli
+
+# Install deps
+npm install
+cd frontend && npm install && npm run build && cd ..
+
+# Run dev
+npm run dev
+```
+
+---
+
+## License
+
+MIT License.
+See `LICENSE` for details.

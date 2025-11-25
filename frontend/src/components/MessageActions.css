@@ -1,0 +1,42 @@
+/* MessageActions Component Styles */
+
+.message-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  padding: 0.375rem 0.75rem;
+  background: transparent;
+  border: 1px solid #303030;
+  border-radius: 4px;
+  color: #9b9b9b;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.action-btn:hover {
+  background: #2a2a2a;
+  color: #ececec;
+  border-color: #667eea;
+}
+
+.action-btn:active {
+  transform: scale(0.98);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .action-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    flex: 1;
+    justify-content: center;
+  }
+}

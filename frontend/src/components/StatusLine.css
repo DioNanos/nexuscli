@@ -1,0 +1,435 @@
+/* StatusLine Component - 3 Row Layout with Expand/Collapse */
+
+.status-line {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: #1e1e1e;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+  font-size: 0.8rem;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  transition: all 0.3s ease;
+}
+
+/* Collapsed view: 3 rows */
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  min-height: 1.8rem;
+  border-bottom: 1px solid #2a2a2a;
+  cursor: pointer;
+}
+
+.status-row:last-child {
+  border-bottom: none;
+}
+
+.status-row:hover {
+  background: #252525;
+}
+
+/* Working Directory Row - Always visible, not clickable for expand */
+.status-row.status-directory {
+  background: #1a1a1a;
+  cursor: default;
+  border-top: 1px solid #333;
+}
+
+.status-row.status-directory:hover {
+  background: #1a1a1a;
+}
+
+.directory-path {
+  color: #00ff9f;
+  font-weight: 500;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: text;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.directory-path:hover {
+  background: #2a2a2a;
+}
+
+.directory-input {
+  flex: 1;
+  background: #2a2a2a;
+  border: 1px solid #00ff9f;
+  border-radius: 4px;
+  padding: 0.2rem 0.5rem;
+  color: #00ff9f;
+  font-size: 0.8rem;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  outline: none;
+}
+
+.status-icon {
+  font-size: 0.9rem;
+  line-height: 1;
+  flex-shrink: 0;
+  color: #999;
+}
+
+.status-message {
+  color: #ececec;
+  font-weight: 400;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.status-message.status-empty {
+  color: #666;
+  font-style: italic;
+}
+
+.status-count {
+  color: #888;
+  font-size: 0.75rem;
+  margin-left: auto;
+  padding-left: 0.5rem;
+}
+
+/* Expanded view */
+.status-line.status-expanded {
+  cursor: default;
+  max-height: 300px;
+}
+
+.status-line.status-expanded:hover {
+  background: #1e1e1e;
+}
+
+.status-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  background: #2a2a2a;
+  border-bottom: 1px solid #333;
+  cursor: pointer;
+}
+
+.status-header:hover {
+  background: #333;
+}
+
+.status-title {
+  color: #ececec;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.status-toggle {
+  color: #888;
+  font-size: 0.75rem;
+}
+
+.status-events-list {
+  max-height: 250px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.status-event {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.status-event:hover {
+  background: #252525;
+}
+
+.status-event:last-child {
+  border-bottom: none;
+}
+
+.status-time {
+  color: #666;
+  font-size: 0.7rem;
+  margin-left: auto;
+  padding-left: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Folder Icon Button */
+.folder-icon-btn {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  padding: 0.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s;
+  pointer-events: auto; /* Ensure clickable */
+  z-index: 10; /* Above other elements */
+  position: relative; /* For z-index to work */
+}
+
+.folder-icon-btn:hover {
+  background: #2a2a2a;
+  color: #00ff9f;
+}
+
+/* Status line needs relative positioning for dropdown */
+.status-line {
+  position: relative;
+}
+
+/* Workspace Dropdown - Opens UPWARD */
+.workspace-dropdown-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.workspace-dropdown {
+  position: fixed;
+  bottom: 6rem; /* Above status line + input area */
+  left: 0.75rem;
+  right: 0.75rem;
+  margin-bottom: 0.5rem;
+  max-width: 400px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  animation: slideUpIn 0.2s ease-out;
+}
+
+@keyframes slideUpIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.workspace-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #333;
+  color: #e0e0e0;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s;
+}
+
+.workspace-item:last-child {
+  border-bottom: none;
+}
+
+.workspace-item:hover {
+  background: #333;
+}
+
+.workspace-item.active {
+  background: rgba(0, 255, 159, 0.1);
+  border-left: 3px solid #00ff9f;
+}
+
+.workspace-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.workspace-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #e0e0e0;
+  margin-bottom: 0.2rem;
+}
+
+.workspace-path {
+  font-size: 0.75rem;
+  color: #666;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workspace-check {
+  color: #00ff9f;
+  flex-shrink: 0;
+}
+
+/* Workspace Deprecate Button */
+.workspace-deprecate-btn {
+  padding: 0.25rem;
+  background: transparent;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s, color 0.2s, transform 0.1s;
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.workspace-item:hover .workspace-deprecate-btn {
+  opacity: 1;
+}
+
+.workspace-deprecate-btn:hover {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+}
+
+.workspace-deprecate-btn:active {
+  transform: scale(0.9);
+}
+
+.workspace-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.workspace-dropdown::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+.workspace-dropdown::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 3px;
+}
+
+.workspace-dropdown::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Scrollbar styling */
+.status-events-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.status-events-list::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+.status-events-list::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 3px;
+}
+
+.status-events-list::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Pulsing animation for active status */
+.status-row:last-child .status-icon {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .status-line {
+    font-size: 0.75rem;
+  }
+
+  .status-row {
+    padding: 0.5rem 0.75rem;
+    min-height: 2rem;
+  }
+
+  .status-icon {
+    font-size: 0.85rem;
+  }
+
+  /* Touch-friendly directory path */
+  .directory-path {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  /* Prevent iOS zoom on input */
+  .directory-input {
+    font-size: 16px;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .status-message {
+    font-size: 0.75rem;
+  }
+
+  .status-count {
+    font-size: 0.7rem;
+  }
+
+  /* Expanded view optimizations */
+  .status-header {
+    padding: 0.6rem 0.75rem;
+  }
+
+  .status-line.status-expanded {
+    max-height: 250px;
+  }
+
+  .status-events-list {
+    max-height: 180px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .status-event {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .status-time {
+    font-size: 0.65rem;
+  }
+
+  /* Touch-friendly folder icon button */
+  .folder-icon-btn {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.5rem;
+  }
+
+  /* Mobile workspace dropdown */
+  .workspace-dropdown {
+    left: 0.5rem;
+    right: 0.5rem;
+    max-height: 60vh;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .workspace-item {
+    min-height: 44px;
+    padding: 1rem;
+  }
+}

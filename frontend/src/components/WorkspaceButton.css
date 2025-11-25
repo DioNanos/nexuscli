@@ -1,0 +1,103 @@
+.workspace-button-container {
+  position: relative;
+}
+
+.workspace-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  color: #e0e0e0;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.85rem;
+}
+
+.workspace-button:hover {
+  background: #333;
+  border-color: #4a4a4a;
+}
+
+.workspace-button.compact {
+  width: 40px;
+  height: 40px;
+  padding: 0.5rem;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.workspace-path {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workspace-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+}
+
+.workspace-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  min-width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  background: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.workspace-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #333;
+  color: #e0e0e0;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s;
+}
+
+.workspace-item:last-child {
+  border-bottom: none;
+}
+
+.workspace-item:hover {
+  background: #333;
+}
+
+.workspace-item.active {
+  background: rgba(0, 255, 159, 0.1);
+  border-left: 3px solid #00ff9f;
+}
+
+.workspace-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.workspace-name {
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workspace-meta {
+  font-size: 0.75rem;
+  color: #666;
+  margin-top: 0.25rem;
+}

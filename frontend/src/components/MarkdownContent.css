@@ -1,0 +1,271 @@
+.markdown-container {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #e0e0e0;
+}
+
+.markdown-empty {
+  color: #999;
+  font-style: italic;
+  padding: 10px;
+}
+
+/* Headings */
+.markdown-h1,
+.markdown-h2,
+.markdown-h3 {
+  margin: 16px 0 8px 0;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.markdown-h1 {
+  font-size: 24px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 8px;
+}
+
+.markdown-h2 {
+  font-size: 20px;
+}
+
+.markdown-h3 {
+  font-size: 16px;
+}
+
+/* Paragraphs */
+.markdown-p {
+  margin: 8px 0;
+}
+
+/* Code (inline) */
+.markdown-inline-code {
+  background-color: #2d2d30;
+  color: #ce9178;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+}
+
+/* Code blocks */
+.markdown-code-block {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+  border: 1px solid #3e3e42;
+  border-radius: 6px;
+  margin: 12px 0;
+  overflow-x: auto;
+  padding: 0;
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.markdown-code-header {
+  background-color: #2d2d30;
+  border-bottom: 1px solid #3e3e42;
+  padding: 6px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.markdown-code-language {
+  color: #858585;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.markdown-code-block code {
+  display: block;
+  padding: 12px;
+  overflow-x: auto;
+  margin: 0;
+}
+
+/* Syntax highlighting (from highlight.js atom-one-dark theme) */
+.markdown-code-block .hljs-string,
+.markdown-code-block .hljs-attr,
+.markdown-code-block .hljs-name {
+  color: #98c379;
+}
+
+.markdown-code-block .hljs-number,
+.markdown-code-block .hljs-literal {
+  color: #d19a66;
+}
+
+.markdown-code-block .hljs-title,
+.markdown-code-block .hljs-section,
+.markdown-code-block .hljs-class {
+  color: #61afef;
+}
+
+.markdown-code-block .hljs-keyword,
+.markdown-code-block .hljs-type {
+  color: #c678dd;
+}
+
+.markdown-code-block .hljs-comment {
+  color: #5c6370;
+  font-style: italic;
+}
+
+/* Images */
+.markdown-image-wrapper {
+  margin: 12px 0;
+  text-align: center;
+}
+
+.markdown-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  border: 1px solid #3e3e42;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.markdown-image-caption {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #999;
+  font-style: italic;
+}
+
+/* Links */
+.markdown-link {
+  color: #61afef;
+  text-decoration: none;
+  border-bottom: 1px dotted #61afef;
+  transition: color 0.2s;
+}
+
+.markdown-link:hover {
+  color: #7ec3e8;
+  border-bottom-style: solid;
+}
+
+/* Lists */
+.markdown-ul,
+.markdown-ol {
+  margin: 12px 0;
+  padding-left: 32px;
+}
+
+.markdown-li {
+  margin: 4px 0;
+}
+
+/* Tables */
+.markdown-table-wrapper {
+  margin: 12px 0;
+  overflow-x: auto;
+}
+
+.markdown-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+}
+
+.markdown-table thead {
+  background-color: #2d2d30;
+}
+
+.markdown-table th {
+  padding: 8px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #ffffff;
+  border: 1px solid #3e3e42;
+}
+
+.markdown-table td {
+  padding: 8px 12px;
+  border: 1px solid #3e3e42;
+  color: #e0e0e0;
+}
+
+.markdown-table tbody tr:nth-child(odd) {
+  background-color: #1e1e1e;
+}
+
+.markdown-table tbody tr:nth-child(even) {
+  background-color: #252526;
+}
+
+.markdown-table tbody tr:hover {
+  background-color: #2d2d30;
+}
+
+/* Blockquotes */
+.markdown-blockquote {
+  margin: 12px 0;
+  padding-left: 16px;
+  border-left: 4px solid #61afef;
+  color: #b4b4b4;
+  font-style: italic;
+  background-color: #1e1e1e;
+  padding: 8px 12px;
+  padding-left: 16px;
+}
+
+/* Horizontal Rule */
+.markdown-container hr {
+  border: none;
+  border-top: 1px solid #3e3e42;
+  margin: 16px 0;
+}
+
+/* Strikethrough and other GFM */
+.markdown-container del {
+  color: #858585;
+  text-decoration: line-through;
+}
+
+.markdown-container strong {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.markdown-container em {
+  font-style: italic;
+  color: #d4d4d4;
+}
+
+/* Task lists (GFM) */
+.markdown-container input[type="checkbox"] {
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+/* Math equations (KaTeX) */
+.markdown-container .math {
+  margin: 8px 0;
+}
+
+.markdown-container .math.math-block {
+  display: block;
+  text-align: center;
+  margin: 16px 0;
+}
+
+.markdown-container .math-inline {
+  display: inline;
+}
+
+/* Dark theme compatibility */
+@media (prefers-color-scheme: dark) {
+  .markdown-container {
+    color: #e0e0e0;
+  }
+
+  .markdown-image {
+    border-color: #3e3e42;
+  }
+}

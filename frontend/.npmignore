@@ -1,0 +1,9 @@
+node_modules/
+src/
+*.log
+.env
+.DS_Store
+/index.html
+public/
+vite.config.js
+package-lock.json

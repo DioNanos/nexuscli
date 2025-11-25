@@ -1,0 +1,339 @@
+/* Model Selector - Compact Inline */
+
+.model-selector {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Think Mode Toggle Button (Claude) */
+.think-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-width: 70px;
+  height: 32px;
+  padding: 0 0.6rem;
+  background: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 6px;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.think-toggle:hover {
+  background: #333;
+  border-color: #4a4a4a;
+  color: #999;
+}
+
+.think-toggle.active {
+  background: rgba(0, 255, 159, 0.15);
+  border-color: #00ff9f;
+  color: #00ff9f;
+}
+
+.toggle-label {
+  font-size: 0.75rem;
+  font-family: 'Fira Code', monospace;
+  font-weight: 500;
+}
+
+/* Reasoning Level Select (Codex) */
+.reasoning-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0 0.5rem;
+  background: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 6px;
+  color: #00ff9f;
+  transition: all 0.2s;
+}
+
+.reasoning-wrapper:hover {
+  background: #333;
+  border-color: #4a4a4a;
+}
+
+.reasoning-wrapper:focus-within {
+  border-color: #00ff9f;
+}
+
+.reasoning-select {
+  padding: 0.4rem 0.2rem;
+  background: transparent;
+  border: none;
+  color: #e0e0e0;
+  font-size: 0.75rem;
+  font-family: 'Fira Code', monospace;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.reasoning-select option {
+  background: #1a1a1a;
+  color: #e0e0e0;
+}
+
+.model-selector-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  min-width: 180px;
+  background: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.85rem;
+}
+
+.model-selector-trigger:hover {
+  background: #333;
+  border-color: #4a4a4a;
+}
+
+.model-icon {
+  flex-shrink: 0;
+  color: #00ff9f;
+  display: flex;
+  align-items: center;
+}
+
+.model-label {
+  color: #e0e0e0;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.model-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 0.5rem;
+  width: max-content;
+  min-width: 380px;
+  max-width: 500px;
+  background: #1a1a1a;
+  border: 1px solid #00ff9f;
+  border-radius: 4px;
+  box-shadow: 0 0 20px rgba(0, 255, 159, 0.2);
+  z-index: 1000;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.model-dropdown-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.model-search {
+  padding: 1rem;
+  border-bottom: 1px solid #3a3a3a;
+}
+
+.model-search input {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  background: #1a1a1a;
+  border: 1px solid #3a3a3a;
+  border-radius: 6px;
+  color: #e0e0e0;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.model-search input:focus {
+  border-color: #00ff9f;
+}
+
+.model-search input::placeholder {
+  color: #666;
+}
+
+.model-category {
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.model-category:last-child {
+  border-bottom: none;
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  color: #666;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: 'Fira Code', 'Monaco', 'Courier New', monospace;
+}
+
+.category-icon {
+  font-size: 1.1rem;
+  color: #e0e0e0;
+}
+
+.coming-soon {
+  margin-left: auto;
+  padding: 0.2rem 0.6rem;
+  background: rgba(255, 159, 0, 0.1);
+  border: 1px solid rgba(255, 159, 0, 0.3);
+  border-radius: 4px;
+  color: #ff9f00;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.model-list {
+  padding: 0.25rem 0.5rem 0.5rem;
+}
+
+.model-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.35rem 0.75rem;
+  margin: 0;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'Fira Code', 'Monaco', 'Courier New', monospace;
+  line-height: 1.4;
+}
+
+.model-item:hover {
+  background: #2a2a2a;
+  border-left: 3px solid #00ff9f;
+  padding-left: calc(0.75rem - 3px);
+}
+
+.model-item.selected {
+  background: rgba(0, 255, 159, 0.15);
+  border-left: 3px solid #00ff9f;
+  padding-left: calc(0.75rem - 3px);
+}
+
+.model-item.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.model-item.disabled:hover {
+  background: transparent;
+}
+
+.model-label {
+  color: #00ff9f;
+  font-size: 0.8rem;
+  font-family: 'Fira Code', 'Monaco', 'Courier New', monospace;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+  flex: 1;
+  overflow: visible;
+}
+
+.checkmark {
+  color: #00ff9f;
+  font-size: 1rem;
+  margin-left: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Scrollbar styling */
+.model-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.model-dropdown::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+.model-dropdown::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 3px;
+}
+
+.model-dropdown::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .model-selector {
+    padding: 0.5rem 1rem;
+  }
+
+  /* Touch-friendly trigger button */
+  .model-selector-trigger {
+    min-height: 44px;
+    padding: 0.75rem 1rem;
+  }
+
+  .model-info {
+    gap: 0.2rem;
+  }
+
+  .cli-name {
+    font-size: 0.7rem;
+  }
+
+  .model-name {
+    font-size: 0.8rem;
+  }
+
+  /* Better dropdown positioning */
+  .model-dropdown {
+    left: 0.5rem;
+    right: 0.5rem;
+    min-width: unset;
+    max-width: unset;
+    max-height: 60vh; /* More space on mobile */
+  }
+
+  /* Prevent iOS zoom */
+  .model-search input {
+    font-size: 16px;
+    padding: 0.75rem;
+  }
+
+  /* Larger touch targets for model items */
+  .model-item {
+    min-height: 44px;
+    padding: 1rem;
+    margin: 0.3rem 0;
+  }
+
+  .model-label {
+    font-size: 0.85rem;
+  }
+
+  .category-header {
+    min-height: 44px;
+    padding: 1rem;
+  }
+
+  /* Touch-friendly refresh button */
+  .refresh-btn {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.5rem;
+  }
+}
