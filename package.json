@@ -1,6 +1,6 @@
 {
   "name": "@mmmbuto/nexuscli",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "private": false,
   "description": "Mobile-first AI Control Plane - Web UI for Claude/Codex/Gemini CLI",
   "main": "lib/server/server.js",
