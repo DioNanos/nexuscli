@@ -61,6 +61,12 @@ function Chat() {
     onError: handleSTTError
   });
 
+  // Helper: normalize workspace path (remove trailing slash)
+  const normalizePath = (path) => {
+    if (!path || path === '/') return path;
+    return path.replace(/\/+$/, '');
+  };
+
   // Auto-scroll to bottom
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -84,9 +90,15 @@ function Chat() {
       // Try to restore from localStorage first
       const savedWorkspace = localStorage.getItem('nexuscli_workspace');
       if (savedWorkspace) {
-        console.log('[Chat] Restored workspace from localStorage:', savedWorkspace);
-        setCurrentDirectory(savedWorkspace);
-        setWorkspacePath(savedWorkspace);
+        // Normalize to prevent trailing slash issues
+        const normalized = normalizePath(savedWorkspace);
+        console.log('[Chat] Restored workspace from localStorage:', normalized);
+        setCurrentDirectory(normalized);
+        setWorkspacePath(normalized);
+        // Update localStorage if path was normalized
+        if (normalized !== savedWorkspace) {
+          localStorage.setItem('nexuscli_workspace', normalized);
+        }
         return;
       }
 
@@ -516,6 +528,8 @@ function Chat() {
   const handleWorkspaceChange = async (nextWorkspace) => {
     if (!token) return;
 
+    // Normalize path to prevent duplicates
+    nextWorkspace = normalizePath(nextWorkspace);
     console.log('[Chat] Changing workspace to:', nextWorkspace);
 
     // Reset initial load flag for new workspace auto-select
