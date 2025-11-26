@@ -93,6 +93,7 @@ Open browser: `http://localhost:41800`
 | `nexuscli config` | Configuration |
 | `nexuscli api` | Manage API keys |
 | `nexuscli users` | User management |
+| `nexuscli setup-termux` | Bootstrap Termux (SSH, packages) |
 
 ---
 
