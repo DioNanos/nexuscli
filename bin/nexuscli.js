@@ -21,6 +21,7 @@ const apiCommand = require('../lib/cli/api');
 const workspacesCommand = require('../lib/cli/workspaces');
 const usersCommand = require('../lib/cli/users');
 const uninstallCommand = require('../lib/cli/uninstall');
+const setupTermuxCommand = require('../lib/cli/setup-termux');
 
 program
   .name('nexuscli')
@@ -107,6 +108,12 @@ program
   .command('uninstall')
   .description('Prepare for uninstallation (optional data removal)')
   .action(uninstallCommand);
+
+// nexuscli setup-termux
+program
+  .command('setup-termux')
+  .description('Bootstrap Termux for remote development (SSH, packages)')
+  .action(setupTermuxCommand);
 
 // Parse arguments
 program.parse();
