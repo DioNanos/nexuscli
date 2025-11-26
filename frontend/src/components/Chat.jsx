@@ -22,6 +22,7 @@ function Chat() {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedModel, setSelectedModel] = useState('claude-sonnet-4-5-20250929');
+  const [pendingPreferredModel, setPendingPreferredModel] = useState(null);
   const [reasoningEffort, setReasoningEffort] = useState('high');
   const [thinkMode, setThinkMode] = useState('think');
   const [cliTools, setCliTools] = useState({});
@@ -122,6 +123,13 @@ function Chat() {
     loadWorkspace();
   }, []);
 
+  const isModelAvailable = (modelId, tools) => {
+    if (!modelId) return false;
+    return Object.values(tools).some(cli =>
+      (cli.models || []).some(m => m.id === modelId)
+    );
+  };
+
   // Load available CLI tools and models
   useEffect(() => {
     const fetchModels = async () => {
@@ -134,6 +142,45 @@ function Chat() {
       }
     };
     fetchModels();
+  }, []);
+
+  // Apply pending preferred model once models are available
+  useEffect(() => {
+    if (!pendingPreferredModel) return;
+    const available = isModelAvailable(pendingPreferredModel, cliTools);
+    if (available) {
+      console.log('[Chat] Applying preferred model from config:', pendingPreferredModel);
+      setSelectedModel(pendingPreferredModel);
+      setPendingPreferredModel(null);
+      return;
+    }
+    // If models are loaded and still not available, drop the pending value
+    if (Object.keys(cliTools).length > 0) {
+      console.warn('[Chat] Preferred model not available, keeping current:', pendingPreferredModel);
+      setPendingPreferredModel(null);
+    }
+  }, [cliTools, pendingPreferredModel]);
+
+  // Load user preferences (default model)
+  useEffect(() => {
+    const fetchConfig = async () => {
+      try {
+        const res = await fetch('/api/v1/config');
+        const data = await res.json();
+        if (data.defaultModel) {
+          if (isModelAvailable(data.defaultModel, cliTools)) {
+            console.log('[Chat] Auto-selecting default model:', data.defaultModel);
+            setSelectedModel(data.defaultModel);
+          } else {
+            // Store pending until models load or warn if unavailable
+            setPendingPreferredModel(data.defaultModel);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch config:', error);
+      }
+    };
+    fetchConfig();
   }, []);
 
   // Helper: get model info and determine endpoint
