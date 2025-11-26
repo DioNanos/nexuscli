@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!-- Primary Meta Tags -->
+    <title>NexusCLI - AI Assistant Interface</title>
+    <meta name="title" content="NexusCLI - AI Assistant Interface" />
+    <meta name="description" content="Multi-CLI AI Assistant Interface - Claude Code, Codex, and more. Your command center for AI interactions." />
+    <meta name="keywords" content="AI, CLI, Claude, Assistant, NexusCLI, Terminal, Interface" />
+    <meta name="author" content="NexusCLI Team" />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#1a1a1a" />
+    <meta name="msapplication-TileColor" content="#1a1a1a" />
+    <meta name="msapplication-navbutton-color" content="#1a1a1a" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- PWA Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="NexusCLI" />
+    <meta name="application-name" content="NexusCLI" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- Android Chrome -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://cli.wellanet.dev/" />
+    <meta property="og:title" content="NexusCLI - AI Assistant Interface" />
+    <meta property="og:description" content="Multi-CLI AI Assistant Interface - Your command center for AI interactions." />
+    <meta property="og:image" content="https://cli.wellanet.dev/icon-512.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://cli.wellanet.dev/" />
+    <meta property="twitter:title" content="NexusCLI - AI Assistant Interface" />
+    <meta property="twitter:description" content="Multi-CLI AI Assistant Interface - Your command center for AI interactions." />
+    <meta property="twitter:image" content="https://cli.wellanet.dev/icon-512.png" />
+
+    <!-- Prevent Scaling on iOS -->
+    <meta name="format-detection" content="telephone=no" />
+    <script type="module" crossorigin src="/assets/index-DaG2hvsF.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-Bn_l1e6e.css">
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(registration => console.log('SW registered:', registration.scope))
+            .catch(err => console.log('SW registration failed:', err));
+        });
+      }
+    </script>
+  </body>
+</html>

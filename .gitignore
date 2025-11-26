@@ -2,7 +2,6 @@
 node_modules/
 
 # Build output (frontend build included in dist/)
-# frontend/dist/
 
 # Environment
 .env

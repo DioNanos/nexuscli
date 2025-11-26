@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
-import useSpeechToText from '../hooks/useSpeechToText';
+import useAutoSTT from '../hooks/useAutoSTT';
 import Message from './Message';
 import StatusLine from './StatusLine';
 import ModelSelector from './ModelSelector';
@@ -53,9 +53,10 @@ function Chat() {
     transcript,
     interimTranscript,
     toggleListening,
-    resetTranscript
-  } = useSpeechToText({
-    language: 'it-IT',
+    resetTranscript,
+    provider: sttProvider
+  } = useAutoSTT({
+    language: 'it-IT', // Fallback for browser STT; OpenAI uses i18n language
     onResult: handleSTTResult,
     onError: handleSTTError
   });
