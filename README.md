@@ -12,7 +12,7 @@
 NexusCLI is an experimental, ultra-light terminal cockpit designed for
 AI-assisted development workflows on Termux (Android).
 
-**v0.6.2** - Mobile-First AI Control Plane
+**v0.6.3** - Mobile-First AI Control Plane
 
 Web UI wrapper for Claude Code, Codex CLI, and Gemini CLI with voice input support.
 
@@ -76,7 +76,15 @@ nexuscli init
 nexuscli start
 ```
 
-Open browser: `http://localhost:41800`
+### Network Access
+
+| Protocol | Port | URL | Use Case |
+|----------|------|-----|----------|
+| **HTTP** | 41800 | `http://localhost:41800` | Local access |
+| **HTTPS** | 41801 | `https://<ip>:41801` | Remote access, voice input |
+
+> **Note**: HTTPS is required for microphone access from remote devices (browser security).
+> Self-signed certificates are auto-generated on first run.
 
 ---
 
@@ -85,15 +93,15 @@ Open browser: `http://localhost:41800`
 | Command | Description |
 |---------|-------------|
 | `nexuscli init` | Setup wizard |
-| `nexuscli start` | Start server |
+| `nexuscli start` | Start server (HTTP:41800 + HTTPS:41801) |
 | `nexuscli stop` | Stop server |
-| `nexuscli status` | Show status |
+| `nexuscli status` | Show status, ports, and engines |
 | `nexuscli engines` | Manage AI engines |
 | `nexuscli workspaces` | Manage workspaces |
 | `nexuscli config` | Configuration |
 | `nexuscli api` | Manage API keys |
 | `nexuscli users` | User management |
-| `nexuscli setup-termux` | Bootstrap Termux (SSH, packages) |
+| `nexuscli setup-termux` | Bootstrap Termux + show network URLs |
 
 ---
 
