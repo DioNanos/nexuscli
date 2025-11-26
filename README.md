@@ -12,9 +12,9 @@
 NexusCLI is an experimental, ultra-light terminal cockpit designed for
 AI-assisted development workflows on Termux (Android).
 
-**v0.5.0** - Mobile-First AI Control Plane
+**v0.5.2** - Mobile-First AI Control Plane
 
-Web UI wrapper for Claude Code, Codex CLI, and Gemini CLI.
+Web UI wrapper for Claude Code, Codex CLI, and Gemini CLI with voice input support.
 
 ---
 
@@ -36,6 +36,8 @@ Web UI wrapper for Claude Code, Codex CLI, and Gemini CLI.
 ## Features
 
 - Multi-engine support (Claude, Codex, Gemini)
+- **Voice input** (OpenAI Whisper STT)
+- **Auto HTTPS** for remote microphone access
 - Mobile-first responsive UI
 - SSE streaming responses
 - Workspace management
@@ -101,13 +103,13 @@ Configure API keys for additional providers:
 ```bash
 nexuscli api list                     # List configured keys
 nexuscli api set deepseek <key>       # DeepSeek models
-nexuscli api set openai <key>         # Future: STT/TTS (Whisper)
+nexuscli api set openai <key>         # Voice input (Whisper STT)
 nexuscli api set openrouter <key>     # Future: Multi-provider gateway
 nexuscli api delete <provider>        # Remove key
 ```
 
 > **Note**: Claude/Codex/Gemini keys are managed by their respective CLIs.
-> These keys are for additional features (DeepSeek models, future STT/TTS).
+> OpenAI key enables voice input via Whisper. HTTPS auto-generated for remote mic access.
 
 ---
 
