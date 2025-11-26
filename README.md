@@ -12,7 +12,7 @@
 NexusCLI is an experimental, ultra-light terminal cockpit designed for
 AI-assisted development workflows on Termux (Android).
 
-**v0.6.3** - Mobile-First AI Control Plane
+Mobile-First AI Control Plane
 
 Web UI wrapper for Claude Code, Codex CLI, and Gemini CLI with voice input support.
 
@@ -96,6 +96,7 @@ nexuscli start
 | `nexuscli start` | Start server (HTTP:41800 + HTTPS:41801) |
 | `nexuscli stop` | Stop server |
 | `nexuscli status` | Show status, ports, and engines |
+| `nexuscli model [model-id]` | Set/get default model preference |
 | `nexuscli engines` | Manage AI engines |
 | `nexuscli workspaces` | Manage workspaces |
 | `nexuscli config` | Configuration |
