@@ -22,6 +22,7 @@ const workspacesCommand = require('../lib/cli/workspaces');
 const usersCommand = require('../lib/cli/users');
 const uninstallCommand = require('../lib/cli/uninstall');
 const setupTermuxCommand = require('../lib/cli/setup-termux');
+const { modelCommand } = require('../lib/cli/model');
 
 program
   .name('nexuscli')
@@ -61,6 +62,12 @@ program
   .command('config [action] [key] [value]')
   .description('Manage configuration (get/set/list)')
   .action(configCommand);
+
+// nexuscli model
+program
+  .command('model [model-id]')
+  .description('Set/get default model preference')
+  .action(modelCommand);
 
 // nexuscli engines
 program
