@@ -28,3 +28,4 @@ pids/
 
 # Config data (user-specific)
 config.json
+*.backup
