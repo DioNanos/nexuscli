@@ -446,6 +446,6 @@ First message: {
 ---
 
 **Creato:** 2025-12-08
-**Autore:** Claude Sonnet 4.5 (analisi) + Gemini 3 Pro (diagnosi originale)
+**Autore:** Project Team (analisi) + Gemini 3 Pro (diagnosi originale)
 **Status:** ✅ PRONTO PER IMPLEMENTAZIONE
 **Stimato effort:** 30-45 min

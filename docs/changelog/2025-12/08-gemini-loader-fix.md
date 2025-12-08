@@ -3,7 +3,7 @@
 **Date**: 2025-12-08
 **Type**: fix
 **Component**: CliLoader (Gemini integration)
-**Author**: Project Team + Claude Code
+**Author**: Project Team
 **Bug Report**: Gemini self-diagnosis analysis
 
 ---
@@ -288,7 +288,7 @@ docs/changelog/2025-12/08-gemini-loader-fix.md    (new, this file)
 ## Credits
 
 **Bug diagnosis**: Gemini 3 Pro Preview (self-analysis)
-**Fix implementation**: Claude Sonnet 4.5
+**Fix implementation**: Project Team
 **Testing**: Automated + Manual
 **Documentation**: Complete (plan + changelog + code comments)
 
@@ -304,4 +304,3 @@ This bug was present since initial Gemini integration. The loader was based on a
 
 ---
 
-_Generated with [Claude Code](https://claude.com/claude-code)_
