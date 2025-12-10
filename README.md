@@ -9,7 +9,7 @@
 
 ## Overview
 
-NexusCLI è un cockpit AI leggero (Termux-first) per orchestrare Claude Code, Codex CLI e Gemini CLI da web/terminal, con interruzione live e ripresa nativa delle sessioni.
+NexusCLI is a lightweight AI cockpit (Termux-first) to orchestrate Claude Code, Codex CLI, and Gemini CLI from the web/terminal, with live interrupt and native session resume.
 
 ---
 
@@ -31,11 +31,11 @@ NexusCLI è un cockpit AI leggero (Termux-first) per orchestrare Claude Code, Co
 ## Highlights (v0.7.8)
 
 - Multi-engine: Claude, Codex, Gemini
-- Resume nativo: stesso engine riprende la sessione; cambio engine usa handoff con summary/history
-- Stop affidabile: pulsante stop interrompe il processo attivo (Claude/Codex/Gemini)
-- Import sessioni: all’avvio importa sessioni native da ~/.claude ~/.codex ~/.gemini; endpoint manuale `POST /api/v1/sessions/import`
-- Voice input (Whisper), HTTPS auto per microfono remoto
-- UI mobile-first con SSE streaming, workspace selection esplicita
+- Native resume: same engine resumes the session; switching engines uses handoff with summary/history
+- Reliable stop: stop button interrupts the active process (Claude/Codex/Gemini)
+- Session import: on startup it imports native sessions from ~/.claude ~/.codex ~/.gemini; manual endpoint `POST /api/v1/sessions/import`
+- Voice input (Whisper), auto HTTPS for remote microphone
+- Mobile-first UI with SSE streaming and explicit workspace selection
 
 ## Supported Engines
 
@@ -85,16 +85,16 @@ nexuscli start
 
 | Command | Description |
 |---------|-------------|
-| `nexuscli init` | Setup wizard (config, cert, dati) |
-| `nexuscli start` | Avvia server (HTTP 41800 / HTTPS 41801) |
-| `nexuscli stop` | Ferma server |
-| `nexuscli status` | Stato e engine disponibili |
-| `nexuscli engines` | Gestione engine |
-| `nexuscli workspaces` | Gestione workspace |
-| `nexuscli model` | Modello di default |
-| `nexuscli api` | API keys aggiuntive (es. Whisper) |
-| `nexuscli users` | Utenti |
-| `POST /api/v1/sessions/import` | Import sessioni native (admin) |
+| `nexuscli init` | Setup wizard (config, certs, data) |
+| `nexuscli start` | Start server (HTTP 41800 / HTTPS 41801) |
+| `nexuscli stop` | Stop server |
+| `nexuscli status` | Status and available engines |
+| `nexuscli engines` | Manage engines |
+| `nexuscli workspaces` | Manage workspaces |
+| `nexuscli model` | Default model |
+| `nexuscli api` | Additional API keys (e.g., Whisper) |
+| `nexuscli users` | Users |
+| `POST /api/v1/sessions/import` | Import native sessions (admin) |
 
 ---
 
