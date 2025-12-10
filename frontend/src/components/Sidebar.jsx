@@ -49,6 +49,17 @@ export default function Sidebar({
   const [isLoading, setIsLoading] = useState(false);
   const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
 
+  const getEngineStyle = (engine) => {
+    const normalized = (engine || '').toLowerCase();
+    if (normalized.includes('codex') || normalized.includes('openai')) {
+      return { icon: 'Code2', color: '#00D26A', className: 'codex', label: 'Codex' };
+    }
+    if (normalized.includes('gemini') || normalized.includes('google')) {
+      return { icon: 'Sparkles', color: '#4285F4', className: 'gemini', label: 'Gemini' };
+    }
+    return { icon: 'Terminal', color: '#FF6B35', className: 'claude', label: 'Claude' };
+  };
+
   // Load conversations grouped by date when no workspace sessions provided
   useEffect(() => {
     console.log('[Sidebar] useEffect triggered - sessions:', sessions ? 'has data' : 'null', 'isOpen:', isOpen, 'token:', !!token);
@@ -260,6 +271,7 @@ export default function Sidebar({
     const isActive = conversation.id === currentConversationId;
     const isPinned = conversation.metadata?.pinned;
     const isEditing = editingId === conversation.id;
+    const engineStyle = getEngineStyle(conversation.engine);
 
     // Ensure title is not empty (fallback if missing from backend)
     const title = conversation.title || 'Untitled Conversation';
@@ -314,7 +326,13 @@ export default function Sidebar({
           />
         ) : (
           <>
-            <Icon name="Terminal" size={18} className="conversation-icon" />
+            <Icon
+              name={engineStyle.icon}
+              size={18}
+              className={`conversation-icon ${engineStyle.className}`}
+              style={{ color: engineStyle.color }}
+              title={engineStyle.label}
+            />
             <div className="conversation-title-wrapper">
               <span className="conversation-title">{title}</span>
               <div className="fade-gradient" aria-hidden="true"></div>

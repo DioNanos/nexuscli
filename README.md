@@ -36,13 +36,17 @@ Web UI wrapper for Claude Code, Codex CLI, and Gemini CLI with voice input suppo
 ## Features
 
 - Multi-engine support (Claude, Codex, Gemini)
+- **Session continuity**: stessa engine → resume nativo; cambio engine → nuova sessione con bridge (summary/history) per continuità
 - **Voice input** (OpenAI Whisper STT)
-- **Auto HTTPS** for remote microphone access
+- **Auto HTTPS** per microfono remoto
 - Mobile-first responsive UI
 - SSE streaming responses
-- Workspace management
+- Workspace management (nessun auto-load: scegli tu la sessione)
 - Conversation history
-- Model selector with think mode toggle
+- Model selector con think mode toggle
+- **Default model configuration** - preferenze modello persistenti
+- **Config API endpoint** - user preferences via REST API
+- **Stop button** - interrompe generazione (v0.7.5)
 
 ## Supported Engines
 
@@ -96,9 +100,9 @@ nexuscli start
 | `nexuscli start` | Start server (HTTP:41800 + HTTPS:41801) |
 | `nexuscli stop` | Stop server |
 | `nexuscli status` | Show status, ports, and engines |
-| `nexuscli model [model-id]` | Set/get default model preference |
 | `nexuscli engines` | Manage AI engines |
 | `nexuscli workspaces` | Manage workspaces |
+| `nexuscli model` | Set default model preference |
 | `nexuscli config` | Configuration |
 | `nexuscli api` | Manage API keys |
 | `nexuscli users` | User management |
@@ -163,7 +167,11 @@ It is a **research and learning tool**.
 | `POST /api/v1/chat` | Claude | SSE streaming chat |
 | `POST /api/v1/codex` | Codex | SSE streaming chat |
 | `POST /api/v1/gemini` | Gemini | SSE streaming chat |
+| `POST /api/v1/chat/interrupt` | Claude | Stop running generation |
+| `POST /api/v1/codex/interrupt` | Codex | Stop running generation |
+| `POST /api/v1/gemini/interrupt` | Gemini | Stop running generation |
 | `GET /api/v1/models` | All | List available models |
+| `GET /api/v1/config` | - | Get user preferences (default model) |
 | `GET /health` | - | Health check |
 
 ---
