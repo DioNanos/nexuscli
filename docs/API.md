@@ -1,6 +1,7 @@
 # NexusCLI API Reference
 
 Base URL: `https://localhost:41800`
+Version: `0.7.8`
 
 ## Authentication
 
@@ -179,6 +180,23 @@ Authorization: Bearer <token>
 
 Query params:
 - `limit` - Max messages (default: 30)
+- `before` - Timestamp filter for pagination
+- `mode` - `asc` (default) or `desc`
+
+### Import Native Sessions (Claude/Codex/Gemini)
+
+```http
+POST /api/v1/sessions/import
+Authorization: Bearer <token>
+```
+
+Response:
+```json
+{
+  "success": true,
+  "imported": { "claude": 12, "codex": 3, "gemini": 1 }
+}
+```
 
 ---
 
