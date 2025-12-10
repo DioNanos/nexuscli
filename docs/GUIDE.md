@@ -1,4 +1,5 @@
 # NexusCLI Guide
+Version: 0.7.8
 
 ## Quick Start
 
@@ -11,7 +12,10 @@ nexuscli init
 
 # Start server
 nexuscli start
+nexuscli stop                # Stop active generation/server
 ```
+
+Tip: durante la generazione puoi usare il pulsante Stop (UI) o l'endpoint interrupt per fermare Claude/Codex/Gemini.
 
 ## Voice Input (STT)
 
@@ -72,7 +76,13 @@ Supported providers:
 nexuscli workspaces         # List workspaces
 nexuscli workspaces add     # Add workspace
 nexuscli workspaces remove  # Remove workspace
+nexuscli workspaces scan    # Scan for sessions (Claude); import completa via API import
 ```
+
+### Session Import (Claude/Codex/Gemini)
+
+- Automatico all'avvio backend.
+- Manuale: `POST /api/v1/sessions/import` (admin).
 
 ### Engines
 
