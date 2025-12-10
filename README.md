@@ -9,12 +9,7 @@
 
 ## Overview
 
-NexusCLI is an experimental, ultra-light terminal cockpit designed for
-AI-assisted development workflows on Termux (Android).
-
-Mobile-First AI Control Plane
-
-Web UI wrapper for Claude Code, Codex CLI, and Gemini CLI with voice input support.
+NexusCLI è un cockpit AI leggero (Termux-first) per orchestrare Claude Code, Codex CLI e Gemini CLI da web/terminal, con interruzione live e ripresa nativa delle sessioni.
 
 ---
 
@@ -33,19 +28,14 @@ Web UI wrapper for Claude Code, Codex CLI, and Gemini CLI with voice input suppo
 
 ---
 
-## Features
+## Highlights (v0.7.8)
 
 - Multi-engine: Claude, Codex, Gemini
-- Session continuity: same engine = native resume; engine switch = new session with bridged summary/history
-- Voice input (OpenAI Whisper STT)
-- Auto HTTPS for remote microphone
-- Mobile-first responsive UI
-- SSE streaming responses
-- Workspace management (no auto-load; you choose the session)
-- Conversation history
-- Model selector with think mode toggle
-- Default model configuration via REST API
-- Stop button to interrupt generation
+- Resume nativo: stesso engine riprende la sessione; cambio engine usa handoff con summary/history
+- Stop affidabile: pulsante stop interrompe il processo attivo (Claude/Codex/Gemini)
+- Import sessioni: all’avvio importa sessioni native da ~/.claude ~/.codex ~/.gemini; endpoint manuale `POST /api/v1/sessions/import`
+- Voice input (Whisper), HTTPS auto per microfono remoto
+- UI mobile-first con SSE streaming, workspace selection esplicita
 
 ## Supported Engines
 
@@ -91,21 +81,20 @@ nexuscli start
 
 ---
 
-## Commands
+## Commands (CLI)
 
 | Command | Description |
 |---------|-------------|
-| `nexuscli init` | Setup wizard (creates config, certs, data dir) |
-| `nexuscli start` | Start server (HTTP:41800 + HTTPS:41801) |
-| `nexuscli stop` | Stop server |
-| `nexuscli status` | Show status, ports, and engines |
-| `nexuscli engines` | Manage AI engines |
-| `nexuscli workspaces` | Manage workspaces |
-| `nexuscli model` | Set default model preference |
-| `nexuscli config` | Configuration |
-| `nexuscli api` | Manage API keys |
-| `nexuscli users` | User management |
-| `nexuscli setup-termux` | Bootstrap Termux + show network URLs |
+| `nexuscli init` | Setup wizard (config, cert, dati) |
+| `nexuscli start` | Avvia server (HTTP 41800 / HTTPS 41801) |
+| `nexuscli stop` | Ferma server |
+| `nexuscli status` | Stato e engine disponibili |
+| `nexuscli engines` | Gestione engine |
+| `nexuscli workspaces` | Gestione workspace |
+| `nexuscli model` | Modello di default |
+| `nexuscli api` | API keys aggiuntive (es. Whisper) |
+| `nexuscli users` | Utenti |
+| `POST /api/v1/sessions/import` | Import sessioni native (admin) |
 
 ---
 

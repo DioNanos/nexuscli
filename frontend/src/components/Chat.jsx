@@ -207,14 +207,14 @@ function Chat() {
 
   // Handle interrupt/stop button click
   const handleInterrupt = async () => {
-    const sessionId = conversationId;
-    if (!sessionId) {
+    const sessionToStop = sessionId || conversationId;
+    if (!sessionToStop) {
       console.warn('[Chat] No active session to interrupt');
       return;
     }
 
     const endpoint = getInterruptEndpoint(selectedModel);
-    console.log(`[Chat] Interrupting session ${sessionId} via ${endpoint}`);
+    console.log(`[Chat] Interrupting session ${sessionToStop} via ${endpoint}`);
 
     try {
       const res = await fetch(endpoint, {
@@ -223,7 +223,7 @@ function Chat() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ sessionId })
+        body: JSON.stringify({ sessionId: sessionToStop })
       });
 
       const data = await res.json();
