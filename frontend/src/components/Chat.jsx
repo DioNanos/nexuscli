@@ -32,12 +32,12 @@ function Chat() {
   const [workspaces, setWorkspaces] = useState([]);
   const [sessionsGrouped, setSessionsGrouped] = useState(null);
   const [summary, setSummary] = useState(null);
+  const [sessionId, setSessionId] = useState(null);
   const [pagination, setPagination] = useState({ hasMore: false, oldestTimestamp: null });
   const [loadingMore, setLoadingMore] = useState(false);
   const [attachedFiles, setAttachedFiles] = useState([]);
   const messagesEndRef = useRef(null);
   const textareaRef = useRef(null);
-  const initialLoadDoneRef = useRef(false);
 
   // Speech-to-Text hook
   const handleSTTResult = useCallback((text) => {
@@ -194,6 +194,60 @@ function Chat() {
     return { model: null, cli: null, cliKey: 'claude-code', endpoint: '/api/v1/chat' };
   };
 
+  // Helper: get interrupt endpoint based on current model
+  const getInterruptEndpoint = (modelId) => {
+    const { cliKey } = getModelInfo(modelId);
+    const endpoints = {
+      'claude-code': '/api/v1/chat/interrupt',
+      'gemini': '/api/v1/gemini/interrupt',
+      'codex': '/api/v1/codex/interrupt'
+    };
+    return endpoints[cliKey] || '/api/v1/chat/interrupt';
+  };
+
+  // Handle interrupt/stop button click
+  const handleInterrupt = async () => {
+    const sessionId = conversationId;
+    if (!sessionId) {
+      console.warn('[Chat] No active session to interrupt');
+      return;
+    }
+
+    const endpoint = getInterruptEndpoint(selectedModel);
+    console.log(`[Chat] Interrupting session ${sessionId} via ${endpoint}`);
+
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ sessionId })
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        console.log(`[Chat] Session interrupted via ${data.method}`);
+        setIsLoading(false);
+        setStatusEvents([]);
+
+        // Add system message indicating interruption
+        setMessages(prev => [...prev, {
+          id: `system-${Date.now()}`,
+          role: 'system',
+          content: `⏹️ Generation stopped by user`,
+          created_at: Date.now()
+        }]);
+      } else {
+        console.warn(`[Chat] Interrupt failed: ${data.reason}`);
+      }
+    } catch (error) {
+      console.error('[Chat] Interrupt request failed:', error);
+    }
+  };
+
   // Helper: generate title from first message (max 50 chars, word boundary)
   const generateTitle = (message) => {
     if (!message) return 'New Chat';
@@ -221,11 +275,11 @@ function Chat() {
   };
 
   // Auto-rename conversation after first message
-  const autoRenameConversation = async (sessionId, userMessage) => {
-    if (!sessionId || !userMessage) return;
+  const autoRenameConversation = async (conversationIdToRename, userMessage) => {
+    if (!conversationIdToRename || !userMessage) return;
     const newTitle = generateTitle(userMessage);
     try {
-      await fetch(`/api/v1/conversations/${sessionId}`, {
+      await fetch(`/api/v1/conversations/${conversationIdToRename}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -317,42 +371,6 @@ function Chat() {
     fetchSessionsForWorkspace();
   }, [token, workspacePath]);
 
-  // Auto-select first session when workspace sessions load (FIXES P3)
-  // Only on initial load - not when sessions refresh after new conversation
-  useEffect(() => {
-    if (!sessionsGrouped) return;
-
-    // Skip auto-select if we already have a conversation (e.g., after refresh)
-    if (initialLoadDoneRef.current && conversationId) {
-      console.log('[Chat] Skipping auto-select - already have conversation:', conversationId);
-      return;
-    }
-
-    // Find first session across groups: today → yesterday → last7days → last30days → older
-    const groups = ['today', 'yesterday', 'last7days', 'last30days', 'older'];
-    let firstSession = null;
-
-    for (const group of groups) {
-      if (sessionsGrouped[group] && sessionsGrouped[group].length > 0) {
-        firstSession = sessionsGrouped[group][0];
-        break;
-      }
-    }
-
-    if (firstSession && firstSession.id) {
-      console.log('[Chat] Auto-selecting first session:', firstSession.id, firstSession.title);
-      loadSession(firstSession.id);
-    } else {
-      console.log('[Chat] No sessions found in workspace - creating new chat');
-      setConversationId(null);
-      setConversationTitle('New Chat');
-      setMessages([]);
-      setStatusEvents([]);
-    }
-
-    initialLoadDoneRef.current = true;
-  }, [sessionsGrouped]);
-
   // DO NOT auto-create conversation on mount
   // New chat just resets state; sessionId arrives after first message
 
@@ -385,7 +403,8 @@ function Chat() {
       if (loadMore) {
         setMessages(prev => [...msgs, ...prev]);
       } else {
-        setConversationId(data.session?.id || id);
+        setConversationId(data.session?.conversation_id || data.session?.id || id);
+        setSessionId(data.session?.id || id);
         setConversationTitle(data.session?.title || 'Session');
         setMessages(msgs);
         setStatusEvents([]);
@@ -414,9 +433,9 @@ function Chat() {
   };
 
   const handleLoadMore = async () => {
-    if (!conversationId || loadingMore || !pagination.hasMore) return;
+    if (!sessionId || loadingMore || !pagination.hasMore) return;
     setLoadingMore(true);
-    await loadSession(conversationId, { loadMore: true, before: pagination.oldestTimestamp });
+    await loadSession(sessionId, { loadMore: true, before: pagination.oldestTimestamp });
     setLoadingMore(false);
   };
 
@@ -489,10 +508,15 @@ function Chat() {
             if (eventData.type === 'session_created') {
               if (eventData.sessionId) {
                 newSessionId = eventData.sessionId;
-                setConversationId(eventData.sessionId);
+                setSessionId(eventData.sessionId);
                 setConversationTitle('New Chat');
                 setIsBookmarked(false);
                 console.log('[Chat] Session created:', eventData.sessionId);
+              }
+              if (eventData.conversationId) {
+                setConversationId(eventData.conversationId);
+              } else if (eventData.sessionId && !conversationId) {
+                setConversationId(eventData.sessionId);
               }
             } else if (eventData.type === 'message_start') {
               console.log('Message started:', eventData.messageId);
@@ -513,14 +537,22 @@ function Chat() {
               setIsLoading(false);
 
               // Get the session ID from event or captured newSessionId
+              const conversationIdFromEvent = eventData.conversationId || conversationId || newSessionId;
               const sessionIdToUse = eventData.sessionId || newSessionId;
-              if (sessionIdToUse && !conversationId) {
+
+              if (sessionIdToUse) {
+                setSessionId(sessionIdToUse);
+              }
+
+              if (conversationIdFromEvent) {
+                setConversationId(conversationIdFromEvent);
+              } else if (sessionIdToUse && !conversationId) {
                 setConversationId(sessionIdToUse);
               }
 
               // Auto-rename for new conversations
-              if (isNewConversation && sessionIdToUse) {
-                autoRenameConversation(sessionIdToUse, message);
+              if (isNewConversation && (conversationIdFromEvent || conversationId)) {
+                autoRenameConversation(conversationIdFromEvent || conversationId, message);
               }
             } else if (eventData.type === 'error') {
               setMessages(prev => [...prev, {
@@ -564,6 +596,7 @@ function Chat() {
 
   const newChat = () => {
     setConversationId(null);
+    setSessionId(null);
     setConversationTitle('New Chat');
     setMessages([]);
     setStatusEvents([]);
@@ -579,14 +612,16 @@ function Chat() {
     nextWorkspace = normalizePath(nextWorkspace);
     console.log('[Chat] Changing workspace to:', nextWorkspace);
 
-    // Reset initial load flag for new workspace auto-select
-    initialLoadDoneRef.current = false;
-
     // Clear current conversation first
     setMessages([]);
     setSummary(null);
     setConversationId(null);
+    setSessionId(null);
     setSessionsGrouped(null); // Clear sessions to show loading
+    setStatusEvents([]);
+    setConversationTitle('New Chat');
+    setIsBookmarked(false);
+    setPagination({ hasMore: false, oldestTimestamp: null });
 
     // Persist to localStorage
     localStorage.setItem('nexuscli_workspace', nextWorkspace);
@@ -797,7 +832,7 @@ function Chat() {
             />
 
             <div className="input-actions-right">
-              {isSTTSupported && (
+              {isSTTSupported && !isLoading && (
                 <button
                   type="button"
                   className={`icon-btn microphone-btn ${isListening ? 'listening' : ''}`}
@@ -808,15 +843,27 @@ function Chat() {
                   <Icon name={isListening ? 'MicOff' : 'Mic'} size={20} />
                 </button>
               )}
-              <button
-                type="submit"
-                className="send-btn"
-                disabled={(!input.trim() && attachedFiles.length === 0) || isLoading}
-                title="Send message"
-                aria-label="Send message"
-              >
-                <Icon name="ArrowUp" size={20} />
-              </button>
+              {isLoading ? (
+                <button
+                  type="button"
+                  className="stop-btn"
+                  onClick={handleInterrupt}
+                  title="Stop generation (ESC)"
+                  aria-label="Stop generation"
+                >
+                  <Icon name="Square" size={20} />
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  className="send-btn"
+                  disabled={!input.trim() && attachedFiles.length === 0}
+                  title="Send message"
+                  aria-label="Send message"
+                >
+                  <Icon name="ArrowUp" size={20} />
+                </button>
+              )}
             </div>
           </div>
         </form>
