@@ -35,18 +35,17 @@ Web UI wrapper for Claude Code, Codex CLI, and Gemini CLI with voice input suppo
 
 ## Features
 
-- Multi-engine support (Claude, Codex, Gemini)
-- **Session continuity**: stessa engine → resume nativo; cambio engine → nuova sessione con bridge (summary/history) per continuità
-- **Voice input** (OpenAI Whisper STT)
-- **Auto HTTPS** per microfono remoto
+- Multi-engine: Claude, Codex, Gemini
+- Session continuity: same engine = native resume; engine switch = new session with bridged summary/history
+- Voice input (OpenAI Whisper STT)
+- Auto HTTPS for remote microphone
 - Mobile-first responsive UI
 - SSE streaming responses
-- Workspace management (nessun auto-load: scegli tu la sessione)
+- Workspace management (no auto-load; you choose the session)
 - Conversation history
-- Model selector con think mode toggle
-- **Default model configuration** - preferenze modello persistenti
-- **Config API endpoint** - user preferences via REST API
-- **Stop button** - interrompe generazione (v0.7.5)
+- Model selector with think mode toggle
+- Default model configuration via REST API
+- Stop button to interrupt generation
 
 ## Supported Engines
 
@@ -96,7 +95,7 @@ nexuscli start
 
 | Command | Description |
 |---------|-------------|
-| `nexuscli init` | Setup wizard |
+| `nexuscli init` | Setup wizard (creates config, certs, data dir) |
 | `nexuscli start` | Start server (HTTP:41800 + HTTPS:41801) |
 | `nexuscli stop` | Stop server |
 | `nexuscli status` | Show status, ports, and engines |
