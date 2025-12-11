@@ -28,7 +28,7 @@ NexusCLI is a lightweight AI cockpit (Termux-first) to orchestrate Claude Code, 
 
 ---
 
-## Highlights (v0.8.0)
+## Highlights (v0.8.2)
 
 - Multi-engine: Claude, Codex, Gemini
 - Native resume: same engine resumes the session; switching engines uses handoff with summary/history
@@ -36,6 +36,7 @@ NexusCLI is a lightweight AI cockpit (Termux-first) to orchestrate Claude Code, 
 - Session import: on startup it imports native sessions from ~/.claude ~/.codex ~/.gemini; manual endpoint `POST /api/v1/sessions/import`
 - Voice input (Whisper), auto HTTPS for remote microphone
 - Mobile-first UI with SSE streaming and explicit workspace selection
+- Termux: postinstall now installs `ripgrep` and the Claude wrapper auto-patches missing `vendor/ripgrep/arm64-android/rg` to avoid spawn errors on fresh installs
 
 ## Supported Engines
 
