@@ -36,7 +36,7 @@ function Chat() {
   const [pagination, setPagination] = useState({ hasMore: false, oldestTimestamp: null });
   const [loadingMore, setLoadingMore] = useState(false);
   const [attachedFiles, setAttachedFiles] = useState([]);
-  const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
   const textareaRef = useRef(null);
 
   // Speech-to-Text hook
@@ -68,14 +68,21 @@ function Chat() {
     return path.replace(/\/+$/, '');
   };
 
-  // Auto-scroll to bottom
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  // Auto-scroll to bottom - STABLE IMPLEMENTATION
+  const scrollToBottom = (behavior = 'smooth') => {
+    if (messagesContainerRef.current) {
+      const { scrollHeight, clientHeight } = messagesContainerRef.current;
+      messagesContainerRef.current.scrollTo({
+        top: scrollHeight - clientHeight,
+        behavior: behavior
+      });
+    }
   };
 
   useEffect(() => {
-    scrollToBottom();
+    scrollToBottom('smooth');
   }, [messages]);
+
 
   // Auto-resize textarea
   useEffect(() => {
@@ -203,6 +210,19 @@ function Chat() {
       'codex': '/api/v1/codex/interrupt'
     };
     return endpoints[cliKey] || '/api/v1/chat/interrupt';
+  };
+
+  // Helper: check if server is reachable before sending message
+  const checkServerHealth = async () => {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      const res = await fetch('/health', { signal: controller.signal });
+      clearTimeout(timeoutId);
+      return res.ok;
+    } catch {
+      return false;
+    }
   };
 
   // Handle interrupt/stop button click
@@ -464,6 +484,18 @@ function Chat() {
   };
 
   const sendMessage = async (message) => {
+    // Quick health check before sending (non-blocking for UX)
+    const serverOk = await checkServerHealth();
+    if (!serverOk) {
+      setMessages(prev => [...prev, {
+        id: `error-${Date.now()}`,
+        role: 'system',
+        content: '**Server Unreachable**: NexusCLI backend is not responding. Start it with `nexuscli start` or check logs with `nexuscli logs`.',
+        created_at: Date.now()
+      }]);
+      return;
+    }
+
     // conversationId is optional; backend will create session if null
     const convId = conversationId;
     const isNewConversation = !convId; // Track if this is a new conversation
@@ -493,6 +525,13 @@ function Chat() {
     const isCodex = cliKey === 'codex';
     let newSessionId = null; // Track new session ID for auto-rename
 
+    // Create AbortController with 60s timeout for request
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => {
+      console.warn('[Chat] Request timeout after 60s, aborting...');
+      controller.abort();
+    }, 60000);
+
     try {
       const requestBody = {
         conversationId: convId,
@@ -512,8 +551,11 @@ function Chat() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify(requestBody),
+        signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
 
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
@@ -593,11 +635,19 @@ function Chat() {
         }
       }
     } catch (error) {
+      clearTimeout(timeoutId);
       console.error('Failed to send message:', error);
+
+      // Handle timeout/abort specifically
+      const isTimeout = error.name === 'AbortError';
+      const errorMessage = isTimeout
+        ? 'Request timeout (60s). Server may be unresponsive. Check if NexusCLI is running with `nexuscli status`.'
+        : error.message;
+
       setMessages(prev => [...prev, {
         id: `error-${Date.now()}`,
         role: 'assistant',
-        content: `**Error**: ${error.message}`,
+        content: `**Error**: ${errorMessage}`,
         created_at: Date.now()
       }]);
       setIsLoading(false);
@@ -767,8 +817,8 @@ function Chat() {
           )}
         </div>
 
-        {/* Messages Container */}
-        <div className="messages-container">
+                {/* Messages Container */}
+        <div className="messages-container" ref={messagesContainerRef}>
           {summary && <ContextSummary summary={summary} />}
           {messages.length === 0 ? (
             <div className="welcome-screen">
@@ -807,8 +857,8 @@ function Chat() {
               ))}
             </>
           )}
-          <div ref={messagesEndRef} />
         </div>
+
 
         {/* Status Line - Shows tool execution in real-time + working directory */}
         <StatusLine

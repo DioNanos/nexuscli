@@ -110,17 +110,17 @@ program
   .option('-a, --admin', 'Create as admin user')
   .action(usersCommand);
 
+// nexuscli setup-termux
+program
+  .command('setup-termux')
+  .description('Bootstrap Termux: install packages, setup SSH, show connection info')
+  .action(setupTermuxCommand);
+
 // nexuscli uninstall
 program
   .command('uninstall')
   .description('Prepare for uninstallation (optional data removal)')
   .action(uninstallCommand);
-
-// nexuscli setup-termux
-program
-  .command('setup-termux')
-  .description('Bootstrap Termux for remote development (SSH, packages)')
-  .action(setupTermuxCommand);
 
 // Parse arguments
 program.parse();

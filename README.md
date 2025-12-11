@@ -4,12 +4,11 @@
   <img src=".github/header/header.png" width="900" />
 </p>
 
-
 ---
 
 ## Overview
 
-NexusCLI is a lightweight AI cockpit (Termux-first) to orchestrate Claude Code, Codex CLI, and Gemini CLI from the web/terminal, with live interrupt and native session resume.
+NexusCLI is a lightweight, Termux-first AI cockpit to orchestrate Claude Code, Codex CLI, and Gemini CLI from a single web/terminal UI. It supports live interrupts, native session resume, and voice input with HTTPS auto-setup for remote devices.
 
 ---
 
@@ -28,17 +27,23 @@ NexusCLI is a lightweight AI cockpit (Termux-first) to orchestrate Claude Code, 
 
 ---
 
-## Highlights (v0.8.6)
+## Highlights (v0.8.7)
 
-- Multi-engine: Claude, Codex, Gemini
-- Native resume: same engine resumes the session; switching engines uses handoff with summary/history
-- Reliable stop: stop button interrupts the active process (Claude/Codex/Gemini)
-- Session import: on startup it imports native sessions from ~/.claude ~/.codex ~/.gemini; manual endpoint `POST /api/v1/sessions/import`
-- Voice input (Whisper), auto HTTPS for remote microphone
-- Mobile-first UI with SSE streaming and explicit workspace selection
-- Termux: postinstall installs `ripgrep`; Claude wrapper auto-patches missing `vendor/ripgrep/arm64-android/rg`; Codex parser exposes threadId to prevent crash on exit
-- UI: modernized floating input, circular send/stop, updated chat bubbles/icons and markdown rendering
-- Gemini fallback: clearly surfaces missing `pty.node` and prevents empty replies; input bar stays centered even with image attachments
+- Stable mobile layout: `100dvh` viewport, overscroll disabled, and a pinned input bar with safe-area padding for Android browsers.
+- Resilient chats: pre-flight `/health` ping plus 60s client-side timeout with clear error messaging to avoid frozen requests.
+- Safer shell actions: Gemini wrapper flags dangerous commands; Termux PTY adapter now supports ESC-based interrupts for clean stops.
+- Native resume & engine bridge: resume existing Claude/Codex/Gemini sessions; engine switches bridge context with summaries/history.
+- Voice input ready: Whisper STT + auto HTTPS for remote microphone access; stop button reliably interrupts Claude/Codex/Gemini.
+
+## Features
+
+- Multi-engine support (Claude, Codex, Gemini)
+- Session continuity with explicit workspace selection
+- SSE streaming responses
+- Model selector with think-mode toggle and default model preference
+- Workspace management and conversation history
+- Config API endpoint for user preferences
+- Stop/Interrupt button across engines
 
 ## Supported Engines
 
