@@ -230,7 +230,8 @@
 /* Input Container */
 .input-container {
   display: flex;
-  align-items: flex-end;
+  flex-direction: column; /* Stack attachments above the input row */
+  align-items: stretch;
   gap: 0.5rem;
   padding: 0.75rem 1rem;
   padding-bottom: calc(0.75rem + env(safe-area-inset-bottom)); /* Space for Android navigation bar */
@@ -533,6 +534,7 @@
   background: #252525;
   border-radius: 8px 8px 0 0;
   margin-bottom: -4px;
+  width: 100%;
 }
 
 .attached-file-item {
@@ -643,4 +645,3 @@
     border-radius: 24px !important;
   }
 }
-
