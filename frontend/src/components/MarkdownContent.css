@@ -72,6 +72,34 @@
   align-items: center;
 }
 
+/* Copy Button - ChatGPT Style */
+.markdown-copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: #858585;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.markdown-copy-btn:hover {
+  background: #3e3e42;
+  color: #e0e0e0;
+}
+
+.markdown-copy-btn.copied {
+  color: #4ade80;
+}
+
+.markdown-copy-btn .copy-text {
+  font-weight: 500;
+}
+
 .markdown-code-language {
   color: #858585;
   font-size: 11px;
