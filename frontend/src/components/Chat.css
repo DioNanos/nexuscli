@@ -272,23 +272,82 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #00ff9f;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   border: none;
-  border-radius: 8px;
-  color: #000;
+  border-radius: 50%;
+  color: #fff;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 0;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 }
 
 .send-btn:hover:not(:disabled) {
-  background: #00e68a;
-  transform: scale(1.05);
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.send-btn:active:not(:disabled) {
+  transform: scale(0.95);
 }
 
 .send-btn:disabled {
   opacity: 0.3;
   cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Stop Button - Modern ChatGPT-style */
+.stop-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  border: 2px solid #444;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.stop-btn::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #ef4444, #f97316, #ef4444);
+  animation: rotate-border 2s linear infinite;
+  z-index: -1;
+}
+
+.stop-btn::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  z-index: -1;
+}
+
+@keyframes rotate-border {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.stop-btn:hover {
+  background: linear-gradient(135deg, #2d2d2d 0%, #3d3d3d 100%);
+  transform: scale(1.1);
+  border-color: #ef4444;
+}
+
+.stop-btn:active {
+  transform: scale(0.95);
 }
 
 /* Directory Selector - Now in StatusLine (above input bar) */
@@ -540,3 +599,48 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+/* Overrides for Modern Floating Input - ChatGPT Style */
+.input-container {
+  background: linear-gradient(180deg, #2a2a2a 0%, #1f1f1f 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 24px !important;
+  width: 85% !important;
+  max-width: 720px !important;
+  margin: 0 auto 1rem auto !important;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 2px 12px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  padding: 0.5rem 0.75rem !important;
+  transition: all 0.3s ease;
+}
+
+.input-container:focus-within {
+  border-color: rgba(16, 185, 129, 0.3) !important;
+  box-shadow:
+    0 0 0 1px rgba(16, 185, 129, 0.1),
+    0 2px 16px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.message-textarea {
+  background: transparent !important;
+  border: none !important;
+  padding: 0.5rem !important;
+}
+
+.message-textarea:focus {
+  border-color: transparent !important;
+  outline: none;
+}
+
+/* Mobile Tweak for Float */
+@media (max-width: 768px) {
+  .input-container {
+    width: 95% !important;
+    margin-bottom: 1rem !important;
+    border-radius: 24px !important;
+  }
+}
+
