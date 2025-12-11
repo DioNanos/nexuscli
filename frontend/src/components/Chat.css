@@ -2,8 +2,8 @@
 
 .chat-container {
   display: flex;
-  height: 100vh; /* Standard viewport - more reliable on Android */
-  max-height: 100vh;
+  height: 100vh; height: 100dvh;
+  max-height: 100dvh;
   max-width: 100%;
   margin: 0 auto;
   background: #1a1a1a;
@@ -640,8 +640,14 @@
 /* Mobile Tweak for Float */
 @media (max-width: 768px) {
   .input-container {
-    width: 95% !important;
-    margin-bottom: 1rem !important;
-    border-radius: 24px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-bottom: 0 !important;
+    border-radius: 0 !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom)) !important;
   }
 }
+
