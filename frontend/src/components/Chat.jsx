@@ -248,14 +248,38 @@ function Chat() {
     }
   };
 
-  // Helper: generate title from first message (max 50 chars, word boundary)
+  // Helper: generate title from first message (smart extraction)
   const generateTitle = (message) => {
     if (!message) return 'New Chat';
-    const cleaned = message.replace(/\s+/g, ' ').trim();
-    if (cleaned.length <= 50) return cleaned;
-    const truncated = cleaned.substring(0, 50);
+
+    // Clean up message
+    let cleaned = message.replace(/\s+/g, ' ').trim();
+
+    // Remove common prefixes that don't add meaning
+    const prefixesToRemove = [
+      /^(hey|hi|hello|ciao|please|can you|could you|would you|i want to|i need to|help me)\s+/i,
+      /^(fammi|aiutami a|vorrei|puoi)\s+/i
+    ];
+    for (const prefix of prefixesToRemove) {
+      cleaned = cleaned.replace(prefix, '');
+    }
+
+    // Remove file references like [Attached: /path/to/file]
+    cleaned = cleaned.replace(/\[Attached:[^\]]+\]\s*/g, '').trim();
+
+    // If still too short, use original
+    if (cleaned.length < 5) {
+      cleaned = message.replace(/\s+/g, ' ').trim();
+    }
+
+    // Capitalize first letter
+    cleaned = cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+
+    // Max 60 chars, break at word boundary
+    if (cleaned.length <= 60) return cleaned;
+    const truncated = cleaned.substring(0, 60);
     const lastSpace = truncated.lastIndexOf(' ');
-    return lastSpace > 20 ? truncated.substring(0, lastSpace) + '...' : truncated + '...';
+    return lastSpace > 25 ? truncated.substring(0, lastSpace) + '...' : truncated + '...';
   };
 
   // Refresh sessions for current workspace
@@ -528,6 +552,8 @@ function Chat() {
                 role: 'assistant',
                 content: eventData.content,
                 created_at: Date.now(),
+                engine: cliKey, // Track which CLI engine was used
+                model: selectedModel,
                 metadata: {
                   usage: eventData.usage
                 }

@@ -1,8 +1,10 @@
+import { useState, useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeKatex from 'rehype-katex';
+import { Copy, Check } from 'lucide-react';
 import 'highlight.js/styles/atom-one-dark.css';
 import 'katex/dist/katex.min.css';
 import './MarkdownContent.css';
@@ -15,7 +17,50 @@ import './MarkdownContent.css';
  * - Code block syntax highlighting (190+ languages)
  * - LaTeX/Math equation rendering
  * - Custom components for code, links, images
+ * - Copy button on code blocks (ChatGPT-style)
  */
+
+/**
+ * CodeBlock - Code block with copy button
+ */
+function CodeBlock({ className, children }) {
+  const [copied, setCopied] = useState(false);
+  const match = /language-(\w+)/.exec(className || '');
+  const language = match ? match[1] : 'text';
+
+  const handleCopy = useCallback(async () => {
+    const code = String(children).replace(/\n$/, '');
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  }, [children]);
+
+  return (
+    <pre className="markdown-code-block">
+      <div className="markdown-code-header">
+        <span className="markdown-code-language">{language}</span>
+        <button
+          type="button"
+          className={`markdown-copy-btn ${copied ? 'copied' : ''}`}
+          onClick={handleCopy}
+          title={copied ? 'Copied!' : 'Copy code'}
+          aria-label={copied ? 'Copied!' : 'Copy code'}
+        >
+          {copied ? <Check size={14} /> : <Copy size={14} />}
+          <span className="copy-text">{copied ? 'Copied!' : 'Copy'}</span>
+        </button>
+      </div>
+      <code className={className}>
+        {children}
+      </code>
+    </pre>
+  );
+}
+
 function MarkdownContent({ content = '' }) {
   if (!content) {
     return <div className="markdown-empty">No content</div>;
@@ -28,9 +73,6 @@ function MarkdownContent({ content = '' }) {
         rehypePlugins={[rehypeHighlight, rehypeKatex]}
         components={{
           code({ node, inline, className, children, ...props }) {
-            const match = /language-(\w+)/.exec(className || '');
-            const language = match ? match[1] : 'text';
-
             if (inline) {
               // Inline code (backticks)
               return (
@@ -40,17 +82,8 @@ function MarkdownContent({ content = '' }) {
               );
             }
 
-            // Code block (```...```)
-            return (
-              <pre className="markdown-code-block">
-                <div className="markdown-code-header">
-                  <span className="markdown-code-language">{language}</span>
-                </div>
-                <code className={className} {...props}>
-                  {children}
-                </code>
-              </pre>
-            );
+            // Code block (```...```) - with copy button
+            return <CodeBlock className={className}>{children}</CodeBlock>;
           },
 
           img({ node, src, alt, ...props }) {

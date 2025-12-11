@@ -5,11 +5,11 @@ import './WorkspaceButton.css';
 export default function WorkspaceButton({ currentWorkspace, onWorkspaceChange, compact = false }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Mock workspaces - will call GET /api/v1/workspaces
+  // Mock workspaces - in futuro chiamare GET /api/v1/workspaces
   const workspaces = [
-    { path: '/home/user/projects/myapp', sessionCount: 12 },
-    { path: '/home/user/projects/backend', sessionCount: 8 },
-    { path: '/data/data/com.termux/files/home/Dev', sessionCount: 5 }
+    { path: '/var/www/cli.wellanet.dev', sessionCount: 25 },
+    { path: '/var/www/chat.mmmbuto.com', sessionCount: 108 },
+    { path: '/home/dag/projects/nexuscore', sessionCount: 42 }
   ];
 
   const handleSelectWorkspace = (workspace) => {
