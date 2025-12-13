@@ -27,8 +27,10 @@ NexusCLI is a lightweight, Termux-first AI cockpit to orchestrate Claude Code, C
 
 ---
 
-## Highlights (v0.8.7)
+## Highlights (v0.8.8)
 
+- **GPT-5.2 Support**: Added full support for OpenAI's `gpt-5.2` model with configurable reasoning efforts (low, medium, high, xhigh).
+- **Codex Updates**: Default reasoning effort for `gpt-5.1` and `gpt-5.2` is now set to `xhigh`.
 - Stable mobile layout: `100dvh` viewport, overscroll disabled, and a pinned input bar with safe-area padding for Android browsers.
 - Resilient chats: pre-flight `/health` ping plus 60s client-side timeout with clear error messaging to avoid frozen requests.
 - Safer shell actions: Gemini wrapper flags dangerous commands; Termux PTY adapter now supports ESC-based interrupts for clean stops.
