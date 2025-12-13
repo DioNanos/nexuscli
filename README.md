@@ -27,15 +27,13 @@ NexusCLI is a lightweight, Termux-first AI cockpit to orchestrate Claude Code, C
 
 ---
 
-## Highlights (v0.8.8)
+## Highlights (v0.8.9)
 
-- **GPT-5.2 Support**: Added full support for OpenAI's `gpt-5.2` model with configurable reasoning efforts (low, medium, high, xhigh).
-- **Codex Updates**: Default reasoning effort for `gpt-5.1` and `gpt-5.2` is now set to `xhigh`.
-- Stable mobile layout: `100dvh` viewport, overscroll disabled, and a pinned input bar with safe-area padding for Android browsers.
-- Resilient chats: pre-flight `/health` ping plus 60s client-side timeout with clear error messaging to avoid frozen requests.
-- Safer shell actions: Gemini wrapper flags dangerous commands; Termux PTY adapter now supports ESC-based interrupts for clean stops.
-- Native resume & engine bridge: resume existing Claude/Codex/Gemini sessions; engine switches bridge context with summaries/history.
-- Voice input ready: Whisper STT + auto HTTPS for remote microphone access; stop button reliably interrupts Claude/Codex/Gemini.
+- Hardened update checks: npm registry fetch uses 3s wall-clock timeout + semver coercion (prefissi `v` inclusi), git path usa upstream reale (`@{u}`) e segnala update solo se il branch è dietro.
+- Offline-friendly output: CLI `nexuscli status` mantiene box puliti e silenzia errori in assenza di rete; API `/api/v1/system/version` rispetta lo shape anche in fallback.
+- Stable mobile layout: `100dvh` viewport, overscroll disabled, pinned input bar con safe-area padding per Android browsers.
+- Resilient chats: pre-flight `/health` ping + 60s client timeout con messaggistica chiara per evitare freeze.
+- Voice input ready: Whisper STT + auto HTTPS per microfono remoto; stop button interrompe Claude/Codex/Gemini in modo affidabile.
 
 ## Features
 
