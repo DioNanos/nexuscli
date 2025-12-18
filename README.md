@@ -27,13 +27,14 @@ NexusCLI is a lightweight, Termux-first AI cockpit to orchestrate Claude Code, C
 
 ---
 
-## Highlights (v0.8.9)
+<<<<<<< HEAD
+## Highlights (v0.9.0)
 
-- Hardened update checks: npm registry fetch uses 3s wall-clock timeout + semver coercion (prefissi `v` inclusi), git path usa upstream reale (`@{u}`) e segnala update solo se il branch è dietro.
-- Offline-friendly output: CLI `nexuscli status` mantiene box puliti e silenzia errori in assenza di rete; API `/api/v1/system/version` rispetta lo shape anche in fallback.
-- Stable mobile layout: `100dvh` viewport, overscroll disabled, pinned input bar con safe-area padding per Android browsers.
-- Resilient chats: pre-flight `/health` ping + 60s client timeout con messaggistica chiara per evitare freeze.
-- Voice input ready: Whisper STT + auto HTTPS per microfono remoto; stop button interrompe Claude/Codex/Gemini in modo affidabile.
+- Stable mobile layout: `100dvh` viewport, overscroll disabled, and a pinned input bar with safe-area padding for Android browsers.
+- Resilient chats: pre-flight `/health` ping plus 60s client-side timeout with clear error messaging to avoid frozen requests.
+- Safer shell actions: Gemini wrapper flags dangerous commands; Termux PTY adapter now supports ESC-based interrupts for clean stops.
+- Native resume & engine bridge: resume existing Claude/Codex/Gemini sessions; engine switches bridge context with summaries/history; Gemini now includes Gemini 3 Flash preview (via gemini-cli-termux testing channel).
+- Voice input ready: Whisper STT + auto HTTPS for remote microphone access; stop button reliably interrupts Claude/Codex/Gemini.
 
 ## Features
 
@@ -50,8 +51,8 @@ NexusCLI is a lightweight, Termux-first AI cockpit to orchestrate Claude Code, C
 | Engine | Models | Provider |
 |--------|--------|----------|
 | **Claude** | Opus 4.5, Sonnet 4.5, Haiku 4.5 | Anthropic |
-| **Codex** | GPT-5.2, GPT-5.1, GPT-5.1 Codex (Mini/Max) | OpenAI |
-| **Gemini** | Gemini 3 Pro Preview | Google |
+| **Codex** | GPT-5.1, GPT-5.1 Codex (Mini/Max) | OpenAI |
+| **Gemini** | Gemini 3 Pro Preview, Gemini 3 Flash Preview | Google |
 
 ---
 
