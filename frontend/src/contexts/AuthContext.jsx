@@ -2,6 +2,9 @@ import { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext(null);
 
+// Token expiry: 7 days
+const TOKEN_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000;
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
@@ -11,6 +14,17 @@ export function AuthProvider({ children }) {
     // Check for existing token on mount
     const storedToken = localStorage.getItem('nexuscli_token');
     const storedUser = localStorage.getItem('nexuscli_user');
+    const tokenExpiry = localStorage.getItem('nexuscli_token_expiry');
+
+    // Check if token has expired
+    if (tokenExpiry && Date.now() > parseInt(tokenExpiry, 10)) {
+      console.log('[Auth] Token expired, clearing session');
+      localStorage.removeItem('nexuscli_token');
+      localStorage.removeItem('nexuscli_user');
+      localStorage.removeItem('nexuscli_token_expiry');
+      setLoading(false);
+      return;
+    }
 
     if (storedToken && storedUser) {
       setToken(storedToken);
@@ -35,6 +49,7 @@ export function AuthProvider({ children }) {
 
     localStorage.setItem('nexuscli_token', data.token);
     localStorage.setItem('nexuscli_user', JSON.stringify(data.user));
+    localStorage.setItem('nexuscli_token_expiry', String(Date.now() + TOKEN_EXPIRY_MS));
 
     setToken(data.token);
     setUser(data.user);
@@ -45,6 +60,7 @@ export function AuthProvider({ children }) {
   const logout = () => {
     localStorage.removeItem('nexuscli_token');
     localStorage.removeItem('nexuscli_user');
+    localStorage.removeItem('nexuscli_token_expiry');
     setToken(null);
     setUser(null);
   };
