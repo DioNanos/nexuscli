@@ -27,8 +27,9 @@ NexusCLI is a lightweight, Termux-first AI cockpit to orchestrate Claude Code, C
 
 ---
 
-## Highlights (v0.9.1)
+## Highlights (v0.9.2)
 
+- Docs: add DeepSeek + GLM-4.6 models and Z.ai key configuration.
 - Stable mobile layout: `100dvh` viewport, overscroll disabled, and a pinned input bar with safe-area padding for Android browsers.
 - Resilient chats: pre-flight `/health` ping plus 60s client-side timeout with clear error messaging to avoid frozen requests.
 - Safer shell actions: Gemini wrapper flags dangerous commands; Termux PTY adapter now supports ESC-based interrupts for clean stops.
@@ -50,7 +51,8 @@ NexusCLI is a lightweight, Termux-first AI cockpit to orchestrate Claude Code, C
 
 | Engine | Models | Provider |
 |--------|--------|----------|
-| **Claude** | Opus 4.5, Sonnet 4.5, Haiku 4.5 | Anthropic |
+| **Claude (native)** | Opus 4.5, Sonnet 4.5, Haiku 4.5 | Anthropic |
+| **Claude-compatible** | DeepSeek (deepseek-*), GLM-4.6 | DeepSeek, Z.ai |
 | **Codex** | GPT-5.1, GPT-5.1 Codex (Mini/Max) | OpenAI |
 | **Gemini** | Gemini 3 Pro Preview, Gemini 3 Flash Preview | Google |
 
@@ -114,6 +116,7 @@ Configure API keys for additional providers:
 ```bash
 nexuscli api list                     # List configured keys
 nexuscli api set deepseek <key>       # DeepSeek models
+nexuscli api set zai <key>            # GLM-4.6 (Z.ai Anthropic-compatible)
 nexuscli api set openai <key>         # Voice input (Whisper STT)
 nexuscli api set openrouter <key>     # Future: Multi-provider gateway
 nexuscli api delete <provider>        # Remove key
