@@ -27,15 +27,12 @@ NexusCLI is a lightweight, Termux-first AI cockpit to orchestrate Claude Code, C
 
 ---
 
-## Highlights (v0.9.2)
+## Highlights (v0.9.3)
 
-- Docs: add DeepSeek + GLM-4.6 models and Z.ai key configuration.
-- Stable mobile layout: `100dvh` viewport, overscroll disabled, and a pinned input bar with safe-area padding for Android browsers.
-- Resilient chats: pre-flight `/health` ping plus 60s client-side timeout with clear error messaging to avoid frozen requests.
-- Safer shell actions: Gemini wrapper flags dangerous commands; Termux PTY adapter now supports ESC-based interrupts for clean stops.
-- Termux Claude fix: close stdin in `--print` mode when non‑TTY to prevent hangs (fixes GLM‑4.6/DeepSeek “Processing request”).
-- Native resume & engine bridge: resume existing Claude/Codex/Gemini sessions; engine switches bridge context with summaries/history; Gemini now includes Gemini 3 Flash preview (via gemini-cli-termux testing channel).
-- Voice input ready: Whisper STT + auto HTTPS for remote microphone access; stop button reliably interrupts Claude/Codex/Gemini.
+- Fix: sanitize Termux workspace paths (auto-correct `/data/data/com/termux/...`), preventing Claude spawn ENOENT and stalled GLM-4.6/DeepSeek runs.
+- Workspaces API now filters/merges invalid paths so the UI dropdown stays clean.
+- Session importer reads `cwd` from Claude session files when available (more accurate workspace mapping).
+- Stable mobile layout, resilient chats, and safe interrupts retained from previous releases.
 
 ## Features
 
