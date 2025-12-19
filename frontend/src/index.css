@@ -10,7 +10,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
   min-height: 100vh;
   /* Mobile optimizations */
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
