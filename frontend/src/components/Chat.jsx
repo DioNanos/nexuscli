@@ -5,7 +5,7 @@ import useAutoSTT from '../hooks/useAutoSTT';
 import Message from './Message';
 import StatusLine from './StatusLine';
 import ModelSelector from './ModelSelector';
-import Sidebar from './Sidebar';
+import Sidebar, { invalidateConversationsCache } from './Sidebar';
 import AttachMenu from './AttachMenu';
 import Icon from './Icon';
 import ContextSummary from './ContextSummary';
@@ -578,6 +578,8 @@ function Chat() {
                 setConversationTitle('New Chat');
                 setIsBookmarked(false);
                 console.log('[Chat] Session created:', eventData.sessionId);
+                // Invalidate sidebar cache so new chat appears immediately
+                invalidateConversationsCache();
               }
               if (eventData.conversationId) {
                 setConversationId(eventData.conversationId);
