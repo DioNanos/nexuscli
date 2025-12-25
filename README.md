@@ -57,7 +57,7 @@ NexusCLI is a lightweight, Termux-first AI cockpit to orchestrate Claude Code, C
 |--------|--------|----------|
 | **Claude (native)** | Opus 4.5, Sonnet 4.5, Haiku 4.5 | Anthropic |
 | **Claude-compatible** | DeepSeek (deepseek-*), GLM-4.6 | DeepSeek, Z.ai |
-| **Codex** | GPT-5.1, GPT-5.1 Codex (Mini/Max) | OpenAI |
+| **Codex** | GPT-5.2 Codex, GPT-5.2, GPT-5.1 Codex (Mini/Max), GPT-5.1 | OpenAI |
 | **Gemini** | Gemini 3 Pro Preview, Gemini 3 Flash Preview | Google |
 
 ---
