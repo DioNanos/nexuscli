@@ -27,12 +27,18 @@ NexusCLI is a lightweight, Termux-first AI cockpit to orchestrate Claude Code, C
 
 ---
 
-## Highlights (v0.9.3)
+## Highlights (v0.9.4)
+
+- **Dark/Light Theme**: Toggle between themes via UserMenu (persisted in localStorage)
+- **Rate Limiting**: Chat endpoints now protected (10 req/min per user)
+- **Architecture Docs**: New `docs/ARCHITECTURE.md` with system diagrams
+- CSS refactored to use CSS variables for theming support
+
+### v0.9.3
 
 - Fix: sanitize Termux workspace paths (auto-correct `/data/data/com/termux/...`), preventing Claude spawn ENOENT and stalled GLM-4.6/DeepSeek runs.
 - Workspaces API now filters/merges invalid paths so the UI dropdown stays clean.
 - Session importer reads `cwd` from Claude session files when available (more accurate workspace mapping).
-- Stable mobile layout, resilient chats, and safe interrupts retained from previous releases.
 
 ## Features
 
@@ -43,6 +49,8 @@ NexusCLI is a lightweight, Termux-first AI cockpit to orchestrate Claude Code, C
 - Workspace management and conversation history
 - Config API endpoint for user preferences
 - Stop/Interrupt button across engines
+- Dark/Light theme toggle with localStorage persistence
+- Rate limiting on chat endpoints (10 req/min per user)
 
 ## Supported Engines
 
