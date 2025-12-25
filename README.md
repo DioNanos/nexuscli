@@ -27,7 +27,12 @@ NexusCLI is a lightweight, Termux-first AI cockpit to orchestrate Claude Code, C
 
 ---
 
-## Highlights (v0.9.4)
+## Highlights (v0.9.5)
+
+- **GPT-5.2 Codex**: Added latest frontier agentic coding model as default
+- Updated Codex model catalog to match latest OpenAI CLI
+
+### v0.9.4
 
 - **Dark/Light Theme**: Toggle between themes via UserMenu (persisted in localStorage)
 - **Rate Limiting**: Chat endpoints now protected (10 req/min per user)

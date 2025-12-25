@@ -1,7 +1,7 @@
 # NexusCLI API Reference
 
 Base URL: `http://localhost:41800` / `https://localhost:41801`
-Version: `0.9.4`
+Version: `0.9.5`
 
 ## Authentication
 
@@ -213,7 +213,7 @@ Response:
 {
   "status": "ok",
   "service": "nexuscli-backend",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "engines": ["claude", "codex", "gemini"],
   "port": 41800
 }
