@@ -1,9 +1,24 @@
 # Bug Report: GLM-4.6 e DeepSeek non funzionano in NexusCLI
 
+## Status: ✅ RESOLVED (v0.9.3)
+
 ## Data
 2025-12-19
 
-## Issue
+## Risolto
+2025-12-25
+
+## Causa Root
+Il problema era causato da path Termux malformati (`/data/data/com/termux/...` invece di `/data/data/com.termux/...`) che impedivano lo spawn corretto del processo CLI.
+
+## Fix Applicato
+- v0.9.3: `resolveWorkspacePath()` normalizza automaticamente i path Termux
+- I path vengono corretti prima dello spawn del processo
+- Timeout dinamici estesi per modelli lenti (GLM: 60min, DeepSeek: 15min)
+
+---
+
+## Issue Originale (Archivio)
 I modelli alternativi (GLM-4.6 da Z.ai e DeepSeek) rimangono in "Processing request" senza produrre output.
 
 ## Analisi
