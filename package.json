@@ -1,6 +1,6 @@
 {
   "name": "@mmmbuto/nexuscli",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "description": "NexusCLI - TRI CLI Control Plane (Claude/Codex/Gemini)",
   "main": "lib/server/server.js",
   "bin": {
