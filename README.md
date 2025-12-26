@@ -27,7 +27,13 @@ NexusCLI is a lightweight, Termux-first AI cockpit to orchestrate Claude Code, C
 
 ---
 
-## Highlights (v0.9.5)
+## Highlights (v0.9.6)
+
+- **Jobs Runner Restored**: `jobs` route works again after cleanup regression
+- **Termux-Safe Execution**: no hardcoded `/bin` or `/usr/bin` paths for job tools
+- **Cleaner Errors**: job SSE errors now display correctly in UI
+
+### v0.9.5
 
 - **GPT-5.2 Codex**: Added latest frontier agentic coding model as default
 - Updated Codex model catalog to match latest OpenAI CLI

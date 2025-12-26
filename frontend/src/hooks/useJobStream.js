@@ -56,7 +56,7 @@ export function useJobStream(jobId) {
 
           case 'error':
             // Error occurred
-            setError(data.message || 'Unknown error');
+            setError(data.message || data.error || 'Unknown error');
             setStatus(prev => ({ ...prev, state: 'failed' }));
             eventSource.close();
             break;
