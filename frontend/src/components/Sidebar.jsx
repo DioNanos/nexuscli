@@ -57,6 +57,9 @@ export default function Sidebar({
     if (normalized.includes('gemini') || normalized.includes('google')) {
       return { icon: 'Sparkles', color: '#4285F4', className: 'gemini', label: 'Gemini' };
     }
+    if (normalized.includes('qwen')) {
+      return { icon: 'Cpu', color: '#D32F2F', className: 'qwen', label: 'QWEN' };
+    }
     return { icon: 'Terminal', color: '#FF6B35', className: 'claude', label: 'Claude' };
   };
 

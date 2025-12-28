@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.9.7-termux] - 2025-12-28
+### Added
+- QWEN engine integration (Qwen Code CLI) with SSE streaming.
+- QWEN models in catalog: `coder-model`, `vision-model`.
+- QWEN session import + resume support.
+### Changed
+- Statusbar now reflects QWEN tool activity in real time (stream-json parsing).
+
 ## [0.9.6] - 2025-12-26
 ### Fixed
 - Restore Jobs CLI wrapper and Termux PTY adapter removed during cleanup.
