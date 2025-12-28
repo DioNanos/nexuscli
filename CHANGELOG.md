@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.9.7004-termux] - 2025-12-28
+### Fixed
+- Force Qwen model selection so `vision-model` is honored for image prompts.
+- Parse Qwen stream-json tool events to keep the statusbar live.
+- Improve light theme contrast and update mobile statusbar theme colors.
+
 ## [0.9.7-termux] - 2025-12-28
 ### Added
 - QWEN engine integration (Qwen Code CLI) with SSE streaming.
