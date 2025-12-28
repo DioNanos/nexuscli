@@ -8,7 +8,7 @@
 
 ## Overview
 
-NexusCLI is a lightweight, Termux-first AI cockpit to orchestrate Claude Code, Codex CLI, Gemini CLI, and Qwen Code CLI from a single web/terminal UI. It supports live interrupts, native session resume, and voice input with HTTPS auto-setup for remote devices.
+NexusCLI is a lightweight, Termux-first AI cockpit that orchestrates Claude Code, Codex CLI, Gemini CLI, and Qwen Code CLI from a single web/terminal UI. It supports live streaming, interrupts, session resume, workspace isolation, and remote voice input with auto HTTPS setup.
 
 ---
 
@@ -29,39 +29,28 @@ NexusCLI is a lightweight, Termux-first AI cockpit to orchestrate Claude Code, C
 
 ## Highlights (v0.9.7004-termux)
 
-- **QWEN Vision Fix**: `vision-model` now correctly selected for image prompts
+- **QWEN CLI**: Integrated Qwen Code CLI with `coder-model` and `vision-model`
 - **Statusbar Realtime**: Qwen tool events streamed live in the UI
-- **Light Theme**: Improved contrast + proper statusbar color on mobile
+- **Light Theme**: Higher contrast + correct mobile statusbar colors
 
-### v0.9.6
+### Stable (v0.9.6)
 
-- **Jobs Runner Restored**: `jobs` route works again after cleanup regression
-- **Termux-Safe Execution**: no hardcoded `/bin` or `/usr/bin` paths for job tools
-- **Cleaner Errors**: job SSE errors now display correctly in UI
-
-### v0.9.5
-
-- **GPT-5.2 Codex**: Added latest frontier agentic coding model as default
-- Updated Codex model catalog to match latest OpenAI CLI
-
-### v0.9.4
-
-- **Dark/Light Theme**: Toggle between themes via UserMenu (persisted in localStorage)
-- **Rate Limiting**: Chat endpoints now protected (10 req/min per user)
-- **Architecture Docs**: New `docs/ARCHITECTURE.md` with system diagrams
-- CSS refactored to use CSS variables for theming support
+- Jobs runner restored with Termux-safe execution
+- Cleaner job SSE errors in UI
 
 ## Features
 
-- Multi-engine support (Claude, Codex, Gemini, Qwen)
-- Session continuity with explicit workspace selection
-- SSE streaming responses
-- Model selector with think-mode toggle and default model preference
-- Workspace management and conversation history
-- Config API endpoint for user preferences
-- Stop/Interrupt button across engines
-- Dark/Light theme toggle with localStorage persistence
-- Rate limiting on chat endpoints (10 req/min per user)
+- Multi-engine orchestration (Claude, Codex, Gemini, Qwen)
+- SSE streaming with realtime tool statusbar
+- Interrupt/stop per engine
+- Session resume + native session import across engines
+- Workspace isolation, switching, and history
+- File & image attachments (vision models supported)
+- Model selector (think mode + reasoning levels where available)
+- Voice input (browser STT, optional Whisper via OpenAI key)
+- Conversation search + pin/bookmark
+- Built-in jobs runner API for shell tasks
+- Config API + rate limiting on chat endpoints
 
 ## Supported Engines
 
@@ -88,11 +77,11 @@ npm install -g github:DioNanos/nexuscli
 ### Release Channels
 
 ```bash
+# Latest (default)
+npm install -g @mmmbuto/nexuscli
+
 # Stable channel (pinned)
 npm install -g @mmmbuto/nexuscli@stable
-
-# Testing channel
-npm install -g @mmmbuto/nexuscli@testing
 ```
 
 ## Setup
@@ -131,8 +120,10 @@ nexuscli start
 | `nexuscli workspaces` | Manage workspaces |
 | `nexuscli model` | Default model |
 | `nexuscli api` | Additional API keys (e.g., Whisper) |
+| `nexuscli logs` | View server logs |
 | `nexuscli users` | Users |
-| `POST /api/v1/sessions/import` | Import native sessions (admin) |
+| `nexuscli setup-termux` | Termux helpers (services, paths) |
+| `nexuscli uninstall` | Remove NexusCLI |
 
 ---
 
@@ -202,6 +193,9 @@ It is a **research and learning tool**.
 | `POST /api/v1/qwen/interrupt` | Qwen | Stop running generation |
 | `GET /api/v1/models` | All | List available models |
 | `GET /api/v1/config` | - | Get user preferences (default model) |
+| `POST /api/v1/sessions/import` | - | Import native sessions (admin) |
+| `POST /api/v1/jobs` | - | Run a background job (SSE stream) |
+| `GET /api/v1/workspaces` | - | List workspaces from sessions |
 | `GET /health` | - | Health check |
 
 ---
