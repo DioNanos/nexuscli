@@ -7,18 +7,18 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0.75rem;
-  background: #2a2a2a;
-  border: 1px solid #3a3a3a;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-hover);
   border-radius: 8px;
-  color: #e0e0e0;
+  color: var(--text-primary);
   cursor: pointer;
   transition: all 0.2s;
   font-size: 0.85rem;
 }
 
 .workspace-button:hover {
-  background: #333;
-  border-color: #4a4a4a;
+  background: var(--bg-hover);
+  border-color: var(--scrollbar-hover);
 }
 
 .workspace-button.compact {
@@ -49,8 +49,8 @@
   min-width: 300px;
   max-height: 400px;
   overflow-y: auto;
-  background: #2a2a2a;
-  border: 1px solid #3a3a3a;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-hover);
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   z-index: 1000;
@@ -64,8 +64,8 @@
   padding: 0.75rem 1rem;
   background: none;
   border: none;
-  border-bottom: 1px solid #333;
-  color: #e0e0e0;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-primary);
   cursor: pointer;
   text-align: left;
   transition: background 0.2s;
@@ -76,12 +76,12 @@
 }
 
 .workspace-item:hover {
-  background: #333;
+  background: var(--bg-hover);
 }
 
 .workspace-item.active {
-  background: rgba(0, 255, 159, 0.1);
-  border-left: 3px solid #00ff9f;
+  background: var(--accent-glow);
+  border-left: 3px solid var(--accent-primary);
 }
 
 .workspace-info {
@@ -98,6 +98,6 @@
 
 .workspace-meta {
   font-size: 0.75rem;
-  color: #666;
+  color: var(--text-muted);
   margin-top: 0.25rem;
 }
