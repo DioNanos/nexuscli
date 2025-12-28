@@ -1,7 +1,7 @@
 # NexusCLI API Reference
 
 Base URL: `http://localhost:41800` / `https://localhost:41801`
-Version: `0.9.5`
+Version: `0.9.7-termux`
 
 ## Authentication
 
@@ -80,6 +80,20 @@ Content-Type: application/json
 {
   "message": "Hello",
   "model": "gemini-3-pro",
+  "conversationId": "optional-uuid"
+}
+```
+
+### Qwen Chat
+
+```http
+POST /api/v1/qwen
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "message": "Hello",
+  "model": "coder-model",
   "conversationId": "optional-uuid"
 }
 ```
@@ -183,7 +197,7 @@ Query params:
 - `before` - Timestamp filter for pagination
 - `mode` - `asc` (default) or `desc`
 
-### Import Native Sessions (Claude/Codex/Gemini)
+### Import Native Sessions (Claude/Codex/Gemini/Qwen)
 
 ```http
 POST /api/v1/sessions/import
@@ -194,7 +208,7 @@ Response:
 ```json
 {
   "success": true,
-  "imported": { "claude": 12, "codex": 3, "gemini": 1 }
+  "imported": { "claude": 12, "codex": 3, "gemini": 1, "qwen": 2 }
 }
 ```
 
@@ -213,8 +227,8 @@ Response:
 {
   "status": "ok",
   "service": "nexuscli-backend",
-  "version": "0.9.5",
-  "engines": ["claude", "codex", "gemini"],
+  "version": "0.9.7-termux",
+  "engines": ["claude", "codex", "gemini", "qwen"],
   "port": 41800
 }
 ```

@@ -2,7 +2,7 @@
 
 ## Overview
 
-NexusCLI is a Termux-first AI cockpit that orchestrates multiple AI CLI tools (Claude, Codex, Gemini) through a unified web interface with SSE streaming.
+NexusCLI is a Termux-first AI cockpit that orchestrates multiple AI CLI tools (Claude, Codex, Gemini, Qwen) through a unified web interface with SSE streaming.
 
 ## System Diagram
 
@@ -32,20 +32,23 @@ NexusCLI is a Termux-first AI cockpit that orchestrates multiple AI CLI tools (C
 │                                                                        │
 │  ┌─────────────────────────────────────────────────────────────────┐  │
 │  │                         Routes Layer                             │  │
-│  │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────────────┐ │  │
-│  │  │ /chat    │  │ /codex   │  │ /gemini  │  │ /conversations   │ │  │
-│  │  │ (Claude) │  │ (OpenAI) │  │ (Google) │  │ /sessions        │ │  │
-│  │  └────┬─────┘  └────┬─────┘  └────┬─────┘  └──────────────────┘ │  │
-│  └───────┼─────────────┼─────────────┼─────────────────────────────┘  │
-│          │             │             │                                 │
-│  ┌───────┴─────────────┴─────────────┴────────────────────────────┐   │
-│  │                      Services Layer                             │   │
-│  │  ┌────────────────┐  ┌────────────────┐  ┌────────────────────┐│   │
-│  │  │ ClaudeWrapper  │  │ CodexWrapper   │  │ GeminiWrapper      ││   │
-│  │  │ (extends Base) │  │ (extends Base) │  │ (extends Base)     ││   │
-│  │  └───────┬────────┘  └───────┬────────┘  └───────┬────────────┘│   │
-│  │          │                   │                   │              │   │
-│  │          └───────────────────┴───────────────────┘              │   │
+│  │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌─────┐ │  │
+│  │  │ /chat    │  │ /codex   │  │ /gemini  │  │ /qwen    │  │ ... │ │  │
+│  │  │ (Claude) │  │ (OpenAI) │  │ (Google) │  │ (Qwen)   │  │     │ │  │
+│  │  └────┬─────┘  └────┬─────┘  └────┬─────┘  └────┬─────┘  └─────┘ │  │
+│  └───────┼─────────────┼─────────────┼─────────────┼───────────────┘  │
+│          │             │             │             │                  │
+│  ┌───────┴─────────────┴─────────────┴─────────────┴──────────────┐   │
+│  │                      Services Layer                              │   │
+│  │  ┌────────────────┐  ┌────────────────┐  ┌──────────────────┐  │   │
+│  │  │ ClaudeWrapper  │  │ CodexWrapper   │  │ GeminiWrapper    │  │   │
+│  │  │ (extends Base) │  │ (extends Base) │  │ (extends Base)   │  │   │
+│  │  └───────┬────────┘  └───────┬────────┘  └───────┬────────────┘  │   │
+│  │          │                   │                   │               │   │
+│  │  ┌───────┴────────┐          │          ┌────────┴────────┐      │   │
+│  │  │ QwenWrapper    │          │          │ BaseCliWrapper  │      │   │
+│  │  │ (extends Base) │          │          │ (process mgmt)  │      │   │
+│  │  └────────────────┘          │          └─────────────────┘      │   │
 │  │                              │                                   │   │
 │  │                    ┌─────────┴─────────┐                        │   │
 │  │                    │  BaseCliWrapper   │                        │   │
@@ -78,6 +81,13 @@ NexusCLI is a Termux-first AI cockpit that orchestrates multiple AI CLI tools (C
 │  │  - .jsonl logs  │  │  - JSON logs    │  │  - JSON logs    │        │
 │  │  - DeepSeek/GLM │  │                 │  │                 │        │
 │  └─────────────────┘  └─────────────────┘  └─────────────────┘        │
+│  ┌─────────────────┐                                                   │
+│  │   Qwen CLI      │                                                   │
+│  │   (Alibaba)     │                                                   │
+│  │                 │                                                   │
+│  │  - OAuth/OpenAI │                                                   │
+│  │  - JSONL logs   │                                                   │
+│  └─────────────────┘                                                   │
 └───────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -111,6 +121,7 @@ Message.create() → SQLite → Response complete
 FILESYSTEM = SOURCE OF TRUTH
 
 ~/.claude/projects/{workspace-slug}/{session-id}.jsonl
+~/.qwen/projects/{sanitized-cwd}/chats/{session-id}.jsonl
     │
     ▼
 WorkspaceManager.discoverWorkspaces()
@@ -131,6 +142,7 @@ SQLite (cache only) → Frontend Sidebar
 | `ClaudeWrapper` | Spawns Claude CLI, parses output, handles DeepSeek/GLM |
 | `CodexWrapper` | Spawns Codex CLI with reasoning effort control |
 | `GeminiWrapper` | Spawns Gemini CLI with session management |
+| `QwenWrapper` | Spawns Qwen Code CLI with session management |
 | `BaseCliWrapper` | Process tracking, interrupt capability (ESC/SIGINT) |
 | `SessionManager` | Conversation ↔ Session mapping, cross-engine bridging |
 | `WorkspaceManager` | Discovers workspaces from CLI projects directories |

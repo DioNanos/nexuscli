@@ -8,7 +8,7 @@
 
 ## Overview
 
-NexusCLI is a lightweight, Termux-first AI cockpit to orchestrate Claude Code, Codex CLI, and Gemini CLI from a single web/terminal UI. It supports live interrupts, native session resume, and voice input with HTTPS auto-setup for remote devices.
+NexusCLI is a lightweight, Termux-first AI cockpit to orchestrate Claude Code, Codex CLI, Gemini CLI, and Qwen Code CLI from a single web/terminal UI. It supports live interrupts, native session resume, and voice input with HTTPS auto-setup for remote devices.
 
 ---
 
@@ -27,7 +27,13 @@ NexusCLI is a lightweight, Termux-first AI cockpit to orchestrate Claude Code, C
 
 ---
 
-## Highlights (v0.9.6)
+## Highlights (v0.9.7-termux, testing)
+
+- **QWEN Engine**: Integrated Qwen Code CLI with streaming statusbar events
+- **QWEN Models**: `coder-model` and `vision-model` available in UI
+- **Session Import**: Qwen sessions indexed alongside Claude/Codex/Gemini
+
+### v0.9.6
 
 - **Jobs Runner Restored**: `jobs` route works again after cleanup regression
 - **Termux-Safe Execution**: no hardcoded `/bin` or `/usr/bin` paths for job tools
@@ -47,7 +53,7 @@ NexusCLI is a lightweight, Termux-first AI cockpit to orchestrate Claude Code, C
 
 ## Features
 
-- Multi-engine support (Claude, Codex, Gemini)
+- Multi-engine support (Claude, Codex, Gemini, Qwen)
 - Session continuity with explicit workspace selection
 - SSE streaming responses
 - Model selector with think-mode toggle and default model preference
@@ -65,6 +71,7 @@ NexusCLI is a lightweight, Termux-first AI cockpit to orchestrate Claude Code, C
 | **Claude-compatible** | DeepSeek (deepseek-*), GLM-4.6 | DeepSeek, Z.ai |
 | **Codex** | GPT-5.2 Codex, GPT-5.2, GPT-5.1 Codex (Mini/Max), GPT-5.1 | OpenAI |
 | **Gemini** | Gemini 3 Pro Preview, Gemini 3 Flash Preview | Google |
+| **Qwen** | coder-model, vision-model | Alibaba |
 
 ---
 
@@ -76,6 +83,13 @@ npm install -g @mmmbuto/nexuscli
 
 # From GitHub
 npm install -g github:DioNanos/nexuscli
+```
+
+### Release Channels
+
+```bash
+# Testing channel
+npm install -g @mmmbuto/nexuscli@testing
 ```
 
 ## Setup
@@ -132,7 +146,7 @@ nexuscli api set openrouter <key>     # Future: Multi-provider gateway
 nexuscli api delete <provider>        # Remove key
 ```
 
-> **Note**: Claude/Codex/Gemini keys are managed by their respective CLIs.
+> **Note**: Claude/Codex/Gemini/Qwen keys are managed by their respective CLIs.
 > OpenAI key enables voice input via Whisper. HTTPS auto-generated for remote mic access.
 
 ---
@@ -144,6 +158,7 @@ nexuscli api delete <provider>        # Remove key
   - Claude Code CLI (`claude`)
   - Codex CLI (`codex`)
   - Gemini CLI (`gemini`)
+  - Qwen Code CLI (`qwen`)
 
 ---
 
@@ -177,9 +192,11 @@ It is a **research and learning tool**.
 | `POST /api/v1/chat` | Claude | SSE streaming chat |
 | `POST /api/v1/codex` | Codex | SSE streaming chat |
 | `POST /api/v1/gemini` | Gemini | SSE streaming chat |
+| `POST /api/v1/qwen` | Qwen | SSE streaming chat |
 | `POST /api/v1/chat/interrupt` | Claude | Stop running generation |
 | `POST /api/v1/codex/interrupt` | Codex | Stop running generation |
 | `POST /api/v1/gemini/interrupt` | Gemini | Stop running generation |
+| `POST /api/v1/qwen/interrupt` | Qwen | Stop running generation |
 | `GET /api/v1/models` | All | List available models |
 | `GET /api/v1/config` | - | Get user preferences (default model) |
 | `GET /health` | - | Health check |

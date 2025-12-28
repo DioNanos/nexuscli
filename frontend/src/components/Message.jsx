@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { User, Terminal, Sparkles, Code2 } from 'lucide-react';
+import { User, Terminal, Sparkles, Code2, Cpu } from 'lucide-react';
 import StatusLine from './StatusLine';
 import MessageActions from './MessageActions';
 import MarkdownContent from './MarkdownContent';
@@ -20,6 +20,9 @@ function getEngineStyle(engine, model) {
   if (engineLower.includes('gemini') || engineLower.includes('google')) {
     return { icon: Sparkles, color: '#4285F4', name: 'Gemini' };
   }
+  if (engineLower.includes('qwen')) {
+    return { icon: Cpu, color: '#D32F2F', name: 'QWEN' };
+  }
   if (engineLower.includes('claude')) {
     return { icon: Terminal, color: '#FF6B35', name: 'Claude' };
   }
@@ -30,6 +33,9 @@ function getEngineStyle(engine, model) {
   }
   if (modelLower.includes('gemini')) {
     return { icon: Sparkles, color: '#4285F4', name: 'Gemini' };
+  }
+  if (modelLower.includes('qwen') || modelLower.includes('coder-model') || modelLower.includes('vision-model')) {
+    return { icon: Cpu, color: '#D32F2F', name: 'QWEN' };
   }
 
   // Default to Claude
@@ -42,7 +48,7 @@ function getEngineStyle(engine, model) {
  * Features:
  * - Cleaner layout (No headers for assistant)
  * - User bubbles, Assistant full-width
- * - Engine-specific icons (Claude/Codex/Gemini)
+ * - Engine-specific icons (Claude/Codex/Gemini/Qwen)
  */
 function Message({ message, streaming = false }) {
   const { user } = useAuth();

@@ -207,7 +207,8 @@ function Chat() {
     const endpoints = {
       'claude-code': '/api/v1/chat/interrupt',
       'gemini': '/api/v1/gemini/interrupt',
-      'codex': '/api/v1/codex/interrupt'
+      'codex': '/api/v1/codex/interrupt',
+      'qwen': '/api/v1/qwen/interrupt'
     };
     return endpoints[cliKey] || '/api/v1/chat/interrupt';
   };

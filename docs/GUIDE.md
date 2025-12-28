@@ -1,5 +1,5 @@
 # NexusCLI Guide
-Version: 0.9.5
+Version: 0.9.7-termux
 
 ## Quick Start
 
@@ -15,7 +15,7 @@ nexuscli start
 nexuscli stop                # Stop active generation/server
 ```
 
-Tip: while the model is generating, use the Stop button (UI) or the interrupt endpoint to halt Claude/Codex/Gemini.
+Tip: while the model is generating, use the Stop button (UI) or the interrupt endpoint to halt Claude/Codex/Gemini/Qwen.
 
 ## Voice Input (STT)
 
@@ -79,7 +79,7 @@ nexuscli workspaces remove  # Remove workspace
 nexuscli workspaces scan    # Scan for sessions (Claude); full import via the API endpoint
 ```
 
-### Session Import (Claude/Codex/Gemini)
+### Session Import (Claude/Codex/Gemini/Qwen)
 
 - Automatic at backend startup.
 - Manual: `POST /api/v1/sessions/import` (admin).
