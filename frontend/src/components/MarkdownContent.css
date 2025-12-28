@@ -2,11 +2,11 @@
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   font-size: 14px;
   line-height: 1.6;
-  color: #e0e0e0;
+  color: var(--text-primary);
 }
 
 .markdown-empty {
-  color: #999;
+  color: var(--text-secondary);
   font-style: italic;
   padding: 10px;
 }
@@ -17,12 +17,12 @@
 .markdown-h3 {
   margin: 16px 0 8px 0;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .markdown-h1 {
   font-size: 24px;
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid var(--border-hover);
   padding-bottom: 8px;
 }
 
@@ -41,8 +41,8 @@
 
 /* Code (inline) */
 .markdown-inline-code {
-  background-color: #2d2d30;
-  color: #ce9178;
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
   padding: 2px 6px;
   border-radius: 3px;
   font-family: "Courier New", monospace;
@@ -51,9 +51,9 @@
 
 /* Code blocks */
 .markdown-code-block {
-  background-color: #1e1e1e;
-  color: #d4d4d4;
-  border: 1px solid #3e3e42;
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   margin: 12px 0;
   overflow-x: auto;
@@ -64,8 +64,8 @@
 }
 
 .markdown-code-header {
-  background-color: #2d2d30;
-  border-bottom: 1px solid #3e3e42;
+  background-color: var(--bg-hover);
+  border-bottom: 1px solid var(--border-color);
   padding: 6px 12px;
   display: flex;
   justify-content: space-between;
@@ -81,19 +81,19 @@
   background: transparent;
   border: none;
   border-radius: 4px;
-  color: #858585;
+  color: var(--text-secondary);
   font-size: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .markdown-copy-btn:hover {
-  background: #3e3e42;
-  color: #e0e0e0;
+  background: var(--bg-hover);
+  color: var(--text-primary);
 }
 
 .markdown-copy-btn.copied {
-  color: #4ade80;
+  color: var(--accent-primary);
 }
 
 .markdown-copy-btn .copy-text {
@@ -101,7 +101,7 @@
 }
 
 .markdown-code-language {
-  color: #858585;
+  color: var(--text-secondary);
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
@@ -153,7 +153,7 @@
   max-width: 100%;
   height: auto;
   border-radius: 6px;
-  border: 1px solid #3e3e42;
+  border: 1px solid var(--border-hover);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
@@ -161,20 +161,20 @@
   display: block;
   margin-top: 6px;
   font-size: 12px;
-  color: #999;
+  color: var(--text-secondary);
   font-style: italic;
 }
 
 /* Links */
 .markdown-link {
-  color: #61afef;
+  color: var(--accent-primary);
   text-decoration: none;
-  border-bottom: 1px dotted #61afef;
+  border-bottom: 1px dotted var(--accent-primary);
   transition: color 0.2s;
 }
 
 .markdown-link:hover {
-  color: #7ec3e8;
+  color: var(--accent-secondary);
   border-bottom-style: solid;
 }
 
@@ -202,43 +202,43 @@
 }
 
 .markdown-table thead {
-  background-color: #2d2d30;
+  background-color: var(--bg-tertiary);
 }
 
 .markdown-table th {
   padding: 8px 12px;
   text-align: left;
   font-weight: 600;
-  color: #ffffff;
-  border: 1px solid #3e3e42;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
 }
 
 .markdown-table td {
   padding: 8px 12px;
-  border: 1px solid #3e3e42;
-  color: #e0e0e0;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
 }
 
 .markdown-table tbody tr:nth-child(odd) {
-  background-color: #1e1e1e;
+  background-color: var(--bg-secondary);
 }
 
 .markdown-table tbody tr:nth-child(even) {
-  background-color: #252526;
+  background-color: var(--bg-tertiary);
 }
 
 .markdown-table tbody tr:hover {
-  background-color: #2d2d30;
+  background-color: var(--bg-hover);
 }
 
 /* Blockquotes */
 .markdown-blockquote {
   margin: 12px 0;
   padding-left: 16px;
-  border-left: 4px solid #61afef;
-  color: #b4b4b4;
+  border-left: 4px solid var(--accent-primary);
+  color: var(--text-secondary);
   font-style: italic;
-  background-color: #1e1e1e;
+  background-color: var(--bg-secondary);
   padding: 8px 12px;
   padding-left: 16px;
 }
@@ -246,24 +246,24 @@
 /* Horizontal Rule */
 .markdown-container hr {
   border: none;
-  border-top: 1px solid #3e3e42;
+  border-top: 1px solid var(--border-color);
   margin: 16px 0;
 }
 
 /* Strikethrough and other GFM */
 .markdown-container del {
-  color: #858585;
+  color: var(--text-muted);
   text-decoration: line-through;
 }
 
 .markdown-container strong {
   font-weight: 600;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .markdown-container em {
   font-style: italic;
-  color: #d4d4d4;
+  color: var(--text-secondary);
 }
 
 /* Task lists (GFM) */
@@ -290,10 +290,10 @@
 /* Dark theme compatibility */
 @media (prefers-color-scheme: dark) {
   .markdown-container {
-    color: #e0e0e0;
+    color: var(--text-primary);
   }
 
   .markdown-image {
-    border-color: #3e3e42;
+    border-color: var(--border-hover);
   }
 }

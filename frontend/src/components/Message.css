@@ -37,14 +37,14 @@
 }
 
 .assistant-icon {
-  background: #19c37d; /* NexusAI Green (or ChatGPT green) */
+  background: var(--accent-primary); /* Fallback if inline engine color missing */
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .user-icon {
-  background: #555;
-  color: #e0e0e0;
+  background: var(--bg-hover);
+  color: var(--text-primary);
 }
 
 /* --- Message Body Column --- */
@@ -58,7 +58,7 @@
 .message-sender {
   font-weight: 600;
   font-size: 0.9rem;
-  color: #e0e0e0;
+  color: var(--text-primary);
   margin-bottom: 0.25rem;
 }
 
@@ -82,8 +82,8 @@
 }
 
 .user-message .message-content {
-  background: #2f2f2f;
-  color: #ececec;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
   padding: 10px 20px;
   border-radius: 20px;
   max-width: 85%;
@@ -96,7 +96,7 @@
   background: transparent;
   padding: 0; /* No bubble for AI, just text */
   max-width: 100%;
-  color: #d1d5db; /* Softer white */
+  color: var(--text-primary);
   line-height: 1.6;
 }
 
@@ -108,14 +108,14 @@
 
 /* Code Blocks Modernization */
 .code-block {
-  background: #0d0d0d;
+  background: var(--bg-tertiary);
   border-radius: 8px;
   padding: 1rem;
   overflow-x: auto;
   margin: 1rem 0;
   font-family: 'Fira Code', 'Consolas', monospace;
   font-size: 0.9rem;
-  border: 1px solid #333;
+  border: 1px solid var(--border-color);
 }
 
 /* Streaming Indicator - Modern Cursor Style */
@@ -130,10 +130,10 @@
 .streaming-indicator .dot {
   width: 8px;
   height: 8px;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
   border-radius: 50%;
   animation: pulse-dot 1.4s ease-in-out infinite;
-  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 0 8px var(--accent-glow);
 }
 
 .streaming-indicator .dot:nth-child(1) { animation-delay: 0s; }

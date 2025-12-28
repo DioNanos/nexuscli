@@ -10,9 +10,9 @@
 .action-btn {
   padding: 0.375rem 0.75rem;
   background: transparent;
-  border: 1px solid #303030;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
-  color: #9b9b9b;
+  color: var(--text-secondary);
   font-size: 0.75rem;
   cursor: pointer;
   transition: all 0.2s;
@@ -22,9 +22,9 @@
 }
 
 .action-btn:hover {
-  background: #2a2a2a;
-  color: #ececec;
-  border-color: #10b981;
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: var(--accent-primary);
 }
 
 .action-btn:active {

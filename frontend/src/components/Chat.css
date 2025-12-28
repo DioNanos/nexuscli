@@ -52,10 +52,10 @@
 
 /* Reasoning Effort Selector for Codex */
 .reasoning-selector {
-  background: #333;
-  border: 1px solid #444;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-hover);
   border-radius: 6px;
-  color: #e0e0e0;
+  color: var(--text-primary);
   padding: 0.35rem 0.5rem;
   font-size: 0.85rem;
   cursor: pointer;
@@ -64,11 +64,11 @@
 }
 
 .reasoning-selector:hover {
-  border-color: #666;
+  border-color: var(--scrollbar-hover);
 }
 
 .reasoning-selector:focus {
-  border-color: #888;
+  border-color: var(--scrollbar-hover);
 }
 
 /* .header-title - REMOVED: Title now shown only when sidebar is open */
@@ -92,7 +92,7 @@
   cursor: pointer;
   padding: 0.5rem;
   transition: opacity 0.2s;
-  color: #e0e0e0;
+  color: var(--text-primary);
   margin-left: auto; /* Push to the right */
 }
 
@@ -108,13 +108,13 @@
   padding: 0.5rem;
   opacity: 0.4;
   transition: opacity 0.2s;
-  color: #e0e0e0;
+  color: var(--text-primary);
 }
 
 .bookmark-btn:hover,
 .bookmark-btn.bookmarked {
   opacity: 1;
-  color: #00ff9f; /* Verde chiaro quando bookmarked */
+  color: var(--accent-primary); /* Verde chiaro quando bookmarked */
 }
 
 /* Messages Container */
@@ -264,7 +264,7 @@
 }
 
 .microphone-btn {
-  color: #fff !important; /* Always white */
+  color: var(--text-primary);
 }
 
 .send-btn {
@@ -306,8 +306,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-  border: 2px solid #444;
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+  border: 2px solid var(--border-hover);
   border-radius: 50%;
   color: #fff;
   cursor: pointer;
@@ -332,7 +332,7 @@
   position: absolute;
   inset: 2px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
   z-index: -1;
 }
 
@@ -342,9 +342,9 @@
 }
 
 .stop-btn:hover {
-  background: linear-gradient(135deg, #2d2d2d 0%, #3d3d3d 100%);
+  background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-hover) 100%);
   transform: scale(1.1);
-  border-color: #ef4444;
+  border-color: var(--error-color);
 }
 
 .stop-btn:active {
@@ -443,7 +443,7 @@
   background: rgba(239, 68, 68, 0.1);
   border: 1px solid rgba(239, 68, 68, 0.3);
   border-radius: 6px;
-  color: #f87171;
+  color: var(--error-color);
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
@@ -558,7 +558,7 @@
 .remove-file-btn {
   background: none;
   border: none;
-  color: #888;
+  color: var(--text-secondary);
   cursor: pointer;
   padding: 0.125rem;
   display: flex;
@@ -569,8 +569,8 @@
 }
 
 .remove-file-btn:hover {
-  background: #444;
-  color: #e74c3c;
+  background: var(--bg-hover);
+  color: var(--error-color);
 }
 
 /* Input Row wrapper */
@@ -583,7 +583,7 @@
 
 /* STT Listening state */
 .microphone-btn.listening {
-  color: #e74c3c;
+  color: var(--error-color);
   animation: pulse 1s infinite;
 }
 
@@ -650,4 +650,3 @@
     padding-bottom: calc(0.75rem + env(safe-area-inset-bottom)) !important;
   }
 }
-

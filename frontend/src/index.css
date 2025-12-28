@@ -16,7 +16,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #1a1a1a;
+  background: var(--bg-primary);
   height: 100%;
   overflow: hidden;
   /* Mobile optimizations */

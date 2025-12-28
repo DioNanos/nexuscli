@@ -6,8 +6,8 @@
   left: 0;
   right: 0;
   margin-bottom: 0.5rem;
-  background: #2a2a2a;
-  border: 1px solid #3a3a3a;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-hover);
   border-radius: 8px;
   padding: 0.5rem;
   box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.4);
@@ -27,9 +27,9 @@
 
 .user-email {
   padding: 0.75rem 1rem;
-  color: #999;
+  color: var(--text-secondary);
   font-size: 0.85rem;
-  border-bottom: 1px solid #3a3a3a;
+  border-bottom: 1px solid var(--border-hover);
   margin-bottom: 0.25rem;
 }
 
@@ -42,7 +42,7 @@
   background: none;
   border: none;
   border-radius: 6px;
-  color: #e0e0e0;
+  color: var(--text-primary);
   font-size: 0.9rem;
   cursor: pointer;
   transition: background 0.2s;
@@ -50,11 +50,11 @@
 }
 
 .user-menu-item:hover {
-  background: #3a3a3a;
+  background: var(--bg-hover);
 }
 
 .user-menu-item.logout {
-  color: #f87171;
+  color: var(--error-color);
 }
 
 .user-menu-item.logout:hover {

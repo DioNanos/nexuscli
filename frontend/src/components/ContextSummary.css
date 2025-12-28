@@ -1,10 +1,10 @@
 .context-summary {
-  background: #0f172a;
-  border: 1px solid #1f2937;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-hover);
   border-radius: 10px;
   padding: 12px 14px;
   margin: 8px 0 12px;
-  color: #e5e7eb;
+  color: var(--text-primary);
 }
 
 .summary-header {
@@ -24,14 +24,14 @@
 .summary-toggle {
   background: transparent;
   border: none;
-  color: #9ca3af;
+  color: var(--text-secondary);
   cursor: pointer;
   padding: 4px;
   border-radius: 6px;
 }
 
 .summary-toggle:hover {
-  background: rgba(255,255,255,0.06);
+  background: var(--bg-hover);
 }
 
 .summary-content {
@@ -42,12 +42,12 @@
 
 .summary-short {
   margin: 0;
-  color: #d1d5db;
+  color: var(--text-secondary);
 }
 
 .summary-long {
   margin: 10px 0 0;
-  color: #cbd5e1;
+  color: var(--text-secondary);
 }
 
 .summary-section {
@@ -57,7 +57,7 @@
 .summary-section h4 {
   margin: 0 0 6px;
   font-size: 0.9rem;
-  color: #cbd5e1;
+  color: var(--text-secondary);
 }
 
 .summary-tags {
@@ -67,8 +67,8 @@
 }
 
 .summary-tags .tag {
-  background: #1f2937;
-  color: #e5e7eb;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
   padding: 4px 8px;
   border-radius: 6px;
   font-size: 0.85rem;
