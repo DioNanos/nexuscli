@@ -8,12 +8,14 @@ import './Message.css';
 
 /**
  * Get engine style based on engine/model
+ * Enhanced to check metadata.model for robust avatar detection
  */
-function getEngineStyle(engine, model) {
+function getEngineStyle(engine, model, metadata) {
   const engineLower = (engine || '').toLowerCase();
   const modelLower = (model || '').toLowerCase();
+  const metadataModel = (metadata?.model || '').toLowerCase();
 
-  // Check engine first
+  // Check engine first (highest priority)
   if (engineLower.includes('codex') || engineLower.includes('openai')) {
     return { icon: Code2, color: '#00D26A', name: 'Codex' };
   }
@@ -27,7 +29,7 @@ function getEngineStyle(engine, model) {
     return { icon: Terminal, color: '#FF6B35', name: 'Claude' };
   }
 
-  // Fallback: check model name
+  // Fallback 1: check model name from message
   if (modelLower.includes('codex') || modelLower.includes('gpt') || modelLower.includes('o1') || modelLower.includes('o3')) {
     return { icon: Code2, color: '#00D26A', name: 'Codex' };
   }
@@ -35,6 +37,17 @@ function getEngineStyle(engine, model) {
     return { icon: Sparkles, color: '#4285F4', name: 'Gemini' };
   }
   if (modelLower.includes('qwen') || modelLower.includes('coder-model') || modelLower.includes('vision-model')) {
+    return { icon: Cpu, color: '#D32F2F', name: 'QWEN' };
+  }
+
+  // Fallback 2: check metadata.model (for DB-recovered messages with NULL engine)
+  if (metadataModel.includes('codex') || metadataModel.includes('gpt')) {
+    return { icon: Code2, color: '#00D26A', name: 'Codex' };
+  }
+  if (metadataModel.includes('gemini')) {
+    return { icon: Sparkles, color: '#4285F4', name: 'Gemini' };
+  }
+  if (metadataModel.includes('qwen') || metadataModel.includes('coder-model') || metadataModel.includes('vision-model')) {
     return { icon: Cpu, color: '#D32F2F', name: 'QWEN' };
   }
 
@@ -55,7 +68,7 @@ function Message({ message, streaming = false }) {
   const { id, role, content, created_at, metadata, status, engine, model } = message;
 
   const isUser = role === 'user';
-  const engineStyle = getEngineStyle(engine, model);
+  const engineStyle = getEngineStyle(engine, model, metadata);
   const EngineIcon = engineStyle.icon;
 
   return (
