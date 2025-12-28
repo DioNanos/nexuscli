@@ -631,7 +631,9 @@ function Chat() {
                 id: `error-${Date.now()}`,
                 role: 'assistant',
                 content: `**Error**: ${eventData.error}`,
-                created_at: Date.now()
+                created_at: Date.now(),
+                engine: eventData.engine || cliKey,
+                model: eventData.model || selectedModel
               }]);
               setIsLoading(false);
             }
@@ -652,7 +654,9 @@ function Chat() {
         id: `error-${Date.now()}`,
         role: 'assistant',
         content: `**Error**: ${errorMessage}`,
-        created_at: Date.now()
+        created_at: Date.now(),
+        engine: cliKey,
+        model: selectedModel
       }]);
       setIsLoading(false);
     }
