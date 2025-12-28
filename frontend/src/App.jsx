@@ -2,6 +2,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext'
 import Login from './components/Login'
 import Chat from './components/Chat'
 import { useWakeLock } from './hooks/useWakeLock'
+import { useTheme } from './hooks/useTheme'
 import './App.css'
 
 function AppContent() {
@@ -25,6 +26,8 @@ function AppContent() {
 function App() {
   // Automatically manage wake lock for Termux/Android
   useWakeLock();
+  // Apply persisted theme + meta colors on startup
+  useTheme();
 
   return (
     <AuthProvider>
