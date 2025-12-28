@@ -538,7 +538,8 @@ function Chat() {
         conversationId: convId,
         workspace: workspacePath,
         message: fullMessage,
-        model: selectedModel
+        model: selectedModel,
+        attachments: attachedFiles.length > 0 ? [...attachedFiles] : undefined
       };
 
       // Add reasoning effort for Codex models
@@ -597,8 +598,8 @@ function Chat() {
                 role: 'assistant',
                 content: eventData.content,
                 created_at: Date.now(),
-                engine: cliKey, // Track which CLI engine was used
-                model: selectedModel,
+                engine: eventData.engine || cliKey, // Track which CLI engine was used
+                model: eventData.model || selectedModel,
                 metadata: {
                   usage: eventData.usage
                 }
