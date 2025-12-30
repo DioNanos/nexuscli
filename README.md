@@ -27,13 +27,14 @@ NexusCLI is a lightweight, Termux-first AI cockpit that orchestrates Claude Code
 
 ---
 
-## Highlights (v0.9.7004-termux)
+## Highlights (v0.9.8)
 
 - **QWEN CLI**: Integrated Qwen Code CLI with `coder-model` and `vision-model`
 - **Statusbar Realtime**: Qwen tool events streamed live in the UI
 - **Light Theme**: Higher contrast + correct mobile statusbar colors
+- **GLM-4.7**: Updated Z.ai model integration for Claude-compatible routing
 
-### Stable (v0.9.6)
+### Stable (v0.9.8)
 
 - Jobs runner restored with Termux-safe execution
 - Cleaner job SSE errors in UI
@@ -57,7 +58,7 @@ NexusCLI is a lightweight, Termux-first AI cockpit that orchestrates Claude Code
 | Engine | Models | Provider |
 |--------|--------|----------|
 | **Claude (native)** | Opus 4.5, Sonnet 4.5, Haiku 4.5 | Anthropic |
-| **Claude-compatible** | DeepSeek (deepseek-*), GLM-4.6 | DeepSeek, Z.ai |
+| **Claude-compatible** | DeepSeek (deepseek-*), GLM-4.7 | DeepSeek, Z.ai |
 | **Codex** | GPT-5.2 Codex, GPT-5.2, GPT-5.1 Codex (Mini/Max), GPT-5.1 | OpenAI |
 | **Gemini** | Gemini 3 Pro Preview, Gemini 3 Flash Preview | Google |
 | **Qwen** | coder-model, vision-model | Alibaba |
@@ -134,7 +135,7 @@ Configure API keys for additional providers:
 ```bash
 nexuscli api list                     # List configured keys
 nexuscli api set deepseek <key>       # DeepSeek models
-nexuscli api set zai <key>            # GLM-4.6 (Z.ai Anthropic-compatible)
+nexuscli api set zai <key>            # GLM-4.7 (Z.ai Anthropic-compatible)
 nexuscli api set openai <key>         # Voice input (Whisper STT)
 nexuscli api set openrouter <key>     # Future: Multi-provider gateway
 nexuscli api delete <provider>        # Remove key
