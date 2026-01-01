@@ -23,6 +23,8 @@ function Chat() {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedModel, setSelectedModel] = useState('claude-sonnet-4-5-20250929');
   const [pendingPreferredModel, setPendingPreferredModel] = useState(null);
+  const [configDefaultModel, setConfigDefaultModel] = useState(null);
+  const [followConfigDefault, setFollowConfigDefault] = useState(true);
   const [reasoningEffort, setReasoningEffort] = useState('high');
   const [thinkMode, setThinkMode] = useState('think');
   const [cliTools, setCliTools] = useState({});
@@ -154,6 +156,10 @@ function Chat() {
   // Apply pending preferred model once models are available
   useEffect(() => {
     if (!pendingPreferredModel) return;
+    if (!followConfigDefault) {
+      setPendingPreferredModel(null);
+      return;
+    }
     const available = isModelAvailable(pendingPreferredModel, cliTools);
     if (available) {
       console.log('[Chat] Applying preferred model from config:', pendingPreferredModel);
@@ -166,29 +172,58 @@ function Chat() {
       console.warn('[Chat] Preferred model not available, keeping current:', pendingPreferredModel);
       setPendingPreferredModel(null);
     }
-  }, [cliTools, pendingPreferredModel]);
+  }, [cliTools, pendingPreferredModel, followConfigDefault]);
 
-  // Load user preferences (default model)
-  useEffect(() => {
-    const fetchConfig = async () => {
-      try {
-        const res = await fetch('/api/v1/config');
-        const data = await res.json();
-        if (data.defaultModel) {
-          if (isModelAvailable(data.defaultModel, cliTools)) {
+  // Load and refresh user preferences (default model)
+  const fetchConfig = useCallback(async () => {
+    try {
+      const res = await fetch('/api/v1/config');
+      const data = await res.json();
+      if (!data.defaultModel) return;
+
+      const shouldFollow = followConfigDefault;
+      setConfigDefaultModel(data.defaultModel);
+
+      if (shouldFollow) {
+        if (isModelAvailable(data.defaultModel, cliTools)) {
+          if (selectedModel !== data.defaultModel) {
             console.log('[Chat] Auto-selecting default model:', data.defaultModel);
             setSelectedModel(data.defaultModel);
-          } else {
-            // Store pending until models load or warn if unavailable
-            setPendingPreferredModel(data.defaultModel);
           }
+          setPendingPreferredModel(null);
+        } else {
+          // Store pending until models load or warn if unavailable
+          setPendingPreferredModel(data.defaultModel);
         }
-      } catch (error) {
-        console.error('Failed to fetch config:', error);
       }
-    };
+    } catch (error) {
+      console.error('Failed to fetch config:', error);
+    }
+  }, [cliTools, followConfigDefault, selectedModel]);
+
+  useEffect(() => {
     fetchConfig();
-  }, []);
+    const intervalId = setInterval(fetchConfig, 30000);
+    const handleFocus = () => fetchConfig();
+    window.addEventListener('focus', handleFocus);
+
+    return () => {
+      clearInterval(intervalId);
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, [fetchConfig]);
+
+  const handleSelectModel = (modelId) => {
+    setSelectedModel(modelId);
+    setPendingPreferredModel(null);
+
+    if (!configDefaultModel) {
+      setFollowConfigDefault(false);
+      return;
+    }
+
+    setFollowConfigDefault(modelId === configDefaultModel);
+  };
 
   // Helper: get model info and determine endpoint
   const getModelInfo = (modelId) => {
@@ -812,7 +847,7 @@ function Chat() {
           </button>
           <ModelSelector
             selectedModel={selectedModel}
-            onSelectModel={setSelectedModel}
+            onSelectModel={handleSelectModel}
             thinkMode={thinkMode}
             onThinkModeChange={setThinkMode}
             reasoningLevel={reasoningEffort}
