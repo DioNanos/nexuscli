@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.9.9] - 2026-01-01
+### Added
+- Auto-update check on `nexuscli start` (npm + GitHub) with interactive prompt.
+- `nexuscli update` / `nexuscli upgrade` command to update and restart server.
+- Warnings when changing config while server is running.
+- Live refresh of default model in the UI (periodic + on focus).
+
 ## [0.9.8] - 2025-12-30
 ### Changed
 - Update GLM routing to GLM-4.7 for Z.ai in Claude wrapper and model catalog.

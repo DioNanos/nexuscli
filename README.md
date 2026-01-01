@@ -124,9 +124,13 @@ nexuscli start
 | `nexuscli logs` | View server logs |
 | `nexuscli users` | Users |
 | `nexuscli setup-termux` | Termux helpers (services, paths) |
+| `nexuscli update` | Update NexusCLI and restart server |
+| `nexuscli upgrade` | Alias for update |
 | `nexuscli uninstall` | Remove NexusCLI |
 
 ---
+
+> **Note**: On `nexuscli start`, an update check runs (cached) and will prompt in interactive shells.
 
 ## API Keys
 
