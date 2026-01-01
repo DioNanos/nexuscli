@@ -27,17 +27,17 @@ NexusCLI is a lightweight, Termux-first AI cockpit that orchestrates Claude Code
 
 ---
 
-## Highlights (v0.9.8)
+## Highlights (v0.9.9)
 
-- **QWEN CLI**: Integrated Qwen Code CLI with `coder-model` and `vision-model`
-- **Statusbar Realtime**: Qwen tool events streamed live in the UI
-- **Light Theme**: Higher contrast + correct mobile statusbar colors
-- **GLM-4.7**: Updated Z.ai model integration for Claude-compatible routing
+- **Auto-update**: Update check on start (npm + GitHub) with interactive prompt
+- **Update command**: `nexuscli update` / `nexuscli upgrade` (stop → update → restart)
+- **Live default model**: UI refreshes config on focus/interval without restart
+- **Restart warnings**: CLI warns when changes require stop/start
 
-### Stable (v0.9.8)
+### Stable (v0.9.9)
 
-- Jobs runner restored with Termux-safe execution
-- Cleaner job SSE errors in UI
+- Update check is cached and non-blocking for normal startup
+- GitHub-only releases show a notice without prompting
 
 ## Features
 
