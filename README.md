@@ -168,7 +168,7 @@ NexusCLI is designed primarily for **Termux** on Android devices.
 ### Stack
 
 - **Termux** - primary runtime environment
-- **tmux** - session management
+- **tmux (optional)** - session management (user-managed)
 - **Node.js + SSE** - lightweight backend
 - **React** - minimal UI
 
@@ -181,6 +181,24 @@ This project exists to study:
 - mobile development workflows
 
 It is a **research and learning tool**.
+
+---
+
+## Battery / Keep-Alive (Android)
+
+Android can kill background processes aggressively. NexusCLI does not keep
+engine CLIs alive in background; it spawns them on demand and resumes sessions.
+
+**Keep NexusCLI alive (when you need it running):**
+- Disable battery optimization for Termux (Android Settings → Battery → Unrestricted).
+- Enable wake-lock + notifications (via `nexuscli config`).
+- Install Termux:Boot to auto-restart after reboot or app kill.
+- Keep a persistent notification (Termux:API helps prevent background kill).
+
+**Reduce battery usage (when you don’t need it always-on):**
+- Stop the server when idle: `nexuscli stop`.
+- Disable wake-lock and notifications when not needed.
+- Prefer lighter models and lower reasoning settings.
 
 ---
 
