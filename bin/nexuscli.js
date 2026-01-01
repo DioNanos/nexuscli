@@ -22,6 +22,7 @@ const workspacesCommand = require('../lib/cli/workspaces');
 const usersCommand = require('../lib/cli/users');
 const uninstallCommand = require('../lib/cli/uninstall');
 const setupTermuxCommand = require('../lib/cli/setup-termux');
+const updateCommand = require('../lib/cli/update');
 const { modelCommand } = require('../lib/cli/model');
 
 program
@@ -121,6 +122,17 @@ program
   .command('uninstall')
   .description('Prepare for uninstallation (optional data removal)')
   .action(uninstallCommand);
+
+// nexuscli update / upgrade
+program
+  .command('update')
+  .description('Update NexusCLI and restart server')
+  .action(updateCommand);
+
+program
+  .command('upgrade')
+  .description('Alias for update')
+  .action(updateCommand);
 
 // Parse arguments
 program.parse();
