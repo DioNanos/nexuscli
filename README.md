@@ -22,7 +22,7 @@ NexusCLI is a lightweight, Termux-first AI cockpit that orchestrates Claude Code
 
 <p align="center">
   <img src="docs/assets/screenshots/nexuscli-multilang-preview.png" width="45%" />
-  <img src="docs/assets/screenshots/nexuscli-mobile-terminal.png" width="45%" />
+  <img src="docs/assets/screenshots/nexuscli-mobile-glm.png" width="45%" />
 </p>
 
 ---
