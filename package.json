@@ -58,6 +58,7 @@
     "x64"
   ],
   "dependencies": {
+    "@mmmbuto/pty-termux-utils": "file:../pty-termux-utils",
     "bcryptjs": "^3.0.3",
     "chalk": "^4.1.2",
     "commander": "^12.1.0",
@@ -77,6 +78,6 @@
     "jest": "^30.2.0"
   },
   "optionalDependencies": {
-    "@mmmbuto/node-pty-android-arm64": "1.1.0"
+    "@mmmbuto/node-pty-android-arm64": "~1.1.0"
   }
 }
