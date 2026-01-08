@@ -244,3 +244,19 @@ npm run dev
 
 MIT License.
 See `LICENSE` for details.
+
+## PTY Support (Shared Library)
+
+NexusCLI uses `@mmmbuto/pty-termux-utils` as a shared library for PTY
+management across all Termux CLI projects (Gemini, Qwen, Nexus).
+
+- **Native PTY:** Uses `@mmmbuto/node-pty-android-arm64@~1.1.0` when available
+- **Fallback:** Gracefully degrades to `child_process` adapter
+- **Debug Logging:** Enable with `PTY_DEBUG=1` environment variable
+- **Architecture:** See `@mmmbuto/pty-termux-utils` documentation
+
+```bash
+# Enable PTY debug logging
+PTY_DEBUG=1 nexuscli start
+```
+
