@@ -75,5 +75,8 @@
   },
   "devDependencies": {
     "jest": "^30.2.0"
+  },
+  "optionalDependencies": {
+    "@mmmbuto/node-pty-android-arm64": "1.1.0"
   }
 }
