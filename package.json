@@ -44,6 +44,7 @@
     "frontend/dist/",
     "package.json",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "engines": {
@@ -58,7 +59,7 @@
     "x64"
   ],
   "dependencies": {
-    "@mmmbuto/pty-termux-utils": "^1.1.0",
+    "@mmmbuto/pty-termux-utils": "^1.1.1",
     "bcryptjs": "^3.0.3",
     "chalk": "^4.1.2",
     "commander": "^12.1.0",

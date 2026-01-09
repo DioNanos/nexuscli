@@ -2,12 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.9.10] - 2026-01-09
+### Fixed
+- Added PTY dependency check in postinstall to verify node-pty installation
+- Added pty-termux-utils verification to ensure .cjs files are built
+- Platform detection now installs correct PTY provider:
+  - `@mmmbuto/node-pty-android-arm64` for Termux
+  - `@lydell/node-pty-linux-arm64` for Linux ARM64
+- Provides helpful error messages when PTY dependencies are missing
+
 ## [0.9.9] - 2026-01-01
 ### Added
 - Auto-update check on `nexuscli start` (npm + GitHub) with interactive prompt.
 - `nexuscli update` / `nexuscli upgrade` command to update and restart server.
 - Warnings when changing config while server is running.
-- Live refresh of default model in the UI (periodic + on focus).
+- Live refresh of default model in UI (periodic + on focus).
 
 ## [0.9.8] - 2025-12-30
 ### Changed
@@ -18,7 +27,7 @@ All notable changes to this project will be documented in this file.
 ## [0.9.7004-termux] - 2025-12-28
 ### Fixed
 - Force Qwen model selection so `vision-model` is honored for image prompts.
-- Parse Qwen stream-json tool events to keep the statusbar live.
+- Parse Qwen stream-json tool events to keep statusbar live.
 - Improve light theme contrast and update mobile statusbar theme colors.
 
 ## [0.9.7-termux] - 2025-12-28
