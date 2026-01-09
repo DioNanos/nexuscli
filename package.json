@@ -1,6 +1,6 @@
 {
   "name": "@mmmbuto/nexuscli",
-  "version": "0.9.11",
+  "version": "0.9.12",
   "description": "NexusCLI - TRI CLI Control Plane (Claude/Codex/Gemini/Qwen)",
   "main": "lib/server/server.js",
   "bin": {
@@ -59,7 +59,7 @@
     "x64"
   ],
   "dependencies": {
-    "@mmmbuto/pty-termux-utils": "^1.1.2",
+    "@mmmbuto/pty-termux-utils": "^1.1.3",
     "bcryptjs": "^3.0.3",
     "chalk": "^4.1.2",
     "commander": "^12.1.0",

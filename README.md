@@ -45,7 +45,7 @@ NexusCLI is a lightweight, Termux-first AI cockpit that orchestrates Claude Code
 
 ```bash
 # From npm
-npm install -g @mmmbuto/nexuscli
+npm install -g @mmmbuto/nexuscli@0.9.12
 
 # From GitHub
 npm install -g github:DioNanos/nexuscli
@@ -55,7 +55,7 @@ npm install -g github:DioNanos/nexuscli
 
 ```bash
 # Latest (default)
-npm install -g @mmmbuto/nexuscli
+npm install -g @mmmbuto/nexuscli@0.9.12
 
 # Stable channel (pinned)
 npm install -g @mmmbuto/nexuscli@stable
