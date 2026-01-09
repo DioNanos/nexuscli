@@ -2,14 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.9.10] - 2026-01-09
+## [0.9.12] - 2026-01-09
 ### Fixed
-- Added PTY dependency check in postinstall to verify node-pty installation
-- Added pty-termux-utils verification to ensure .cjs files are built
-- Platform detection now installs correct PTY provider:
-  - `@mmmbuto/node-pty-android-arm64` for Termux
-  - `@lydell/node-pty-linux-arm64` for Linux ARM64
-- Provides helpful error messages when PTY dependencies are missing
+- Guard PTY utils loading to avoid hard crash when dependency is broken or missing
+- Safer fallback adapter when native PTY stack is unavailable
+- Updated @mmmbuto/pty-termux-utils to ^1.1.3
+
 ## [0.9.11] - 2026-01-09
 ### Fixed
 - Added PTY dependency verification in postinstall
@@ -18,6 +16,14 @@ All notable changes to this project will be documented in this file.
 - All PTY dependencies now verified during npm install
 - Updated @mmmbuto/pty-termux-utils to ^1.1.2
 
+## [0.9.10] - 2026-01-09
+### Fixed
+- Added PTY dependency check in postinstall to verify node-pty installation
+- Added pty-termux-utils verification to ensure .cjs files are built
+- Platform detection now installs correct PTY provider:
+  - `@mmmbuto/node-pty-android-arm64` for Termux
+  - `@lydell/node-pty-linux-arm64` for Linux ARM64
+- Provides helpful error messages when PTY dependencies are missing
 
 
 ## [0.9.9] - 2026-01-01
