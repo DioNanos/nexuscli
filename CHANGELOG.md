@@ -10,6 +10,15 @@ All notable changes to this project will be documented in this file.
   - `@mmmbuto/node-pty-android-arm64` for Termux
   - `@lydell/node-pty-linux-arm64` for Linux ARM64
 - Provides helpful error messages when PTY dependencies are missing
+## [0.9.11] - 2026-01-09
+### Fixed
+- Added PTY dependency verification in postinstall
+- Added platform-specific PTY provider installation
+- Added @mmmbuto/pty-termux-utils installation check
+- All PTY dependencies now verified during npm install
+- Updated @mmmbuto/pty-termux-utils to ^1.1.2
+
+
 
 ## [0.9.9] - 2026-01-01
 ### Added
