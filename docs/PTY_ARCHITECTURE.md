@@ -1,67 +1,77 @@
-# PTY Architecture for NexusCLI (Termux Only)
+# PTY Architecture for NexusCLI (Termux + Linux ARM64)
 
-**Version**: 0.9.10-termux
-**Date**: 2026-01-08
+**Version**: 1.1.0  
+**Date**: 2026-01-09  
 **Author**: DioNanos
 
 ## Executive Summary
 
-NexusCLI is Termux-only. Supports PTY detection with automatic fallback to child_process adapter.
+NexusCLI uses the shared library `@mmmbuto/pty-termux-utils` to provide
+multi-provider PTY support with graceful fallback. Termux and Linux ARM64
+get native PTY when available; all other platforms fall back to a
+`child_process` adapter.
 
 **Key Improvements:**
-- Added getPty.js for PTY detection (Termux-only)
-- Added @mmmbuto/node-pty-android-arm64 as optional dependency
-- Maintained backward compatibility with existing pty-adapter.js
-- Zero breaking changes to existing wrappers
+- Shared PTY library across Gemini/Qwen/Nexus
+- Multi-provider PTY (Termux + Linux ARM64)
+- Debug logging via `PTY_DEBUG=1`
+- Backward-compatible wrapper APIs
 
 ## Architecture Overview
 
-### PTY Loader Chain (Termux Only)
+### PTY Loader Chain (Multi‑Provider)
 
-nexuscli (wrapper)
+nexuscli (wrappers)
     ↓
-getPty.getPty()  ← NEW: PTY detection
-    ├─→ @mmmbuto/node-pty-android-arm64 (native PTY)
-    └─→ null → pty-adapter.js (child_process fallback)
+pty-adapter.js (compat API)
+    ↓
+@mmmbuto/pty-termux-utils.getPty()
+    ├─→ @mmmbuto/node-pty-android-arm64 (Termux native)
+    ├─→ @lydell/node-pty-linux-arm64 (Linux ARM64 native)
+    └─→ null → fallback adapter (child_process)
 
-## New Files
+### Provider Priority
+1. Termux → `@mmmbuto/node-pty-android-arm64`
+2. Linux ARM64 → `@lydell/node-pty-linux-arm64`
+3. Fallback → `child_process` adapter
+
+## Files
+
+### lib/server/lib/pty-provider.js
+Shared provider wrapper using `@mmmbuto/pty-termux-utils`.
+
+### lib/server/lib/pty-adapter.js
+Compatibility adapter. Sync spawn uses fallback; async spawn uses native if available.
 
 ### lib/server/lib/getPty.js
+Legacy compatibility wrapper (delegates to shared library).
 
-PTY loader that:
-1. Tries @mmmbuto/node-pty-android-arm64
-2. Returns null to trigger fallback adapter
+## Dependencies
 
-### package.json - optionalDependencies
-
+### package.json (NexusCLI)
 ```json
 {
+  "dependencies": {
+    "@mmmbuto/pty-termux-utils": "^1.1.0"
+  },
   "optionalDependencies": {
-    "@mmmbuto/node-pty-android-arm64": "1.1.0"
+    "@mmmbuto/node-pty-android-arm64": "~1.1.0"
   }
 }
 ```
 
-## Existing Files (Unchanged)
+**Note:** Linux ARM64 provider `@lydell/node-pty-linux-arm64` is listed as an
+optional dependency **inside** `@mmmbuto/pty-termux-utils`.
 
-### lib/server/lib/pty-adapter.js
-
-Fallback adapter using child_process.spawn. Maintains backward compatibility.
-
-### lib/server/services/claude-wrapper.js
-### lib/server/services/gemini-wrapper.js
-### lib/server/services/codex-wrapper.js
-
-All wrappers currently use pty-adapter directly. No changes required.
-
-## Installation (Termux)
+## Installation
 
 ```bash
 npm install @mmmbuto/nexuscli@latest
 ```
 
-- @mmmbuto/node-pty-android-arm64 will be installed (optional, gracefully degrades)
-- Fallback to pty-adapter.js works without warnings
+- Termux: native PTY via `@mmmbuto/node-pty-android-arm64`
+- Linux ARM64: native PTY via `@lydell/node-pty-linux-arm64`
+- Others: fallback adapter
 
 ## Testing
 
@@ -69,38 +79,44 @@ npm install @mmmbuto/nexuscli@latest
 
 ```bash
 cd ~/Dev/nexuscli
-node -e "
+PTY_DEBUG=1 node -e "
 const getPty = require('./lib/server/lib/getPty');
-console.log('PTY Available:', getPty.isPtyAvailable());
+getPty.getPty().then((pty) => {
+  console.log('PTY Available:', !!pty, pty?.name || 'fallback');
+});
 "
 ```
 
-### Expected Output (without PTY package):
-
+### Expected Output (Termux)
 ```
-PTY Available: false
-[getPty] Termux PTY not available, using fallback adapter
-[getPty] Using child_process fallback adapter
+[PTY] Native module loaded: @mmmbuto/node-pty-android-arm64
+[PTY] Using native PTY provider: mmmbuto-node-pty
+PTY Available: true mmmbuto-node-pty
 ```
 
-### Expected Output (with PTY package):
-
+### Expected Output (Linux ARM64)
 ```
-PTY Available: true
-[getPty] Using @mmmbuto/node-pty-android-arm64 (Termux)
+[PTY] Native module loaded: @lydell/node-pty-linux-arm64
+[PTY] Using native PTY provider: lydell-node-pty-linux-arm64
+PTY Available: true lydell-node-pty-linux-arm64
+```
+
+### Expected Output (Fallback)
+```
+[PTY] Using fallback PTY adapter with child_process
+PTY Available: false fallback
 ```
 
 ## Comparison with Other CLI
 
-| CLI | Platform | PTY Implementation | Fallback | Termux Support |
-|-----|----------|-------------------|-----------|---------------|
-| **nexuscli** | Termux only | getPty.js | pty-adapter.js | Yes (@mmmbuto/node-pty) |
-| **gemini-cli-termux** | Termux | getPty.ts | shellExecutionService | Yes (@mmmbuto/node-pty) |
-| **qwen-code-termux** | Termux | getPty.ts | shellExecutionService | Yes (@mmmbuto/node-pty) |
-| **codex-termux** | Rust | Native PTY | N/A | N/A |
+| CLI | Platform | PTY Implementation | Fallback | Termux | Linux ARM64 |
+|-----|----------|-------------------|---------|--------|-------------|
+| **nexuscli** | Termux + Linux ARM64 | shared library | child_process | Yes | Yes |
+| **gemini-cli-termux** | Termux + Linux ARM64 | shared library | child_process | Yes | Yes |
+| **qwen-code-termux** | Termux + Linux ARM64 | shared library | child_process | Yes | Yes |
+| **codex-termux** | Rust | Native PTY | N/A | N/A | N/A |
 
 ## Notes
 
-- NexusCLI is Termux-only: no desktop support logic
-- All wrappers maintain backward compatibility with pty-adapter.js
-- Future migration to getPty.js is optional, not required
+- Shared library is the source of truth for provider logic.
+- `getPty.js` is retained for compatibility; avoid adding new logic there.
