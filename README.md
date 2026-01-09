@@ -1,20 +1,15 @@
-# NexusCLI — AI Terminal Cockpit
-
-<p align="center">
-  <img src=".github/header/header.png" width="900" />
-</p>
-
----
-
-[![npm](https://img.shields.io/npm/v/@mmmbuto/nexuscli?style=flat-square&logo=npm)](https://www.npmjs.com/package/@mmmbuto/nexuscli)
-[![downloads](https://img.shields.io/npm/dt/@mmmbuto/nexuscli?style=flat-square)](https://www.npmjs.com/package/@mmmbuto/nexuscli)
-[![ko-fi](https://img.shields.io/badge/☕_Support-Ko--fi-FF5E5B?style=flat-square&logo=ko-fi)](https://ko-fi.com/dionanos)
-
----
-
 ## Overview
 
 NexusCLI is a lightweight, Termux-first AI cockpit that orchestrates Claude Code, Codex CLI, Gemini CLI, and Qwen Code CLI from a single web/terminal UI. It supports live streaming, interrupts, session resume, workspace isolation, and remote voice input with auto HTTPS setup.
+
+---
+
+## Screenshots
+
+<p align="center">
+  <img src="docs/assets/screenshots/nexuscli-multilang-preview.png" width="45%" />
+  <img src="docs/assets/screenshots/nexuscli-mobile-glm.png" width="45%" />
+</p>
 
 ---
 
@@ -43,15 +38,6 @@ NexusCLI is a lightweight, Termux-first AI cockpit that orchestrates Claude Code
 | **Codex** | GPT-5.2 Codex, GPT-5.2, GPT-5.1 Codex (Mini/Max), GPT-5.1 | OpenAI |
 | **Gemini** | Gemini 3 Pro Preview, Gemini 3 Flash Preview | Google |
 | **Qwen** | coder-model, vision-model | Alibaba |
-
----
-
-## Screenshots
-
-<p align="center">
-  <img src="docs/assets/screenshots/nexuscli-multilang-preview.png" width="45%" />
-  <img src="docs/assets/screenshots/nexuscli-mobile-glm.png" width="45%" />
-</p>
 
 ---
 
