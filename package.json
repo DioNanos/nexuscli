@@ -58,7 +58,7 @@
     "x64"
   ],
   "dependencies": {
-    "@mmmbuto/pty-termux-utils": "file:../pty-termux-utils",
+    "@mmmbuto/pty-termux-utils": "^1.1.0",
     "bcryptjs": "^3.0.3",
     "chalk": "^4.1.2",
     "commander": "^12.1.0",
