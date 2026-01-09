@@ -1,0 +1,4 @@
+# Explicit npm ignore; package.json "files" list controls published content.
+node_modules/
+npm-debug.log*
+.DS_Store
