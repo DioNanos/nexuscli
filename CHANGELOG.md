@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.9.13] - 2026-01-09
+### Chore
+- Add .npmignore to avoid publish warning
+
 ## [0.9.12] - 2026-01-09
 ### Fixed
 - Guard PTY utils loading to avoid hard crash when dependency is broken or missing
