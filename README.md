@@ -6,38 +6,17 @@
 
 ---
 
-## Overview
-
-NexusCLI is a lightweight, Termux-first AI cockpit that orchestrates Claude Code, Codex CLI, Gemini CLI, and Qwen Code CLI from a single web/terminal UI. It supports live streaming, interrupts, session resume, workspace isolation, and remote voice input with auto HTTPS setup.
-
----
-
 [![npm](https://img.shields.io/npm/v/@mmmbuto/nexuscli?style=flat-square&logo=npm)](https://www.npmjs.com/package/@mmmbuto/nexuscli)
 [![downloads](https://img.shields.io/npm/dt/@mmmbuto/nexuscli?style=flat-square)](https://www.npmjs.com/package/@mmmbuto/nexuscli)
 [![ko-fi](https://img.shields.io/badge/☕_Support-Ko--fi-FF5E5B?style=flat-square&logo=ko-fi)](https://ko-fi.com/dionanos)
 
 ---
 
-## Screenshots
+## Overview
 
-<p align="center">
-  <img src="docs/assets/screenshots/nexuscli-multilang-preview.png" width="45%" />
-  <img src="docs/assets/screenshots/nexuscli-mobile-glm.png" width="45%" />
-</p>
+NexusCLI is a lightweight, Termux-first AI cockpit that orchestrates Claude Code, Codex CLI, Gemini CLI, and Qwen Code CLI from a single web/terminal UI. It supports live streaming, interrupts, session resume, workspace isolation, and remote voice input with auto HTTPS setup.
 
 ---
-
-## Highlights (v0.9.9)
-
-- **Auto-update**: Update check on start (npm + GitHub) with interactive prompt
-- **Update command**: `nexuscli update` / `nexuscli upgrade` (stop → update → restart)
-- **Live default model**: UI refreshes config on focus/interval without restart
-- **Restart warnings**: CLI warns when changes require stop/start
-
-### Stable (v0.9.9)
-
-- Update check is cached and non-blocking for normal startup
-- GitHub-only releases show a notice without prompting
 
 ## Features
 
@@ -52,6 +31,8 @@ NexusCLI is a lightweight, Termux-first AI cockpit that orchestrates Claude Code
 - Conversation search + pin/bookmark
 - Built-in jobs runner API for shell tasks
 - Config API + rate limiting on chat endpoints
+- Auto-update check on start with interactive prompt
+- `nexuscli update` command to update and restart server
 
 ## Supported Engines
 
@@ -62,6 +43,15 @@ NexusCLI is a lightweight, Termux-first AI cockpit that orchestrates Claude Code
 | **Codex** | GPT-5.2 Codex, GPT-5.2, GPT-5.1 Codex (Mini/Max), GPT-5.1 | OpenAI |
 | **Gemini** | Gemini 3 Pro Preview, Gemini 3 Flash Preview | Google |
 | **Qwen** | coder-model, vision-model | Alibaba |
+
+---
+
+## Screenshots
+
+<p align="center">
+  <img src="docs/assets/screenshots/nexuscli-multilang-preview.png" width="45%" />
+  <img src="docs/assets/screenshots/nexuscli-mobile-glm.png" width="45%" />
+</p>
 
 ---
 
@@ -128,8 +118,6 @@ nexuscli start
 | `nexuscli upgrade` | Alias for update |
 | `nexuscli uninstall` | Remove NexusCLI |
 
----
-
 > **Note**: On `nexuscli start`, an update check runs (cached) and will prompt in interactive shells.
 
 ## API Keys
@@ -195,8 +183,8 @@ engine CLIs alive in background; it spawns them on demand and resumes sessions.
 - Install Termux:Boot to auto-restart after reboot or app kill.
 - Keep a persistent notification (Termux:API helps prevent background kill).
 
-**Reduce battery usage (when you don’t need it always-on):**
-- Stop the server when idle: `nexuscli stop`.
+**Reduce battery usage (when you don't need it always-on):**
+- Stop server when idle: `nexuscli stop`.
 - Disable wake-lock and notifications when not needed.
 - Prefer lighter models and lower reasoning settings.
 
@@ -240,11 +228,6 @@ npm run dev
 
 ---
 
-## License
-
-MIT License.
-See `LICENSE` for details.
-
 ## PTY Support (Shared Library)
 
 NexusCLI uses `@mmmbuto/pty-termux-utils` as a shared library for PTY
@@ -260,3 +243,16 @@ management across all Termux CLI projects (Gemini, Qwen, Nexus).
 # Enable PTY debug logging
 PTY_DEBUG=1 nexuscli start
 ```
+
+---
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for version history.
+
+---
+
+## License
+
+MIT License.
+See `LICENSE` for details.
