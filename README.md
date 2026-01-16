@@ -240,5 +240,5 @@ See [CHANGELOG.md](CHANGELOG.md) for version history.
 
 ## License
 
-MIT License.
-See `LICENSE` for details.
+MIT License — Copyright (c) 2026 Davide A. Guglielmi  
+See [LICENSE](LICENSE) for details.
