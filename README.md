@@ -240,5 +240,6 @@ See [CHANGELOG.md](CHANGELOG.md) for version history.
 
 ## License
 
-MIT License — Copyright (c) 2026 Davide A. Guglielmi<br>
+MIT License — Copyright (c) 2025 Davide A. Guglielmi<br>
+See [LICENSE](LICENSE) for details.<br>
 Made in Italy 🇮🇹
