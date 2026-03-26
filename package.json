@@ -50,10 +50,6 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "os": [
-    "linux",
-    "android"
-  ],
   "cpu": [
     "arm64",
     "x64"
