@@ -36,7 +36,7 @@ function getEngineStyle(engine, model, metadata) {
   if (modelLower.includes('gemini')) {
     return { icon: Sparkles, color: '#4285F4', name: 'Gemini' };
   }
-  if (modelLower.includes('qwen') || modelLower.includes('coder-model') || modelLower.includes('vision-model')) {
+  if (modelLower.includes('qwen')) {
     return { icon: Cpu, color: '#D32F2F', name: 'QWEN' };
   }
 
@@ -47,7 +47,7 @@ function getEngineStyle(engine, model, metadata) {
   if (metadataModel.includes('gemini')) {
     return { icon: Sparkles, color: '#4285F4', name: 'Gemini' };
   }
-  if (metadataModel.includes('qwen') || metadataModel.includes('coder-model') || metadataModel.includes('vision-model')) {
+  if (metadataModel.includes('qwen')) {
     return { icon: Cpu, color: '#D32F2F', name: 'QWEN' };
   }
 
