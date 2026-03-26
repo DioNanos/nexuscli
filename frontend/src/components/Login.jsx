@@ -28,7 +28,7 @@ function Login() {
       <div className="login-box">
         <div className="login-header">
           <h1>NexusCLI</h1>
-          <p>Port 41800</p>
+          <p>Sign in to your server</p>
         </div>
 
         <form onSubmit={handleSubmit} className="login-form">
