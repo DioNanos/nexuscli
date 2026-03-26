@@ -1,5 +1,5 @@
 // NexusCLI Service Worker
-const CACHE_VERSION = 'nexuscli-v1774546305617';
+const CACHE_VERSION = 'nexuscli-v1774551070018';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const DYNAMIC_CACHE = `${CACHE_VERSION}-dynamic`;
 
