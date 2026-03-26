@@ -2,187 +2,126 @@
 
 ## Overview
 
-NexusCLI is a Termux-first AI cockpit that orchestrates multiple AI CLI tools (Claude, Codex, Gemini, Qwen) through a unified web interface with SSE streaming.
+NexusCLI is a runtime-aware AI cockpit that orchestrates Claude Code, Codex CLI, Gemini CLI, and Qwen Code through a unified web interface with SSE streaming.
 
-## System Diagram
+The key architectural change is that execution is no longer modeled as `engine only`. Every request is resolved through:
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                           FRONTEND                                   │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐ │
-│  │   Chat.jsx  │  │  Sidebar    │  │ ModelSelect │  │  StatusLine │ │
-│  │  (main UI)  │  │ (sessions)  │  │  (engine)   │  │   (tools)   │ │
-│  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘ │
-│         │                │                │                │        │
-│         └────────────────┴────────────────┴────────────────┘        │
-│                                   │                                  │
-│                         SSE Streaming + REST                         │
-└───────────────────────────────────┬─────────────────────────────────┘
-                                    │
-                                    ▼
-┌───────────────────────────────────────────────────────────────────────┐
-│                           BACKEND (Express.js)                         │
-│  ┌─────────────────────────────────────────────────────────────────┐  │
-│  │                        Middleware Layer                          │  │
-│  │  ┌──────────┐  ┌────────────────┐  ┌──────────────────────────┐ │  │
-│  │  │   CORS   │  │ authMiddleware │  │   chatRateLimiter        │ │  │
-│  │  │          │  │    (JWT)       │  │   (10 req/min/user)      │ │  │
-│  │  └──────────┘  └────────────────┘  └──────────────────────────┘ │  │
-│  └─────────────────────────────────────────────────────────────────┘  │
-│                                                                        │
-│  ┌─────────────────────────────────────────────────────────────────┐  │
-│  │                         Routes Layer                             │  │
-│  │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌─────┐ │  │
-│  │  │ /chat    │  │ /codex   │  │ /gemini  │  │ /qwen    │  │ ... │ │  │
-│  │  │ (Claude) │  │ (OpenAI) │  │ (Google) │  │ (Qwen)   │  │     │ │  │
-│  │  └────┬─────┘  └────┬─────┘  └────┬─────┘  └────┬─────┘  └─────┘ │  │
-│  └───────┼─────────────┼─────────────┼─────────────┼───────────────┘  │
-│          │             │             │             │                  │
-│  ┌───────┴─────────────┴─────────────┴─────────────┴──────────────┐   │
-│  │                      Services Layer                              │   │
-│  │  ┌────────────────┐  ┌────────────────┐  ┌──────────────────┐  │   │
-│  │  │ ClaudeWrapper  │  │ CodexWrapper   │  │ GeminiWrapper    │  │   │
-│  │  │ (extends Base) │  │ (extends Base) │  │ (extends Base)   │  │   │
-│  │  └───────┬────────┘  └───────┬────────┘  └───────┬────────────┘  │   │
-│  │          │                   │                   │               │   │
-│  │  ┌───────┴────────┐          │          ┌────────┴────────┐      │   │
-│  │  │ QwenWrapper    │          │          │ BaseCliWrapper  │      │   │
-│  │  │ (extends Base) │          │          │ (process mgmt)  │      │   │
-│  │  └────────────────┘          │          └─────────────────┘      │   │
-│  │                              │                                   │   │
-│  │                    ┌─────────┴─────────┐                        │   │
-│  │                    │  BaseCliWrapper   │                        │   │
-│  │                    │  (process mgmt)   │                        │   │
-│  │                    └─────────┬─────────┘                        │   │
-│  │                              │                                   │   │
-│  │  ┌────────────────┐  ┌──────┴───────┐  ┌────────────────────┐  │   │
-│  │  │ SessionManager │  │ OutputParser │  │ WorkspaceManager   │  │   │
-│  │  │ (sync/resume)  │  │ (JSON parse) │  │ (discover/mount)   │  │   │
-│  │  └────────────────┘  └──────────────┘  └────────────────────┘  │   │
-│  └─────────────────────────────────────────────────────────────────┘  │
-│                                                                        │
-│  ┌─────────────────────────────────────────────────────────────────┐  │
-│  │                        Data Layer                                │  │
-│  │  ┌────────────────┐  ┌────────────────┐  ┌────────────────────┐ │  │
-│  │  │ sql.js (SQLite)│  │     Models     │  │    Migrations      │ │  │
-│  │  │ (Termux-safe)  │  │ User/Conv/Msg  │  │ 001-004_*.sql      │ │  │
-│  │  └────────────────┘  └────────────────┘  └────────────────────┘ │  │
-│  └─────────────────────────────────────────────────────────────────┘  │
-└───────────────────────────────────────────────────────────────────────┘
-                                    │
-                                    ▼
-┌───────────────────────────────────────────────────────────────────────┐
-│                        CLI TOOLS (External)                            │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐        │
-│  │   Claude CLI    │  │   Codex CLI     │  │   Gemini CLI    │        │
-│  │   (Anthropic)   │  │   (OpenAI)      │  │   (Google)      │        │
-│  │                 │  │                 │  │                 │        │
-│  │  - OAuth auth   │  │  - API key auth │  │  - OAuth auth   │        │
-│  │  - .jsonl logs  │  │  - JSON logs    │  │  - JSON logs    │        │
-│  │  - DeepSeek/GLM │  │                 │  │                 │        │
-│  └─────────────────┘  └─────────────────┘  └─────────────────┘        │
-│  ┌─────────────────┐                                                   │
-│  │   Qwen CLI      │                                                   │
-│  │   (Alibaba)     │                                                   │
-│  │                 │                                                   │
-│  │  - OAuth/OpenAI │                                                   │
-│  │  - JSONL logs   │                                                   │
-│  └─────────────────┘                                                   │
-└───────────────────────────────────────────────────────────────────────┘
-```
+- `engine`
+- `lane`
+- `runtime`
+- `provider`
+- `model`
 
-## Data Flow
+## High-Level Layers
 
-### 1. Chat Request Flow
+### Frontend
 
-```
-User Input → Chat.jsx → POST /api/v1/chat → authMiddleware → rateLimiter
-    │
-    ▼
-chatRouter → ClaudeWrapper.sendMessage()
-    │
-    ├── Spawn CLI process (child_process.spawn)
-    ├── Register process (BaseCliWrapper)
-    ├── Stream stdout via OutputParser
-    │
-    ▼
-SSE Events ← OutputParser.parse() ← stdout chunks
-    │
-    ├── type: 'status' → StatusLine.jsx
-    ├── type: 'message_done' → Messages state
-    │
-    ▼
-Message.create() → SQLite → Response complete
-```
+- React application
+- SSE stream consumer for live status
+- model picker split by `native` / `custom`
+- runtime manager for install/update/check actions
 
-### 2. Session Sync Pattern
+### Backend
 
-```
-FILESYSTEM = SOURCE OF TRUTH
+- Express routes per engine
+- runtime inventory and resolution via `RuntimeManager`
+- wrapper services for Claude, Codex, Gemini, and Qwen
+- `SessionManager` for resume and conversation/session mapping
 
-~/.claude/projects/{workspace-slug}/{session-id}.jsonl
-~/.qwen/projects/{sanitized-cwd}/chats/{session-id}.jsonl
-    │
-    ▼
-WorkspaceManager.discoverWorkspaces()
-    │
-    ▼
-SessionImporter.importAll()
-    │
-    ▼
-SQLite (cache only) → Frontend Sidebar
-```
+### Persistence
 
-## Key Components
+- `sql.js` SQLite storage
+- migration-based schema evolution
+- runtime-aware metadata on sessions and messages
 
-### Backend Services
+## Request Flow
 
-| Service | Purpose |
-|---------|---------|
-| `ClaudeWrapper` | Spawns Claude CLI, parses output, handles DeepSeek/GLM |
-| `CodexWrapper` | Spawns Codex CLI with reasoning effort control |
-| `GeminiWrapper` | Spawns Gemini CLI with session management |
-| `QwenWrapper` | Spawns Qwen Code CLI with session management |
-| `BaseCliWrapper` | Process tracking, interrupt capability (ESC/SIGINT) |
-| `SessionManager` | Conversation ↔ Session mapping, cross-engine bridging |
-| `WorkspaceManager` | Discovers workspaces from CLI projects directories |
-| `OutputParser` | Parses JSON stream from CLIs into status events |
+1. UI sends `model`, optional `lane`, optional `runtimeId`.
+2. `RuntimeManager.resolveRuntimeSelection()` resolves:
+   - engine
+   - lane
+   - runtime command
+   - provider routing
+   - model metadata
+3. Engine wrapper receives:
+   - runtime command
+   - env overrides
+   - provider auth metadata
+   - optional config overrides
+4. Wrapper spawns the CLI and streams parsed status events.
+5. Sessions and messages are persisted with runtime-aware metadata.
 
-### Frontend Hooks
+## Runtime Rules
 
-| Hook | Purpose |
-|------|---------|
-| `useTheme` | Dark/light theme with localStorage persistence |
-| `useAutoSTT` | Speech-to-text (Whisper or browser) |
-| `useWakeLock` | Prevent Android device sleep |
-| `useJobStream` | SSE event processing |
+### Claude
+
+- `native` uses the latest `claude` CLI
+- `custom` also uses `claude`, but injects provider-specific `ANTHROPIC_*` overrides
+
+### Codex
+
+- `native` uses the latest `codex`
+- `custom` uses `codex-lts`
+- custom Codex lanes inject provider-specific config overrides for compatible gateways
+
+### Gemini / Qwen
+
+- both participate in the same runtime-aware catalog
+- native lanes are first-class
+- custom lanes are catalog-aware, with staged runtime support
 
 ## Database Schema
 
 ```sql
--- Core tables
-conversations (id, title, created_at, updated_at, metadata)
-messages (id, conversation_id, role, content, engine, created_at, metadata)
-sessions (id, engine, workspace_path, conversation_id, title, last_activity)
-users (id, username, password_hash, role, is_locked, locked_until)
+conversations (
+  id, title, created_at, updated_at, metadata
+)
 
--- Performance indexes
-idx_sessions_workspace_path
-idx_conversations_updated_at
-idx_sessions_id_workspace
+messages (
+  id, conversation_id, role, content, engine,
+  lane, runtime_id, provider_id, model_id,
+  created_at, metadata
+)
+
+sessions (
+  id, engine, workspace_path, conversation_id, title,
+  lane, runtime_id, provider_id, model_id,
+  last_used_at, created_at, message_count
+)
 ```
 
-## Security
+## Core Services
 
-- JWT authentication with configurable expiry (default 7 days)
-- bcrypt password hashing (10 salt rounds)
-- Rate limiting on chat endpoints (10 req/min/user)
-- HTTPS auto-setup with self-signed certificates
-- Dangerous command filtering (rm -rf, kill -9, etc.)
+| Service | Purpose |
+|---------|---------|
+| `RuntimeManager` | Runtime catalog, lane resolution, inventory, install/update actions |
+| `ClaudeWrapper` | Claude native/custom execution through a shared CLI |
+| `CodexWrapper` | Codex native/custom execution, including `codex-lts` custom lanes |
+| `GeminiWrapper` | Gemini execution and session resume |
+| `QwenWrapper` | Qwen execution and session resume |
+| `SessionManager` | Conversation/session mapping and native resume metadata |
+| `WorkspaceManager` | Workspace discovery and session-origin awareness |
 
-## Ports
+## API Surface
 
-| Port | Protocol | Use |
-|------|----------|-----|
-| 41800 | HTTP | Local access |
-| 41801 | HTTPS | Remote access, microphone (browser security) |
+Important runtime-aware endpoints:
+
+- `GET /api/v1/models`
+- `GET /api/v1/config`
+- `GET /api/v1/runtimes`
+- `POST /api/v1/runtimes/check`
+- `POST /api/v1/runtimes/install`
+- `POST /api/v1/runtimes/update`
+
+## Cross-Platform Notes
+
+- NexusCLI itself is `npm-first`
+- desktop mode avoids mandatory native PTY builds for the app core
+- Termux keeps dedicated bootstrap helpers
+- runtime installers are platform-aware but exposed through one inventory/action layer
+
+## Related Docs
+
+- [RUNTIME_MODEL.md](RUNTIME_MODEL.md)
+- [API.md](API.md)
+- [PTY_ARCHITECTURE.md](PTY_ARCHITECTURE.md)

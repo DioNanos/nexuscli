@@ -2,8 +2,6 @@
 
 **Version**: 1.1.0  
 **Date**: 2026-01-09  
-**Author**: DioNanos
-
 ## Executive Summary
 
 NexusCLI uses the shared library `@mmmbuto/pty-termux-utils` to provide
@@ -113,7 +111,7 @@ PTY Available: false fallback
 |-----|----------|-------------------|---------|--------|-------------|
 | **nexuscli** | Termux + Linux ARM64 | shared library | child_process | Yes | Yes |
 | **gemini-cli-termux** | Termux + Linux ARM64 | shared library | child_process | Yes | Yes |
-| **qwen-code-termux** | Termux + Linux ARM64 | shared library | child_process | Yes | Yes |
+| **qwen-cli** | Termux + Linux ARM64 | shared library | child_process | Yes | Yes |
 | **codex-termux** | Rust | Native PTY | N/A | N/A | N/A |
 
 ## Notes
