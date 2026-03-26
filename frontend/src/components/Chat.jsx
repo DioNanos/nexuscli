@@ -5,6 +5,7 @@ import useAutoSTT from '../hooks/useAutoSTT';
 import Message from './Message';
 import StatusLine from './StatusLine';
 import ModelSelector from './ModelSelector';
+import RuntimeManager from './RuntimeManager';
 import Sidebar, { invalidateConversationsCache } from './Sidebar';
 import AttachMenu from './AttachMenu';
 import Icon from './Icon';
@@ -21,7 +22,7 @@ function Chat() {
   const [conversationTitle, setConversationTitle] = useState('New Chat');
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedModel, setSelectedModel] = useState('claude-sonnet-4-5-20250929');
+  const [selectedModel, setSelectedModel] = useState('sonnet');
   const [pendingPreferredModel, setPendingPreferredModel] = useState(null);
   const [configDefaultModel, setConfigDefaultModel] = useState(null);
   const [followConfigDefault, setFollowConfigDefault] = useState(true);
@@ -233,14 +234,14 @@ function Chat() {
         return { model, cli, cliKey, endpoint: cli.endpoint || '/api/v1/chat' };
       }
     }
-    return { model: null, cli: null, cliKey: 'claude-code', endpoint: '/api/v1/chat' };
+    return { model: null, cli: null, cliKey: 'claude', endpoint: '/api/v1/chat' };
   };
 
   // Helper: get interrupt endpoint based on current model
   const getInterruptEndpoint = (modelId) => {
     const { cliKey } = getModelInfo(modelId);
     const endpoints = {
-      'claude-code': '/api/v1/chat/interrupt',
+      'claude': '/api/v1/chat/interrupt',
       'gemini': '/api/v1/gemini/interrupt',
       'codex': '/api/v1/codex/interrupt',
       'qwen': '/api/v1/qwen/interrupt'
@@ -557,7 +558,7 @@ function Chat() {
     setAttachedFiles([]); // Clear attached files after sending
 
     // Determine endpoint based on model category
-    const { endpoint, cliKey } = getModelInfo(selectedModel);
+    const { endpoint, cliKey, model: selectedModelObj } = getModelInfo(selectedModel);
     const isCodex = cliKey === 'codex';
     let newSessionId = null; // Track new session ID for auto-rename
 
@@ -574,6 +575,8 @@ function Chat() {
         workspace: workspacePath,
         message: fullMessage,
         model: selectedModel,
+        lane: selectedModelObj?.lane || 'native',
+        runtimeId: selectedModelObj?.runtimeId || null,
         attachments: attachedFiles.length > 0 ? [...attachedFiles] : undefined
       };
 
@@ -853,6 +856,7 @@ function Chat() {
             reasoningLevel={reasoningEffort}
             onReasoningLevelChange={setReasoningEffort}
           />
+          <RuntimeManager token={token} />
           {!sidebarOpen && (
             <button className="new-chat-btn" onClick={newChat} title="New Chat" aria-label="New Chat">
               <Icon name="SquarePen" size={20} />

@@ -113,6 +113,26 @@
   white-space: nowrap;
 }
 
+.lane-badge {
+  margin-left: auto;
+  padding: 0.1rem 0.35rem;
+  border: 1px solid var(--border-hover);
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-family: 'Fira Code', monospace;
+  color: var(--text-muted);
+}
+
+.lane-badge.lane-custom {
+  color: #ffb347;
+  border-color: rgba(255, 179, 71, 0.35);
+}
+
+.lane-badge.lane-native {
+  color: var(--accent-primary);
+  border-color: rgba(0, 245, 160, 0.25);
+}
+
 .model-dropdown {
   position: absolute;
   top: 100%;
@@ -206,6 +226,19 @@
   padding: 0.25rem 0.5rem 0.5rem;
 }
 
+.lane-section + .lane-section {
+  border-top: 1px solid var(--border-color);
+}
+
+.lane-header {
+  padding: 0.45rem 0.75rem 0.2rem;
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-family: 'Fira Code', monospace;
+}
+
 .model-item {
   display: flex;
   align-items: center;
@@ -217,6 +250,21 @@
   transition: all 0.15s;
   font-family: 'Fira Code', 'Monaco', 'Courier New', monospace;
   line-height: 1.4;
+}
+
+.model-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.model-title {
+  color: var(--text-primary);
+}
+
+.model-meta {
+  color: var(--text-muted);
+  font-size: 0.7rem;
 }
 
 .model-item:hover {

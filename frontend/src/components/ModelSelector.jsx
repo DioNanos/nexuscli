@@ -38,15 +38,20 @@ export default function ModelSelector({
   const selectedModelObj = allModels.find(m => m.id === selectedModel);
   const selectedCli = selectedModelObj ? cliTools[selectedModelObj.category] : cliTools['claude'] || { icon: 'Terminal', name: 'Claude' };
 
-  // Filter models across all CLI tools
-  const filteredCliTools = Object.entries(cliTools).map(([key, cli]) => ({
-    key,
-    ...cli,
-    models: (cli.models || []).filter(model =>
+  const filteredCliTools = Object.entries(cliTools).map(([key, cli]) => {
+    const grouped = (cli.models || []).filter(model =>
       model.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      model.label.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  })).filter(cli => cli.models && cli.models.length > 0);
+      model.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (model.providerId || '').toLowerCase().includes(searchTerm.toLowerCase())
+    ).reduce((acc, model) => {
+      const bucket = model.lane || 'native';
+      if (!acc[bucket]) acc[bucket] = [];
+      acc[bucket].push(model);
+      return acc;
+    }, {});
+
+    return { key, ...cli, groupedModels: grouped };
+  }).filter(cli => Object.keys(cli.groupedModels || {}).length > 0);
 
   const handleSelectModel = (modelId, cliEnabled) => {
     if (!cliEnabled) {
@@ -77,6 +82,11 @@ export default function ModelSelector({
           <Icon name={selectedCli?.icon || 'Terminal'} size={18} />
         </span>
         <span className="model-label">{truncatedLabel}</span>
+        {selectedModelObj?.lane && (
+          <span className={`lane-badge lane-${selectedModelObj.lane}`}>
+            {selectedModelObj.lane === 'custom' ? 'Custom' : 'Native'}
+          </span>
+        )}
         <Icon name="ChevronDown" size={14} />
       </div>
 
@@ -140,22 +150,39 @@ export default function ModelSelector({
                   {!cli.enabled && <span className="coming-soon">{cli.disabledReason || 'Coming Soon'}</span>}
                 </div>
 
-                <div className="model-list">
-                  {cli.models.map(model => (
-                    <div
-                      key={model.id}
-                      className={`model-item ${selectedModel === model.id ? 'selected' : ''} ${!cli.enabled ? 'disabled' : ''}`}
-                      onClick={() => handleSelectModel(model.id, cli.enabled)}
-                    >
-                      <span className="model-label">{model.name}</span>
-                      {selectedModel === model.id && (
-                        <span className="checkmark">
-                          <Icon name="Check" size={18} />
-                        </span>
-                      )}
+                {['native', 'custom'].map(laneKey => {
+                  const laneModels = cli.groupedModels?.[laneKey] || [];
+                  if (laneModels.length === 0) return null;
+
+                  return (
+                    <div key={`${cli.key}-${laneKey}`} className="lane-section">
+                      <div className="lane-header">
+                        <span>{laneKey === 'custom' ? 'Custom' : 'Native'}</span>
+                      </div>
+                      <div className="model-list">
+                        {laneModels.map(model => (
+                          <div
+                            key={model.id}
+                            className={`model-item ${selectedModel === model.id ? 'selected' : ''} ${!cli.enabled ? 'disabled' : ''}`}
+                            onClick={() => handleSelectModel(model.id, cli.enabled)}
+                          >
+                            <div className="model-copy">
+                              <span className="model-title">{model.label}</span>
+                              <span className="model-meta">
+                                {(model.providerId || cli.key).toUpperCase()} · {model.available ? 'Ready' : 'Missing runtime'}
+                              </span>
+                            </div>
+                            {selectedModel === model.id && (
+                              <span className="checkmark">
+                                <Icon name="Check" size={18} />
+                              </span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  ))}
-                </div>
+                  );
+                })}
               </div>
             ))}
           </div>

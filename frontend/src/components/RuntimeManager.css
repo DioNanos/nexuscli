@@ -1,0 +1,160 @@
+.runtime-manager {
+  position: relative;
+}
+
+.runtime-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: 32px;
+  padding: 0 0.65rem;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-hover);
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.runtime-trigger.open,
+.runtime-trigger:hover {
+  color: var(--text-primary);
+  border-color: var(--accent-primary);
+}
+
+.runtime-panel {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  width: min(620px, 88vw);
+  max-height: 60vh;
+  overflow: auto;
+  background: var(--bg-primary);
+  border: 1px solid var(--accent-primary);
+  border-radius: 8px;
+  box-shadow: 0 0 24px var(--accent-glow);
+  z-index: 1000;
+}
+
+.runtime-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.28);
+  z-index: 999;
+}
+
+.runtime-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.runtime-platform {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.runtime-refresh {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-hover);
+  border-radius: 6px;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 0.45rem 0.65rem;
+}
+
+.runtime-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 0.9rem;
+}
+
+.runtime-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 0.9rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.runtime-copy {
+  min-width: 0;
+}
+
+.runtime-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.runtime-title {
+  color: var(--text-primary);
+  font-family: 'Fira Code', monospace;
+  text-transform: capitalize;
+}
+
+.runtime-meta {
+  margin-top: 0.2rem;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-family: 'Fira Code', monospace;
+}
+
+.runtime-status {
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border: 1px solid var(--border-hover);
+}
+
+.runtime-status.status-available {
+  color: var(--accent-primary);
+  border-color: rgba(0, 245, 160, 0.3);
+}
+
+.runtime-status.status-missing {
+  color: #ff9f43;
+  border-color: rgba(255, 159, 67, 0.3);
+}
+
+.runtime-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.runtime-actions button {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-hover);
+  border-radius: 6px;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 0.45rem 0.7rem;
+  font-size: 0.78rem;
+}
+
+.runtime-actions button:hover:not(:disabled),
+.runtime-refresh:hover:not(:disabled) {
+  border-color: var(--accent-primary);
+}
+
+.runtime-actions button:disabled,
+.runtime-refresh:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
