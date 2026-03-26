@@ -1,7 +1,7 @@
 # NexusCLI API Reference
 
 Base URL: `http://localhost:41800` / `https://localhost:41801`
-Version: `0.9.7-termux`
+Version: `runtime-aware`
 
 ## Authentication
 
@@ -48,7 +48,8 @@ Content-Type: application/json
 
 {
   "message": "Hello",
-  "model": "claude-sonnet-4-5-20250929",
+  "model": "sonnet",
+  "lane": "native",
   "conversationId": "optional-uuid",
   "workspace": "/path/to/workspace"
 }
@@ -65,7 +66,8 @@ Content-Type: application/json
 
 {
   "message": "Hello",
-  "model": "gpt-5.1",
+  "model": "gpt-5.3-codex",
+  "lane": "native",
   "conversationId": "optional-uuid"
 }
 ```
@@ -80,6 +82,7 @@ Content-Type: application/json
 {
   "message": "Hello",
   "model": "gemini-3-pro",
+  "lane": "native",
   "conversationId": "optional-uuid"
 }
 ```
@@ -93,7 +96,8 @@ Content-Type: application/json
 
 {
   "message": "Hello",
-  "model": "coder-model",
+  "model": "qwen3-coder-plus",
+  "lane": "native",
   "conversationId": "optional-uuid"
 }
 ```
@@ -148,11 +152,64 @@ Response:
 {
   "models": [
     {
-      "id": "claude-sonnet-4-5-20250929",
-      "name": "Claude Sonnet 4.5",
-      "engine": "claude"
+      "id": "sonnet",
+      "name": "sonnet",
+      "label": "Claude Sonnet 4.6",
+      "engine": "claude",
+      "lane": "native",
+      "runtimeId": "claude-native"
     }
   ]
+}
+```
+
+---
+
+## Runtimes
+
+### List Runtime Inventory
+
+```http
+GET /api/v1/runtimes
+Authorization: Bearer <token>
+```
+
+### Refresh Runtime Checks
+
+```http
+POST /api/v1/runtimes/check
+Authorization: Bearer <token>
+```
+
+### Install Runtime
+
+```http
+POST /api/v1/runtimes/install
+Authorization: Bearer <token>
+```
+
+Body example:
+```json
+{
+  "engine": "claude",
+  "lane": "native",
+  "runtimeId": "claude-native"
+}
+```
+
+### Update Runtime
+
+```http
+POST /api/v1/runtimes/update
+Authorization: Bearer <token>
+```
+
+Body example:
+```json
+{
+  "engine": "codex",
+  "lane": "custom",
+  "runtimeId": "codex-custom"
 }
 ```
 

@@ -1,245 +1,160 @@
 ## Overview
 
-NexusCLI is a lightweight, Termux-first AI cockpit that orchestrates Claude Code, Codex CLI, Gemini CLI, and Qwen Code CLI from a single web/terminal UI. It supports live streaming, interrupts, session resume, workspace isolation, and remote voice input with auto HTTPS setup.
+NexusCLI is a lightweight AI cockpit that orchestrates Claude Code, Codex CLI, Gemini CLI, and Qwen Code from a single web and terminal interface.
 
----
+The project is runtime-aware:
 
-## Screenshots
+- each engine can expose `native` and `custom` lanes
+- model selection is tied to a concrete runtime
+- the UI can inspect runtime availability and update state
+- sessions and messages persist runtime metadata in the local database
 
-<p align="center">
-  <img src="docs/assets/screenshots/nexuscli-multilang-preview.png" width="45%" />
-  <img src="docs/assets/screenshots/nexuscli-mobile-glm.png" width="45%" />
-</p>
+NexusCLI is `npm-first` and targets Linux, macOS, and Termux without requiring desktop-native builds for the core application.
 
 ---
 
 ## Features
 
-- Multi-engine orchestration (Claude, Codex, Gemini, Qwen)
-- SSE streaming with realtime tool statusbar
-- Interrupt/stop per engine
-- Session resume + native session import across engines
+- Multi-engine orchestration for Claude, Codex, Gemini, and Qwen
+- Runtime-aware model catalog with `native` and `custom` lanes
+- SSE streaming with realtime tool and status updates
+- Interrupt and resume support per engine
+- Session import and history sync from native CLI stores
 - Workspace isolation, switching, and history
-- File & image attachments (vision models supported)
-- Model selector (think mode + reasoning levels where available)
-- Voice input (browser STT, optional Whisper via OpenAI key)
-- Conversation search + pin/bookmark
-- Built-in jobs runner API for shell tasks
-- Config API + rate limiting on chat endpoints
-- Auto-update check on start with interactive prompt
-- `nexuscli update` command to update and restart server
+- File and image attachments where supported
+- Runtime inventory API and UI runtime manager
+- Conversation search, bookmark/pin, and job runner API
+- Voice input support with HTTPS auto-setup
 
-## Supported Engines
+---
 
-| Engine | Models | Provider |
-|--------|--------|----------|
-| **Claude (native)** | Opus 4.5, Sonnet 4.5, Haiku 4.5 | Anthropic |
-| **Claude-compatible** | DeepSeek (deepseek-*), GLM-4.7 | DeepSeek, Z.ai |
-| **Codex** | GPT-5.2 Codex, GPT-5.2, GPT-5.1 Codex (Mini/Max), GPT-5.1 | OpenAI |
-| **Gemini** | Gemini 3 Pro Preview, Gemini 3 Flash Preview | Google |
-| **Qwen** | coder-model, vision-model | Alibaba |
+## Current Model Support
+
+| Engine | Lane | Examples |
+|--------|------|----------|
+| Claude | Native | `sonnet`, `opus`, `haiku` |
+| Claude | Custom | `deepseek-*`, `glm-4.7`, `glm-5`, `qwen3.5-plus`, `qwen3-max-2026-01-23`, `kimi-k2.5`, `MiniMax-M2.7` |
+| Codex | Native | `gpt-5.4`, `gpt-5.3-codex`, `gpt-5.2-codex`, `gpt-5.1-codex-max`, `codex-mini-latest` |
+| Codex | Custom | `qwen3-coder-plus`, `qwen3-coder-next`, `qwen3.5-plus`, `glm-5`, `deepseek-ai/DeepSeek-V3.2-TEE` |
+| Gemini | Native | `gemini-3-pro-preview`, `gemini-3-flash-preview`, `gemini-2.5-pro`, `gemini-2.5-flash` |
+| Qwen | Native | `qwen3-coder-plus`, `qwen3-coder-next`, `qwen3.5-plus`, `qwen3-max` |
+| Qwen | Custom | `glm-4.7`, `kimi-k2.5` |
+
+See [docs/RUNTIME_MODEL.md](docs/RUNTIME_MODEL.md) for the runtime model and provider mapping.
 
 ---
 
 ## Install
 
 ```bash
-# From npm
-npm install -g @mmmbuto/nexuscli@0.9.13
-
-# From GitHub
-npm install -g github:DioNanos/nexuscli
+npm install -g @mmmbuto/nexuscli
 ```
 
-### Release Channels
-
-```bash
-# Latest (default)
-npm install -g @mmmbuto/nexuscli@0.9.13
-
-# Stable channel (pinned)
-npm install -g @mmmbuto/nexuscli@stable
-```
-
-## Setup
+Then initialize:
 
 ```bash
 nexuscli init
 ```
 
-## Start
+And start the server:
 
 ```bash
 nexuscli start
 ```
 
-### Network Access
-
-| Protocol | Port | URL | Use Case |
-|----------|------|-----|----------|
-| **HTTP** | 41800 | `http://localhost:41800` | Local access |
-| **HTTPS** | 41801 | `https://<ip>:41801` | Remote access, voice input |
-
-> **Note**: HTTPS is required for microphone access from remote devices (browser security).
-> Self-signed certificates are auto-generated on first run.
-
 ---
 
-## Commands (CLI)
+## Runtime Management
 
-| Command | Description |
-|---------|-------------|
-| `nexuscli init` | Setup wizard (config, certs, data) |
-| `nexuscli start` | Start server (HTTP 41800 / HTTPS 41801) |
-| `nexuscli stop` | Stop server |
-| `nexuscli status` | Status and available engines |
-| `nexuscli engines` | Manage engines |
-| `nexuscli workspaces` | Manage workspaces |
-| `nexuscli model` | Default model |
-| `nexuscli api` | Additional API keys (e.g., Whisper) |
-| `nexuscli logs` | View server logs |
-| `nexuscli users` | Users |
-| `nexuscli setup-termux` | Termux helpers (services, paths) |
-| `nexuscli update` | Update NexusCLI and restart server |
-| `nexuscli upgrade` | Alias for update |
-| `nexuscli uninstall` | Remove NexusCLI |
+NexusCLI separates:
 
-> **Note**: On `nexuscli start`, an update check runs (cached) and will prompt in interactive shells.
+- `engine`
+- `lane`
+- `runtime`
+- `provider`
+- `model`
+
+Runtime inventory is available through:
+
+- UI runtime manager
+- `GET /api/v1/runtimes`
+- `POST /api/v1/runtimes/check`
+- `POST /api/v1/runtimes/install`
+- `POST /api/v1/runtimes/update`
+
+---
 
 ## API Keys
 
-Configure API keys for additional providers:
+Provider keys can be stored locally via:
 
 ```bash
-nexuscli api list                     # List configured keys
-nexuscli api set deepseek <key>       # DeepSeek models
-nexuscli api set zai <key>            # GLM-4.7 (Z.ai Anthropic-compatible)
-nexuscli api set openai <key>         # Voice input (Whisper STT)
-nexuscli api set openrouter <key>     # Future: Multi-provider gateway
-nexuscli api delete <provider>        # Remove key
+nexuscli api list
+nexuscli api set deepseek <key>
+nexuscli api set zai <key>
+nexuscli api set alibaba <key>
+nexuscli api set chutes <key>
+nexuscli api set minimax <key>
+nexuscli api set openai <key>
 ```
 
-> **Note**: Claude/Codex/Gemini/Qwen keys are managed by their respective CLIs.
-> OpenAI key enables voice input via Whisper. HTTPS auto-generated for remote mic access.
+These keys are used only for custom provider lanes that need compatible API routing.
 
 ---
 
-## Requirements
+## Commands
 
-- Node.js 18+
-- At least one CLI installed:
-  - Claude Code CLI (`claude`)
-  - Codex CLI (`codex`)
-  - Gemini CLI (`gemini`)
-  - Qwen Code CLI (`qwen`)
-
----
-
-## Termux-First Architecture
-
-NexusCLI is designed primarily for **Termux** on Android devices.
-
-### Stack
-
-- **Termux** - primary runtime environment
-- **tmux (optional)** - session management (user-managed)
-- **Node.js + SSE** - lightweight backend
-- **React** - minimal UI
-
-### Purpose
-
-This project exists to study:
-
-- terminal-driven AI orchestration
-- ultra-light architectures for constrained devices
-- mobile development workflows
-
-It is a **research and learning tool**.
+| Command | Description |
+|---------|-------------|
+| `nexuscli init` | Setup wizard |
+| `nexuscli start` | Start server |
+| `nexuscli stop` | Stop server |
+| `nexuscli status` | Show server status |
+| `nexuscli engines` | Inspect/configure runtime-aware engines |
+| `nexuscli model` | Set/get default model |
+| `nexuscli config` | Read/edit configuration |
+| `nexuscli api` | Manage provider API keys |
+| `nexuscli workspaces` | Manage workspaces |
+| `nexuscli logs` | View server logs |
+| `nexuscli setup-termux` | Termux bootstrap helpers |
+| `nexuscli update` | Update NexusCLI |
+| `nexuscli uninstall` | Remove NexusCLI |
 
 ---
 
-## Battery / Keep-Alive (Android)
+## Network Access
 
-Android can kill background processes aggressively. NexusCLI does not keep
-engine CLIs alive in background; it spawns them on demand and resumes sessions.
+| Protocol | Default Port | Use Case |
+|----------|--------------|----------|
+| HTTP | `41800` | Local access |
+| HTTPS | `41801` | Remote access and browser microphone support |
 
-**Keep NexusCLI alive (when you need it running):**
-- Disable battery optimization for Termux (Android Settings → Battery → Unrestricted).
-- Enable wake-lock + notifications (via `nexuscli config`).
-- Install Termux:Boot to auto-restart after reboot or app kill.
-- Keep a persistent notification (Termux:API helps prevent background kill).
-
-**Reduce battery usage (when you don't need it always-on):**
-- Stop server when idle: `nexuscli stop`.
-- Disable wake-lock and notifications when not needed.
-- Prefer lighter models and lower reasoning settings.
-
----
-
-## API Endpoints
-
-| Endpoint | Engine | Description |
-|----------|--------|-------------|
-| `POST /api/v1/chat` | Claude | SSE streaming chat |
-| `POST /api/v1/codex` | Codex | SSE streaming chat |
-| `POST /api/v1/gemini` | Gemini | SSE streaming chat |
-| `POST /api/v1/qwen` | Qwen | SSE streaming chat |
-| `POST /api/v1/chat/interrupt` | Claude | Stop running generation |
-| `POST /api/v1/codex/interrupt` | Codex | Stop running generation |
-| `POST /api/v1/gemini/interrupt` | Gemini | Stop running generation |
-| `POST /api/v1/qwen/interrupt` | Qwen | Stop running generation |
-| `GET /api/v1/models` | All | List available models |
-| `GET /api/v1/config` | - | Get user preferences (default model) |
-| `POST /api/v1/sessions/import` | - | Import native sessions (admin) |
-| `POST /api/v1/jobs` | - | Run a background job (SSE stream) |
-| `GET /api/v1/workspaces` | - | List workspaces from sessions |
-| `GET /health` | - | Health check |
+HTTPS certificates are auto-generated on first run.
 
 ---
 
 ## Development
 
 ```bash
-# Clone
-git clone https://github.com/DioNanos/nexuscli.git
+git clone <upstream-or-fork-url> nexuscli
 cd nexuscli
-
-# Install deps
 npm install
 cd frontend && npm install && npm run build && cd ..
-
-# Run dev
 npm run dev
 ```
 
 ---
 
-## PTY Support (Shared Library)
+## Documentation
 
-NexusCLI uses `@mmmbuto/pty-termux-utils` as a shared library for PTY
-management across all Termux CLI projects (Gemini, Qwen, Nexus).
-
-- **Native PTY:** Uses `@mmmbuto/node-pty-android-arm64@~1.1.0` when available
-- **Linux ARM64:** Uses `@lydell/node-pty-linux-arm64@~1.2.0-beta.2` when available
-- **Fallback:** Gracefully degrades to `child_process` adapter
-- **Debug Logging:** Enable with `PTY_DEBUG=1` environment variable
-- **Architecture:** See `@mmmbuto/pty-termux-utils` documentation
-
-```bash
-# Enable PTY debug logging
-PTY_DEBUG=1 nexuscli start
-```
-
----
-
-## Changelog
-
-See [CHANGELOG.md](CHANGELOG.md) for version history.
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- [docs/API.md](docs/API.md)
+- [docs/GUIDE.md](docs/GUIDE.md)
+- [docs/RUNTIME_MODEL.md](docs/RUNTIME_MODEL.md)
+- [docs/PTY_ARCHITECTURE.md](docs/PTY_ARCHITECTURE.md)
 
 ---
 
 ## License
 
-MIT License — Copyright (c) 2026 Davide A. Guglielmi<br>
-See [LICENSE](LICENSE) for details.<br>
-Made in Italy 🇮🇹
+MIT License. See [LICENSE](LICENSE).
