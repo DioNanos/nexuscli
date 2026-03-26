@@ -74,7 +74,7 @@ SELECT
   'claude-code' as engine,
   COALESCE(
     json_extract(c.metadata, '$.workspace'),
-    '/data/data/com.termux/files/home/Dev/NexusCLI/backend'
+    ''
   ) as workspace_path,
   NULL as session_path,
   c.title,

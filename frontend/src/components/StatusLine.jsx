@@ -21,7 +21,7 @@ import './StatusLine.css';
 export default function StatusLine({
   statusEvents = [],
   isLoading = false,
-  currentDirectory = '/home/dag',
+  currentDirectory = '/workspace',
   onDirectoryChange = () => {},
   onDeprecateWorkspace = () => {},
   workspaces = []

@@ -5,11 +5,11 @@ import './WorkspaceButton.css';
 export default function WorkspaceButton({ currentWorkspace, onWorkspaceChange, compact = false }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Mock workspaces - in futuro chiamare GET /api/v1/workspaces
+  // Placeholder workspaces until this component is wired to the runtime workspace API.
   const workspaces = [
-    { path: '/var/www/cli.wellanet.dev', sessionCount: 25 },
-    { path: '/var/www/chat.mmmbuto.com', sessionCount: 108 },
-    { path: '/home/dag/projects/nexuscore', sessionCount: 42 }
+    { path: '/workspace/app', sessionCount: 12 },
+    { path: '/workspace/docs', sessionCount: 5 },
+    { path: '/workspace/sandbox', sessionCount: 2 }
   ];
 
   const handleSelectWorkspace = (workspace) => {
