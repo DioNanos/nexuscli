@@ -1,157 +1,103 @@
+# NexusCLI
+
 ## Overview
 
-NexusCLI is a lightweight AI cockpit that orchestrates Claude Code, Codex CLI, Gemini CLI, and Qwen Code from a single web and terminal interface.
+NexusCLI is no longer an active end-user product.
 
-The project is runtime-aware:
+The repository is kept as a **study, prototype, and reference project** for ideas explored during the development of a lightweight AI cockpit for terminal and web workflows.
 
-- each engine can expose `native` and `custom` lanes
-- model selection is tied to a concrete runtime
-- the UI can inspect runtime availability and update state
-- sessions and messages persist runtime metadata in the local database
+Its original goal was to orchestrate multiple AI runtimes such as Claude Code, Codex CLI, Gemini CLI, and Qwen Code from a unified interface.  
+That direction is now **deprecated as a standalone product**.
 
-NexusCLI is `npm-first` and targets Linux, macOS, and Termux without requiring desktop-native builds for the core application.
+The practical evolution of this work has moved into **MasiX**, which is now the main project where:
 
----
-
-## Features
-
-- Multi-engine orchestration for Claude, Codex, Gemini, and Qwen
-- Runtime-aware model catalog with `native` and `custom` lanes
-- SSE streaming with realtime tool and status updates
-- Interrupt and resume support per engine
-- Session import and history sync from native CLI stores
-- Workspace isolation, switching, and history
-- File and image attachments where supported
-- Runtime inventory API and UI runtime manager
-- Conversation search, bookmark/pin, and job runner API
-- Voice input support with HTTPS auto-setup
+- UI development continues
+- reusable orchestration logic is consolidated
+- runtime patterns are refined
+- stable features are implemented and maintained
 
 ---
 
-## Current Model Support
+## Current Status
 
-| Engine | Lane | Examples |
-|--------|------|----------|
-| Claude | Native | `sonnet`, `opus`, `haiku` |
-| Claude | Custom | `deepseek-*`, `glm-4.7`, `glm-5`, `qwen3.5-plus`, `qwen3-max-2026-01-23`, `kimi-k2.5`, `MiniMax-M2.7` |
-| Codex | Native | `gpt-5.4`, `gpt-5.3-codex`, `gpt-5.2-codex`, `gpt-5.1-codex-max`, `codex-mini-latest` |
-| Codex | Custom | `qwen3-coder-plus`, `qwen3-coder-next`, `qwen3.5-plus`, `glm-5`, `deepseek-ai/DeepSeek-V3.2-TEE` |
-| Gemini | Native | `gemini-3-pro-preview`, `gemini-3-flash-preview`, `gemini-2.5-pro`, `gemini-2.5-flash` |
-| Qwen | Native | `qwen3-coder-plus`, `qwen3-coder-next`, `qwen3.5-plus`, `qwen3-max` |
-| Qwen | Custom | `glm-4.7`, `kimi-k2.5` |
+**Status:** Study / Archive / Reference
 
-See [docs/RUNTIME_MODEL.md](docs/RUNTIME_MODEL.md) for the runtime model and provider mapping.
+NexusCLI remains available to document:
 
----
+- architectural experiments
+- runtime-aware orchestration concepts
+- early UI and workflow ideas
+- lessons learned before consolidation into MasiX
 
-## Install
-
-```bash
-npm install -g @mmmbuto/nexuscli
-```
-
-Then initialize:
-
-```bash
-nexuscli init
-```
-
-And start the server:
-
-```bash
-nexuscli start
-```
+This repository should be considered a **historical and technical reference**, not the main supported application.
 
 ---
 
-## Runtime Management
+## What Moved to MasiX
 
-NexusCLI separates:
+The following areas are now part of the MasiX direction:
 
-- `engine`
-- `lane`
-- `runtime`
-- `provider`
-- `model`
+- application logic
+- runtime and provider handling
+- interface and UX work
+- workflow design
+- feature evolution and maintenance
 
-Runtime inventory is available through:
-
-- UI runtime manager
-- `GET /api/v1/runtimes`
-- `POST /api/v1/runtimes/check`
-- `POST /api/v1/runtimes/install`
-- `POST /api/v1/runtimes/update`
+NexusCLI is retained only to preserve context and experimentation history.
 
 ---
 
-## API Keys
+## Original Focus
 
-Provider keys can be stored locally via:
+NexusCLI explored ideas such as:
 
-```bash
-nexuscli api list
-nexuscli api set deepseek <key>
-nexuscli api set zai <key>
-nexuscli api set alibaba <key>
-nexuscli api set chutes <key>
-nexuscli api set minimax <key>
-nexuscli api set openai <key>
-```
+- multi-engine orchestration
+- runtime-aware model selection
+- terminal + web control surfaces
+- local-first workflows
+- Linux, macOS, and Termux compatibility
+- npm-first distribution
 
-These keys are used only for custom provider lanes that need compatible API routing.
+These ideas remain useful as design references, but active implementation belongs to MasiX.
 
 ---
 
-## Commands
+## Scope of This Repository
 
-| Command | Description |
-|---------|-------------|
-| `nexuscli init` | Setup wizard |
-| `nexuscli start` | Start server |
-| `nexuscli stop` | Stop server |
-| `nexuscli status` | Show server status |
-| `nexuscli engines` | Inspect/configure runtime-aware engines |
-| `nexuscli model` | Set/get default model |
-| `nexuscli config` | Read/edit configuration |
-| `nexuscli api` | Manage provider API keys |
-| `nexuscli workspaces` | Manage workspaces |
-| `nexuscli logs` | View server logs |
-| `nexuscli setup-termux` | Termux bootstrap helpers |
-| `nexuscli update` | Update NexusCLI |
-| `nexuscli uninstall` | Remove NexusCLI |
+Use this repository only for:
+
+- studying past architecture decisions
+- reviewing prototype patterns
+- extracting concepts that may be reused elsewhere
+- preserving the evolution path toward MasiX
+
+Do **not** treat NexusCLI as the primary product roadmap.
 
 ---
 
-## Network Access
+## Development Note
 
-| Protocol | Default Port | Use Case |
-|----------|--------------|----------|
-| HTTP | `41800` | Local access |
-| HTTPS | `41801` | Remote access and browser microphone support |
+There is no guarantee of:
 
-HTTPS certificates are auto-generated on first run.
+- feature completeness
+- production readiness
+- active parity with newer workflows
+- long-term standalone maintenance
 
----
-
-## Development
-
-```bash
-git clone <upstream-or-fork-url> nexuscli
-cd nexuscli
-npm install
-cd frontend && npm install && npm run build && cd ..
-npm run dev
-```
+For active development, refer to **MasiX**.
 
 ---
 
 ## Documentation
 
-- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
-- [docs/API.md](docs/API.md)
-- [docs/GUIDE.md](docs/GUIDE.md)
-- [docs/RUNTIME_MODEL.md](docs/RUNTIME_MODEL.md)
-- [docs/PTY_ARCHITECTURE.md](docs/PTY_ARCHITECTURE.md)
+Any documentation kept here should be read as:
+
+- prototype notes
+- architectural references
+- migration context
+- experimental material
+
+It may describe ideas that were later changed, simplified, or fully moved into MasiX.
 
 ---
 
