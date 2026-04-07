@@ -28,7 +28,7 @@
     "mobile-first",
     "android"
   ],
-  "author": "Davide A. Guglielmi <dev@mmmbuto.com>",
+  "author": "Davide A. Guglielmi",
   "license": "MIT",
   "homepage": "https://npmjs.com/package/@mmmbuto/nexuscli",
   "bugs": {
