@@ -101,6 +101,18 @@ It may describe ideas that were later changed, simplified, or fully moved into M
 
 ---
 
+## Contact
+
+- General / dev: **dev@mmmbuto.com**
+- Security disclosures: **security@mmmbuto.com**
+- Project hub: <https://mmmbuto.com>
+- Maintainer profile: <https://github.com/DioNanos>
+
+For bugs and feature requests, please open a GitHub issue.
+For broader questions, use [GitHub Discussions](../../discussions) on this repo.
+
+---
+
 ## License
 
 MIT License. See [LICENSE](LICENSE).
