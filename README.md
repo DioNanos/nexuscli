@@ -115,4 +115,4 @@ For broader questions, use [GitHub Discussions](../../discussions) on this repo.
 
 ## License
 
-MIT License. See [LICENSE](LICENSE).
+Apache-2.0. See [LICENSE](LICENSE).
